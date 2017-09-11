@@ -10,15 +10,14 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.repository;
 
+import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.mdr.entities.MdrConfiguration;
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
-import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.uvms.exception.ServiceException;
-import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
-
-import javax.ejb.Local;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.Local;
+import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
 
 @Local
 public interface MdrRepository {
@@ -29,6 +28,10 @@ public interface MdrRepository {
 			int maxResultLimit) throws ServiceException;
 
     void updateMdrEntity(FLUXMDRReturnMessage response);
+
+    void insertNewDataWithoutPurging(List<? extends MasterDataRegistry> mdrEntityRows) throws ServiceException;
+
+	void deleteDataAndPurgeIndexes(List<? extends MasterDataRegistry> mdrEntityRows) throws ServiceException;
 
 	void insertNewData(List<? extends MasterDataRegistry> mdrEntityRows) throws ServiceException;
 

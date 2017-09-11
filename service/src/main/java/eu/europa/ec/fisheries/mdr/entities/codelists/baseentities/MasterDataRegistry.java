@@ -10,29 +10,34 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.entities.codelists.baseentities;
 
+import static eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry.LOW_CASE_ANALYSER;
+
 import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
 import eu.europa.ec.fisheries.uvms.domain.DateRange;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.commongrams.CommonGramsFilterFactory;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 import un.unece.uncefact.data.standard.mdr.response.DelimitedPeriodType;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.TextType;
-
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import static eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry.LOW_CASE_ANALYSER;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
@@ -73,7 +78,7 @@ public abstract class MasterDataRegistry implements Serializable {
     private static final String EN_DESCRIPTION_STR = ".ENDESCRIPTION";
     private static final String VERSION_STR = ".VERSION";
 
-    // Fields that will contain [ACRONYM].[FIELD_NAME] values.
+    // Fields that will contain [ACRONYM].[FIELD_NAME] values after calling populateDataNodeNames();.
     @Transient
     private String APP_CODE_STR;
     @Transient
@@ -91,7 +96,7 @@ public abstract class MasterDataRegistry implements Serializable {
         final DelimitedPeriodType validityPeriod = mdrDataType.getEffectiveDelimitedPeriod();
         if (validityPeriod != null) {
             this.setValidity(new DateRange(validityPeriod.getStartDateTime().getDateTime().toGregorianCalendar().getTime(),
-                                           validityPeriod.getEndDateTime().getDateTime().toGregorianCalendar().getTime()));
+                    validityPeriod.getEndDateTime().getDateTime().toGregorianCalendar().getTime()));
         }
 
         // Code, Description, Version
@@ -122,29 +127,27 @@ public abstract class MasterDataRegistry implements Serializable {
     /**
      * Populates the APP_CODE_STR ecc.
      * In the end they will have values like ACTION_TYPE.CODE, ACTION_TYPE.DESCRIPTION ecc..
-     *
      */
     private void populateDataNodeNames() {
-        String acronym         = getAcronym();
-        APP_CODE_STR           = acronym + CODE_STR;
-        APP_DESCRIPTION_STR    = acronym + DESCRIPTION_STR;
+        String acronym = getAcronym();
+        APP_CODE_STR = acronym + CODE_STR;
+        APP_DESCRIPTION_STR = acronym + DESCRIPTION_STR;
         APP_EN_DESCRIPTION_STR = acronym + EN_DESCRIPTION_STR;
-        APP_VERSION_STR        = acronym + VERSION_STR;
+        APP_VERSION_STR = acronym + VERSION_STR;
     }
 
     protected void logError(String fieldName, String className) {
-        log.error("The field '"+fieldName+"' for Codelist : "+className+" has not been mapped!");
+        log.error("The field '" + fieldName + "' for Codelist : " + className + " has not been mapped!");
     }
 
 
     public abstract void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException;
 
-    private String getValueFromTextType(TextType textType){
-        return textType != null ? textType.getValue() : null;
-    }
-
     public abstract String getAcronym();
 
+    private String getValueFromTextType(TextType textType) {
+        return textType != null ? textType.getValue() : null;
+    }
     public String getVersion() {
         return version;
     }
