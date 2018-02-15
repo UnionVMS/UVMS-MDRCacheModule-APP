@@ -11,31 +11,32 @@ details. You should have received a copy of the GNU General Public License along
 package eu.europa.ec.fisheries.uvms.mdr.message.consumer;
 
 
-import eu.europa.ec.fisheries.uvms.mdr.message.constants.MdrMessageConstants;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetMDRListMessageEvent;
+import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
+import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
+import eu.europa.ec.fisheries.uvms.mdr.message.event.GetAllMdrCodeListsMessageEvent;
+import eu.europa.ec.fisheries.uvms.mdr.message.event.GetSingleMdrListMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.MdrSyncMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
-import eu.europa.ec.fisheries.uvms.mdr.model.exception.MdrModelMarshallException;
-import eu.europa.ec.fisheries.uvms.mdr.model.mapper.JAXBMarshaller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import un.unece.uncefact.data.standard.mdr.communication.MdrModuleRequest;
-
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
+import javax.xml.bind.JAXBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import un.unece.uncefact.data.standard.mdr.communication.MdrModuleRequest;
 
 
-@MessageDriven(mappedName = MdrMessageConstants.MDR_MESSAGE_IN_QUEUE, activationConfig = {
-    @ActivationConfigProperty(propertyName = MdrMessageConstants.MESSAGING_TYPE_STR,   propertyValue = MdrMessageConstants.CONNECTION_TYPE),
-    @ActivationConfigProperty(propertyName = MdrMessageConstants.DESTINATION_TYPE_STR, propertyValue = MdrMessageConstants.DESTINATION_TYPE_QUEUE),
-    @ActivationConfigProperty(propertyName = MdrMessageConstants.DESTINATION_STR,      propertyValue = MdrMessageConstants.MDR_MESSAGE_IN_QUEUE_NAME)
+@MessageDriven(mappedName = MessageConstants.QUEUE_MDR_EVENT, activationConfig = {
+    @ActivationConfigProperty(propertyName = MessageConstants.MESSAGING_TYPE_STR,   propertyValue = MessageConstants.CONNECTION_TYPE),
+    @ActivationConfigProperty(propertyName = MessageConstants.DESTINATION_TYPE_STR, propertyValue = MessageConstants.DESTINATION_TYPE_QUEUE),
+    @ActivationConfigProperty(propertyName = MessageConstants.DESTINATION_STR,      propertyValue = MessageConstants.MDR_MESSAGE_IN_QUEUE_NAME)
 })
 public class MdrMessageConsumerBean implements MessageListener {
 
@@ -43,11 +44,15 @@ public class MdrMessageConsumerBean implements MessageListener {
 
     @Inject
     @MdrSyncMessageEvent
-    Event<EventMessage> synMdrListEvent;
+    private Event<EventMessage> synMdrListEvent;
 
     @Inject
-    @GetMDRListMessageEvent
-    Event<EventMessage> getMdrListEvent;
+    @GetSingleMdrListMessageEvent
+    private Event<EventMessage> getSingleMdrListEvent;
+
+    @Inject
+    @GetAllMdrCodeListsMessageEvent
+    private Event<EventMessage> getAllMdrListEvent;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -56,7 +61,7 @@ public class MdrMessageConsumerBean implements MessageListener {
         try {
             TextMessage textMessage = (TextMessage) message;
             LOG.info("Message received in MDR module");
-            MdrModuleRequest request = JAXBMarshaller.unmarshallTextMessage(textMessage, MdrModuleRequest.class);
+            MdrModuleRequest request = JAXBUtils.unMarshallMessage(textMessage.getText(), MdrModuleRequest.class);
             LOG.info("Message unmarshalled successfully in MDR module");
             if(request==null){
                 LOG.error("[ Request is null ]");
@@ -71,13 +76,16 @@ public class MdrMessageConsumerBean implements MessageListener {
                 	 synMdrListEvent.fire(new EventMessage(textMessage));
                      break;
                 case GET_MDR_CODE_LIST :
-                     getMdrListEvent.fire(new EventMessage(textMessage));
+                     getSingleMdrListEvent.fire(new EventMessage(textMessage));
                      break;
+                case GET_ALL_MDR_CODE_LIST :
+                    getAllMdrListEvent.fire(new EventMessage(textMessage));
+                    break;
                 default:
                     LOG.error("[ Request method {} is not implemented ]", request.getMethod().name());
                    // errorEvent.fire(new EventMessage(textMessage, "[ Request method " + request.getMethod().name() + "  is not implemented ]"));
             }
-        } catch (MdrModelMarshallException | NullPointerException | ClassCastException e) {
+        } catch (JMSException | JAXBException | NullPointerException | ClassCastException e) {
             LOG.error("[ Error when receiving message in MDR module: ] {}", e);
            // errorEvent.fire(new EventMessage(textMessage, "Error when receiving message in movement: " + e.getMessage()));
         }

@@ -10,38 +10,40 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.entities.codelists.baseentities;
 
+import static eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry.LOW_CASE_ANALYSER;
+
 import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
-import eu.europa.ec.fisheries.uvms.domain.DateRange;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.commongrams.CommonGramsFilterFactory;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.DateBridge;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Resolution;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 import un.unece.uncefact.data.standard.mdr.response.DelimitedPeriodType;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.TextType;
-
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import static eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry.LOW_CASE_ANALYSER;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
 @AnalyzerDef(name = LOW_CASE_ANALYSER,
         tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
         filters = {
-                @TokenFilterDef(factory = StopFilterFactory.class, params = {
-                        @Parameter(name = "ignoreCase", value = "true")
-                }),
                 @TokenFilterDef(factory = CommonGramsFilterFactory.class),
                 @TokenFilterDef(factory = LowerCaseFilterFactory.class),
         })
@@ -50,9 +52,25 @@ public abstract class MasterDataRegistry implements Serializable {
 
     public static final String LOW_CASE_ANALYSER = "lowCaseAnalyser";
 
-    @Embedded
-    @IndexedEmbedded
-    private DateRange validity;
+    private static final String CODE_STR = ".CODE";
+    private static final String DESCRIPTION_STR = ".DESCRIPTION";
+    private static final String EN_DESCRIPTION_STR = ".ENDESCRIPTION";
+    private static final String VERSION_STR = ".VERSION";
+    private static final String COMMA = ",";
+
+    @Field(name = "startDate")
+    @DateBridge(resolution = Resolution.SECOND)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_date")
+    private Date startDate;
+
+
+    @Field(name = "endDate")
+    @DateBridge(resolution = Resolution.SECOND)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "end_date")
+    private Date endDate;
+
 
     @Column(name = "version")
     @Field(name = "version")
@@ -68,12 +86,7 @@ public abstract class MasterDataRegistry implements Serializable {
     @Analyzer(definition = LOW_CASE_ANALYSER)
     private String description;
 
-    private static final String CODE_STR = ".CODE";
-    private static final String DESCRIPTION_STR = ".DESCRIPTION";
-    private static final String EN_DESCRIPTION_STR = ".ENDESCRIPTION";
-    private static final String VERSION_STR = ".VERSION";
-
-    // Fields that will contain [ACRONYM].[FIELD_NAME] values.
+    // Fields that will contain [ACRONYM].[FIELD_NAME] values after calling populateDataNodeNames();.
     @Transient
     private String APP_CODE_STR;
     @Transient
@@ -87,14 +100,15 @@ public abstract class MasterDataRegistry implements Serializable {
 
         populateDataNodeNames();
 
-        // Start date end date
-        final DelimitedPeriodType validityPeriod = mdrDataType.getEffectiveDelimitedPeriod();
+        // Start date end date (validity)
+        DelimitedPeriodType validityPeriod = mdrDataType.getEffectiveDelimitedPeriod();
         if (validityPeriod != null) {
-            this.setValidity(new DateRange(validityPeriod.getStartDateTime().getDateTime().toGregorianCalendar().getTime(),
-                                           validityPeriod.getEndDateTime().getDateTime().toGregorianCalendar().getTime()));
+            setStartDate(validityPeriod.getStartDateTime().getDateTime().toGregorianCalendar().getTime());
+            setEndDate(validityPeriod.getEndDateTime().getDateTime().toGregorianCalendar().getTime());
         }
 
         // Code, Description, Version
+        StringBuilder versionsStrBuff = new StringBuilder();
         List<MDRElementDataNodeType> fieldsToRemove = new ArrayList<>();
         final List<MDRElementDataNodeType> subordinateMDRElementDataNodes = mdrDataType.getSubordinateMDRElementDataNodes();
         for (MDRElementDataNodeType field : subordinateMDRElementDataNodes) {
@@ -108,13 +122,21 @@ public abstract class MasterDataRegistry implements Serializable {
                 setDescription(fieldValue);
                 fieldsToRemove.add(field);
             } else if (StringUtils.equalsIgnoreCase(fieldName, APP_VERSION_STR)) {
-                setVersion(fieldValue);
+                versionsStrBuff.append(COMMA).append(fieldValue);
                 fieldsToRemove.add(field);
             }
         }
+
+        if (versionsStrBuff.length() != 0) {
+            versionsStrBuff.delete(0, 1);
+            setVersion(versionsStrBuff.toString());
+        } else {
+            log.warn("[[WARNING]] No Version has been provided for this record of the entity.");
+        }
+
         // If we are inside here it means that code and description have to be both set, otherwise we have attributes missing.
         if (StringUtils.isEmpty(code) || StringUtils.isEmpty(description)) {
-            log.warn("[[WARNING]] Code or Description missing.");
+            log.warn("[[WARNING]] Code or Description missing on this record of the entity!");
         }
         subordinateMDRElementDataNodes.removeAll(fieldsToRemove);
     }
@@ -122,29 +144,25 @@ public abstract class MasterDataRegistry implements Serializable {
     /**
      * Populates the APP_CODE_STR ecc.
      * In the end they will have values like ACTION_TYPE.CODE, ACTION_TYPE.DESCRIPTION ecc..
-     *
      */
     private void populateDataNodeNames() {
-        String acronym         = getAcronym();
-        APP_CODE_STR           = acronym + CODE_STR;
-        APP_DESCRIPTION_STR    = acronym + DESCRIPTION_STR;
+        String acronym = getAcronym();
+        APP_CODE_STR = acronym + CODE_STR;
+        APP_DESCRIPTION_STR = acronym + DESCRIPTION_STR;
         APP_EN_DESCRIPTION_STR = acronym + EN_DESCRIPTION_STR;
-        APP_VERSION_STR        = acronym + VERSION_STR;
+        APP_VERSION_STR = acronym + VERSION_STR;
     }
 
     protected void logError(String fieldName, String className) {
-        log.error("The field '"+fieldName+"' for Codelist : "+className+" has not been mapped!");
+        log.error("The field '" + fieldName + "' for Codelist : [- " + className + " -] has not been mapped!");
     }
 
 
     public abstract void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException;
-
-    private String getValueFromTextType(TextType textType){
+    public abstract String getAcronym();
+    private String getValueFromTextType(TextType textType) {
         return textType != null ? textType.getValue() : null;
     }
-
-    public abstract String getAcronym();
-
     public String getVersion() {
         return version;
     }
@@ -157,17 +175,22 @@ public abstract class MasterDataRegistry implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    public DateRange getValidity() {
-        return validity;
-    }
-    public void setValidity(DateRange validity) {
-        this.validity = validity;
-    }
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
     }
-
+    public Date getStartDate() {
+        return startDate;
+    }
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    public Date getEndDate() {
+        return endDate;
+    }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }
