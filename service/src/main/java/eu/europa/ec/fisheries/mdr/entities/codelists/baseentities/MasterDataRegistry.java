@@ -96,7 +96,7 @@ public abstract class MasterDataRegistry implements Serializable {
     @Transient
     private String APP_VERSION_STR;
 
-    protected void populateCommonFields(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
+    protected void populateCommonFields(MDRDataNodeType mdrDataType) {
 
         populateDataNodeNames();
 
@@ -184,13 +184,13 @@ public abstract class MasterDataRegistry implements Serializable {
     public Date getStartDate() {
         return startDate;
     }
-    public void setStartDate(Date startDate) {
+    private void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
     public Date getEndDate() {
         return endDate;
     }
-    public void setEndDate(Date endDate) {
+    private void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 }

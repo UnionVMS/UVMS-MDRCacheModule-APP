@@ -21,10 +21,10 @@ public abstract class BaseMdrBean {
     protected EntityManager em;
 
     @PersistenceContext(unitName = "mdrPUPostgres")
-    protected EntityManager postgres;
+    private EntityManager postgres;
 
     @PersistenceContext(unitName = "mdrPUOracle")
-    protected EntityManager oracle;
+    private EntityManager oracle;
 
     protected void initEntityManager() {
         String dbDialect = System.getProperty("db.dialect");

@@ -31,11 +31,11 @@ import un.unece.uncefact.data.standard.mdr.query.MDRQueryType;
 
 public class MdrRequestMapper {
 
-    public static final String EN = "EN";
-    public static final String UUID = "UUID";
-    public static final String SUBMITTER_PARTY = "BEL";
-    public static final String INDEX = "INDEX";
-    public static final String FLUX_MDR_QUERY_TYPE = "FLUX_MDR_QUERY_TYPE";
+    private static final String EN = "EN";
+    private static final String UUID = "UUID";
+    private static final String SUBMITTER_PARTY = "AHR:VMS";
+    private static final String INDEX = "INDEX";
+    private static final String FLUX_MDR_QUERY_TYPE = "FLUX_MDR_QUERY_TYPE";
 
 
     /**
