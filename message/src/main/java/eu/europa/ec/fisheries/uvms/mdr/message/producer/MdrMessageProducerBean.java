@@ -70,7 +70,6 @@ public class MdrMessageProducerBean implements IMdrMessageProducer {
     public String sendModuleMessage(String text, ModuleQueues queue) throws MessageException {
         String messageId;
         switch (queue) {
-
             case RULES:
                 messageId = rulesQueueProducer.sendModuleMessage(text, getMdrEventQueue());
                 break;

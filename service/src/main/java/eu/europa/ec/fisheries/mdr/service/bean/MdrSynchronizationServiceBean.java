@@ -189,10 +189,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
     }
 
     private boolean acronymIsInExclusionList(String acronym) {
-        if(exclusionList.contains(acronym)){
-            return true;
-        }
-        return false;
+        return exclusionList.contains(acronym);
     }
 
 

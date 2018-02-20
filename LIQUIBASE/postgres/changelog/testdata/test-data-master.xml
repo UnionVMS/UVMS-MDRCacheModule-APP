@@ -4,6 +4,10 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="postgres\changelog\testdata\testData.xml" context="test"/>
+    <include file="postgres\changelog\testdata\testData.xml"/>
+    <include file="postgres\changelog\testdata\mdrFaoSpeciesTestData.xml"/>
+    <include file="postgres\changelog\testdata\mdrLocationTestData.xml"/>
+    <include file="postgres\changelog\testdata\mdrIcesRecatanglesTestData.xml"/>
+    <include file="postgres\changelog\testdata\codeListStatus.xml"/>
 
 </databaseChangeLog>

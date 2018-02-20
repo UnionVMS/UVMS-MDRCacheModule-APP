@@ -118,15 +118,17 @@ public class MdrStatusDao extends AbstractDAO<MdrCodeListStatus> {
 
     public void updateStatusSuccessForAcronym(MDRDataSetType dataSetType, AcronymListState newStatus, Date lastSuccess) {
         MdrCodeListStatus mdrCodeListElement = findStatusByAcronym(dataSetType.getID().getValue());
-        mdrCodeListElement.setLastSuccess(lastSuccess);
-        mdrCodeListElement.setLastStatus(newStatus);
-        mdrCodeListElement.setObjectSource(dataSetType.getOrigin().getValue());
-        mdrCodeListElement.setObjectDescription(dataSetType.getDescription().getValue());
-        mdrCodeListElement.setObjectName(dataSetType.getName().getValue());
         try {
+            mdrCodeListElement.setLastSuccess(lastSuccess);
+            mdrCodeListElement.setLastStatus(newStatus);
+            mdrCodeListElement.setObjectSource(dataSetType.getOrigin().getValue());
+            mdrCodeListElement.setObjectDescription(dataSetType.getDescription().getValue());
+            mdrCodeListElement.setObjectName(dataSetType.getName().getValue());
             saveOrUpdateEntity(mdrCodeListElement);
         } catch (ServiceException e) {
             log.error(ERROR_WHILE_SAVING_STATUS,e);
+        } catch (NullPointerException nullEx){
+            log.error("[ERROR] Couldn't find status for acronym : {}", dataSetType.getID().getValue());
         }
     }
 

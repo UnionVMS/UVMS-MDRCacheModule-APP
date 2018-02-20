@@ -65,7 +65,7 @@ public class MdrEventServiceBean implements MdrEventService {
     private MdrLuceneSearchRepository mdrSearchRepositroy;
 
     @EJB
-    MdrQueueProducer mdrResponseQueueProducer;
+    private MdrQueueProducer mdrResponseQueueProducer;
 
     private static final String STAR = "*";
     private static final String MDR_MODEL_MARSHALL_EXCEPTION = "MdrModelMarshallException while unmarshalling message from flux : ";
@@ -109,10 +109,7 @@ public class MdrEventServiceBean implements MdrEventService {
 
     private boolean isObjDescriptionMessage(FLUXMDRReturnMessage fluxReturnMessage) {
         FLUXResponseDocumentType fluxResponseDocument = fluxReturnMessage.getFLUXResponseDocument();
-        if (fluxResponseDocument != null && fluxResponseDocument.getTypeCode() != null && "OBJ_DESC".equals(fluxResponseDocument.getTypeCode().getValue())) {
-            return true;
-        }
-        return false;
+        return fluxResponseDocument != null && fluxResponseDocument.getTypeCode() != null && "OBJ_DESC".equals(fluxResponseDocument.getTypeCode().getValue());
     }
 
     /**
@@ -199,6 +196,7 @@ public class MdrEventServiceBean implements MdrEventService {
         } catch (MdrCacheInitException e) {
             log.error("[ERROR] Error while trying to get instance for acronym : " + acronym);
         }
+        assert fields != null;
         for(Field field : fields){
             if(field.isAnnotationPresent(Column.class) && !"id".equals(field.getName())){
                 fieldsList.add(field.getName());
@@ -245,13 +243,7 @@ public class MdrEventServiceBean implements MdrEventService {
     }
 
     private boolean isAcnowledgeMessage(String jmsMessage) {
-        if (StringUtils.isBlank(jmsMessage)) {
-            return false;
-        }
-        if (jmsMessage.contains("ACK") && jmsMessage.contains("Acknowledge Of Receipt")) {
-            return true;
-        }
-        return false;
+        return !StringUtils.isBlank(jmsMessage) && jmsMessage.contains("ACK") && jmsMessage.contains("Acknowledge Of Receipt");
     }
 
     /**
