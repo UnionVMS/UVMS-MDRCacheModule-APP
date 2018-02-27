@@ -73,6 +73,16 @@ public class FaBrDef extends MasterDataRegistry {
     @Analyzer(definition = LOW_CASE_ANALYSER)
     private String fluxGpValidationEnDescr;
 
+    @Column(name = "flux_gp_validation_level_code")
+    @Field(name = "flux_gp_validation_level_code")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    private String fluxGpValidationLevelCode;
+
+    @Column(name = "flux_gp_validation_level_en_descr")
+    @Field(name = "flux_gp_validation_level_en_descr")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    private String fluxGpValidationLevelEnDescr;
+
     @Override
     public String getAcronym() {
         return "FA_BR_DEF";
@@ -96,6 +106,10 @@ public class FaBrDef extends MasterDataRegistry {
                 this.setFluxGpValidationEnDescr(fieldValue);
             } else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_VALIDATION_TYPE.CODE")) {
                 this.setFluxGpValidationTypeCode(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_VALIDATION_LEVEL.ENDESCRIPTION")) {
+                this.setFluxGpValidationLevelEnDescr(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_VALIDATION_LEVEL.CODE")) {
+                this.setFluxGpValidationLevelCode(fieldValue);
             } else {
                 logError(fieldName, this.getClass().getSimpleName());
             }
@@ -106,37 +120,64 @@ public class FaBrDef extends MasterDataRegistry {
     public String getField() {
         return field;
     }
+
     public void setField(String field) {
         this.field = field;
     }
+
     public String getMessageIfFailing() {
         return messageIfFailing;
     }
+
     public void setMessageIfFailing(String messageIfFailing) {
         this.messageIfFailing = messageIfFailing;
     }
+
     public String getSequenceOrder() {
         return sequenceOrder;
     }
+
     public void setSequenceOrder(String sequenceOrder) {
         this.sequenceOrder = sequenceOrder;
     }
+
     public String getBrSublevel() {
         return brSublevel;
     }
+
     public void setBrSublevel(String brSublevel) {
         this.brSublevel = brSublevel;
     }
+
     public String getFluxGpValidationTypeCode() {
         return fluxGpValidationTypeCode;
     }
+
     public void setFluxGpValidationTypeCode(String fluxGpValidationTypeCode) {
         this.fluxGpValidationTypeCode = fluxGpValidationTypeCode;
     }
+
     public String getFluxGpValidationEnDescr() {
         return fluxGpValidationEnDescr;
     }
+
     public void setFluxGpValidationEnDescr(String fluxGpValidationEnDescr) {
         this.fluxGpValidationEnDescr = fluxGpValidationEnDescr;
+    }
+
+    public String getFluxGpValidationLevelCode() {
+        return fluxGpValidationLevelCode;
+    }
+
+    public void setFluxGpValidationLevelCode(String fluxGpValidationLevelCode) {
+        this.fluxGpValidationLevelCode = fluxGpValidationLevelCode;
+    }
+
+    public String getFluxGpValidationLevelEnDescr() {
+        return fluxGpValidationLevelEnDescr;
+    }
+
+    public void setFluxGpValidationLevelEnDescr(String fluxGpValidationLevelEnDescr) {
+        this.fluxGpValidationLevelEnDescr = fluxGpValidationLevelEnDescr;
     }
 }

@@ -81,6 +81,16 @@ public class SaleBr extends MasterDataRegistry {
     @Analyzer(definition = LOW_CASE_ANALYSER)
     private String fluxGpValidationEnDescr;
 
+    @Column(name = "flux_gp_validation_level_code")
+    @Field(name = "flux_gp_validation_level_code")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    private String fluxGpValidationLevelCode;
+
+    @Column(name = "flux_gp_validation_level_en_descr")
+    @Field(name = "flux_gp_validation_level_en_descr")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    private String fluxGpValidationLevelEnDescr;
+
     @Column(name = "context")
     @Field(name = "context")
     @Analyzer(definition = LOW_CASE_ANALYSER)
@@ -115,6 +125,10 @@ public class SaleBr extends MasterDataRegistry {
                 this.setFluxGpValidationEnDescr(fieldValue);
             } else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_VALIDATION_TYPE.CODE")) {
                 this.setFluxGpValidationTypeCode(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_VALIDATION_LEVEL.ENDESCRIPTION")) {
+                this.setFluxGpValidationLevelEnDescr(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_VALIDATION_LEVEL.CODE")) {
+                this.setFluxGpValidationLevelCode(fieldValue);
             } else {
                 logError(fieldName, this.getClass().getSimpleName());
             }
@@ -180,7 +194,18 @@ public class SaleBr extends MasterDataRegistry {
     public void setContext(String context) {
         this.context = context;
     }
-
+    public String getFluxGpValidationLevelCode() {
+        return fluxGpValidationLevelCode;
+    }
+    public void setFluxGpValidationLevelCode(String fluxGpValidationLevelCode) {
+        this.fluxGpValidationLevelCode = fluxGpValidationLevelCode;
+    }
+    public String getFluxGpValidationLevelEnDescr() {
+        return fluxGpValidationLevelEnDescr;
+    }
+    public void setFluxGpValidationLevelEnDescr(String fluxGpValidationLevelEnDescr) {
+        this.fluxGpValidationLevelEnDescr = fluxGpValidationLevelEnDescr;
+    }
 }
 
 

@@ -108,7 +108,10 @@ public class MdrEventServiceBean implements MdrEventService {
     }
 
     private boolean isObjDescriptionMessage(FLUXMDRReturnMessage fluxReturnMessage) {
-        FLUXResponseDocumentType fluxResponseDocument = fluxReturnMessage.getFLUXResponseDocument();
+        FLUXResponseDocumentType fluxResponseDocument = null;
+        if(fluxReturnMessage != null){
+            fluxResponseDocument = fluxReturnMessage.getFLUXResponseDocument();
+        }
         return fluxResponseDocument != null && fluxResponseDocument.getTypeCode() != null && "OBJ_DESC".equals(fluxResponseDocument.getTypeCode().getValue());
     }
 
