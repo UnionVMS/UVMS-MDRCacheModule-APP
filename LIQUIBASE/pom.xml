@@ -44,7 +44,7 @@
         <profile>
             <id>postgres</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -58,7 +58,7 @@
                 <driver.artifactId>postgresql</driver.artifactId>
                 <driver.version>42.2.1.jre7</driver.version>
                 <db.diffTypes/>
-                <liquibase.contexts/>
+                <liquibase.contexts>none</liquibase.contexts>
             </properties>
             <dependencies>
                 <dependency>
