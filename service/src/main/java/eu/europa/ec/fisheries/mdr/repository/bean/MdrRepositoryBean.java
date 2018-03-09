@@ -93,7 +93,7 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
         final FLUXResponseDocumentType fluxResponseDocument = response.getFLUXResponseDocument();
 
         // Response is OK
-        if (!"NOK".equals(fluxResponseDocument.getResponseCode().toString().toUpperCase())) {
+        if (!"NOK".equals(fluxResponseDocument.getResponseCode().getValue().toUpperCase())) {
             if (isBigList(response)) { // In case of big lists we need to save chunks of data at a time
                 saveBigList(response);
             } else {
@@ -183,10 +183,7 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
      */
     private boolean isBigList(FLUXMDRReturnMessage response) {
         MDRDataSetType mdrDataSet = response.getMDRDataSet();
-        if (mdrDataSet == null || CollectionUtils.isEmpty(mdrDataSet.getContainedMDRDataNodes())) {
-            return false;
-        }
-        return mdrDataSet.getContainedMDRDataNodes().size() > 3000;
+        return mdrDataSet != null && !CollectionUtils.isEmpty(mdrDataSet.getContainedMDRDataNodes()) && mdrDataSet.getContainedMDRDataNodes().size() > 3000;
     }
 
     /**
@@ -202,12 +199,8 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
             log.info("Reference ID different then null");
             MdrCodeListStatus referencedStatus = statusDao.getStatusForUuid(referencedID.getValue());
             log.info("Found MdrCodeListStatus for related ref ID : " + referencedStatus.getObjectAcronym());
-            if (referencedStatus != null) {
-                log.info("Going to set the status FAILED for acronym : " + referencedStatus.getObjectAcronym());
-                statusDao.updateStatusForAcronym(referencedStatus.getObjectAcronym(), state);
-            } else {
-                log.error("[[ERROR]] The MDR response received in MDR module was OK, but the referenceId couldn't be found in status table!");
-            }
+            log.info("Going to set the status FAILED for acronym : " + referencedStatus.getObjectAcronym());
+            statusDao.updateStatusForAcronym(referencedStatus.getObjectAcronym(), state);
         } else {//, and doesn't have referenceID
             log.error("[[ERROR]] The MDR response received in MDR module was NOK and has no referenceId to link it to!");
         }
