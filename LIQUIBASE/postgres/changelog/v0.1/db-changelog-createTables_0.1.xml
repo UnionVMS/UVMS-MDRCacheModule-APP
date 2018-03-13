@@ -79,5 +79,6 @@
 	<include file="\postgres\schema\tables\mdr_weight_means.xml"/>
 	<include file="\postgres\schema\tables\mdr_target_species_group.xml"/>
 	<include file="\postgres\schema\tables\mdr_gender.xml"/>
+	<include file="\postgres\schema\tables\mdr_management_area.xml"/>
 
 </databaseChangeLog>

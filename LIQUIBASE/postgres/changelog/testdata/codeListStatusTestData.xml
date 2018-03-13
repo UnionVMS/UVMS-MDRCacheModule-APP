@@ -20,6 +20,20 @@
             <column name="end_date"/>
             <column name="start_date"/>
         </insert>
+       <insert tableName="mdr_codelist_status">
+           <column name="id" valueNumeric="2142"/>
+           <column name="last_attempt" valueDate="2018-02-27 10:18:10.603"/>
+           <column name="last_status" value="SUCCESS"/>
+           <column name="last_success" valueDate="2018-02-27 13:51:46.51"/>
+           <column name="object_acronym" value="MANAGEMENT_AREA"/>
+           <column name="object_description" value="Management areas list."/>
+           <column name="object_name" value="Managament Area"/>
+           <column name="object_source" value="MARE"/>
+           <column name="schedulable" value="Y"/>
+           <column name="reference_uuid" value="634bedc0-3611-4048-83d3-709425f85553"/>
+           <column name="end_date"/>
+           <column name="start_date"/>
+       </insert>
         <insert tableName="mdr_codelist_status">
             <column name="id" valueNumeric="1016"/>
             <column name="last_attempt" valueDate="2018-02-27 10:18:09.263"/>
