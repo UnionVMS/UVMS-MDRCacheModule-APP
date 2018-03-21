@@ -21,8 +21,6 @@ import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
 import eu.europa.ec.fisheries.schema.rules.module.v1.RulesModuleMethod;
 import eu.europa.ec.fisheries.schema.rules.module.v1.SetFLUXMDRSyncMessageRulesRequest;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
-import eu.europa.ec.fisheries.uvms.exchange.model.exception.ExchangeModelMarshallException;
-import eu.europa.ec.fisheries.uvms.exchange.model.mapper.JAXBMarshaller;
 import org.joda.time.DateTime;
 import un.unece.uncefact.data.standard.mdr.query.CodeType;
 import un.unece.uncefact.data.standard.mdr.query.DateTimeType;
@@ -62,7 +60,7 @@ public class MdrRequestMapper {
      * @param acronym
      * @param serviceType
      * @return
-     * @throws ExchangeModelMarshallException
+     * @throws MdrMappingException
      */
     public static String mapMdrQueryTypeToString(String acronym, String serviceType, String uuid) throws MdrMappingException {
 
