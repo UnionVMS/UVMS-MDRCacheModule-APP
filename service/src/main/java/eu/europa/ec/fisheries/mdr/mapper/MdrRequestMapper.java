@@ -112,8 +112,8 @@ public class MdrRequestMapper {
             mdrQueryMsg.setMDRQuery(mdrQuery);
             fluxRequestObject.setRequest(JAXBUtils.marshallJaxBObjectToString(mdrQueryMsg));
             fluxRequestObject.setMethod(RulesModuleMethod.SET_FLUX_MDR_SYNC_REQUEST);
-            fluxStrReq = JAXBMarshaller.marshallJaxBObjectToString(fluxRequestObject);
-        } catch (ExchangeModelMarshallException | DatatypeConfigurationException | JAXBException e) {
+            fluxStrReq = JAXBUtils.marshallJaxBObjectToString(fluxRequestObject);
+        } catch (DatatypeConfigurationException | JAXBException e) {
             throw new MdrMappingException(e);
         }
         return fluxStrReq;
