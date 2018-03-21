@@ -43,12 +43,11 @@
         <mdr.model.version>1.0.2</mdr.model.version>
 
         <!-- Other modules dependencies -->
-        <exchange.model>4.0.9</exchange.model>
         <rules.model>3.0.11</rules.model>
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
-        <uvms.commons.version>3.0.9</uvms.commons.version>
+        <uvms.commons.version>3.0.16</uvms.commons.version>
         <uvms.test.version>0.0.8</uvms.test.version>
 
         <hibernate-search-orm.version>5.3.0.Final</hibernate-search-orm.version>
@@ -117,11 +116,6 @@
                 <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
                 <artifactId>mdr-model</artifactId>
                 <version>${mdr.model.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>eu.europa.ec.fisheries.uvms.exchange</groupId>
-                <artifactId>exchange-model</artifactId>
-                <version>${exchange.model}</version>
             </dependency>
             <dependency>
                 <groupId>eu.europa.ec.fisheries.uvms.rules</groupId>

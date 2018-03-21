@@ -10,16 +10,19 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.mapper;
 
-import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
-import eu.europa.ec.fisheries.schema.rules.module.v1.RulesModuleMethod;
-import eu.europa.ec.fisheries.schema.rules.module.v1.SetFLUXMDRSyncMessageRulesRequest;
-import eu.europa.ec.fisheries.uvms.exchange.model.exception.ExchangeModelMarshallException;
-import eu.europa.ec.fisheries.uvms.exchange.model.mapper.JAXBMarshaller;
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.ArrayList;
+import java.util.List;
+
+import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
+import eu.europa.ec.fisheries.schema.rules.module.v1.RulesModuleMethod;
+import eu.europa.ec.fisheries.schema.rules.module.v1.SetFLUXMDRSyncMessageRulesRequest;
+import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
+import eu.europa.ec.fisheries.uvms.exchange.model.exception.ExchangeModelMarshallException;
+import eu.europa.ec.fisheries.uvms.exchange.model.mapper.JAXBMarshaller;
 import org.joda.time.DateTime;
 import un.unece.uncefact.data.standard.mdr.query.CodeType;
 import un.unece.uncefact.data.standard.mdr.query.DateTimeType;
@@ -107,10 +110,10 @@ public class MdrRequestMapper {
             // Submitted DateTime
             mdrQuery.setSubmittedDateTime(createSubmitedDate());
             mdrQueryMsg.setMDRQuery(mdrQuery);
-            fluxRequestObject.setRequest(JAXBMarshaller.marshallJaxBObjectToString(mdrQueryMsg));
+            fluxRequestObject.setRequest(JAXBUtils.marshallJaxBObjectToString(mdrQueryMsg));
             fluxRequestObject.setMethod(RulesModuleMethod.SET_FLUX_MDR_SYNC_REQUEST);
             fluxStrReq = JAXBMarshaller.marshallJaxBObjectToString(fluxRequestObject);
-        } catch (ExchangeModelMarshallException | DatatypeConfigurationException e) {
+        } catch (ExchangeModelMarshallException | DatatypeConfigurationException | JAXBException e) {
             throw new MdrMappingException(e);
         }
         return fluxStrReq;
