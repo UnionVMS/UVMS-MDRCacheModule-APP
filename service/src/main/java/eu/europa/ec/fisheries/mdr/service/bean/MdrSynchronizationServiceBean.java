@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
@@ -73,7 +74,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
         InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("exclusionList.properties");
         Properties props = new Properties();
         props.load(resourceAsStream);
-        List<String> propertyStr = Arrays.asList((props.getProperty(MDR_EXCLUSION_LIST)));
+        List<String> propertyStr = Collections.singletonList((props.getProperty(MDR_EXCLUSION_LIST)));
         exclusionList = CollectionUtils.isNotEmpty(propertyStr) ? Arrays.asList(propertyStr.get(0).split(",")) : new ArrayList<String>();
     }
 
