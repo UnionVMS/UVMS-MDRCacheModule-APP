@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>fish.focus.uvms.maven</groupId>
         <artifactId>uvms-pom</artifactId>
         <version>1.17</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
@@ -23,12 +24,15 @@
     </developers>
 
     <properties>
-		<focus-pom.enforce.jdk.version.disabled>true</focus-pom.enforce.jdk.version.disabled>
+        <focus-pom.enforce.jdk.version.disabled>true</focus-pom.enforce.jdk.version.disabled>
         <application.name>${project.artifactId}</application.name>
         <application.version>${project.version}</application.version>
-        <application.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}.log</application.logfile>
-        <application.error.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}-error.log</application.error.logfile>
-        <application.logfile.boot>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}-boot.log</application.logfile.boot>
+        <application.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}.log
+        </application.logfile>
+        <application.error.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}-error.log
+        </application.error.logfile>
+        <application.logfile.boot>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}-boot.log
+        </application.logfile.boot>
 
         <!-- Core versions -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,7 +51,7 @@
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
-        <uvms.commons.version>3.0.17</uvms.commons.version>
+        <uvms.commons.version>3.0.19</uvms.commons.version>
         <uvms.test.version>0.0.8</uvms.test.version>
 
         <hibernate-search-orm.version>5.3.0.Final</hibernate-search-orm.version>
@@ -64,44 +68,44 @@
         <dom4j.version>1.6.1</dom4j.version>
         <lucene.index.directory>./mdr-module/luceneIndexes</lucene.index.directory>
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
-		
-		<scm.connection>scm:git:https://github.com/UnionVMS/UVMS-MDRCacheModule-APP.git</scm.connection>
+
+        <scm.connection>scm:git:https://github.com/UnionVMS/UVMS-MDRCacheModule-APP.git</scm.connection>
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
 
-        	<dependency>
-				<groupId>fish.focus.uvms.maven</groupId>
-				<artifactId>uvms-pom-gis-deps</artifactId>
-				<version>1.14</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>fish.focus.uvms.maven</groupId>
-				<artifactId>uvms-pom-logging-deps</artifactId>
-				<version>1.14</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>fish.focus.uvms.maven</groupId>
-				<artifactId>uvms-pom-monitoring-deps</artifactId>
-				<version>1.14</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>fish.focus.uvms.maven</groupId>
-				<artifactId>uvms-pom-test-deps</artifactId>
-				<version>1.14</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>fish.focus.uvms.maven</groupId>
-				<artifactId>uvms-pom-arquillian-deps</artifactId>
-				<version>1.14</version>
-				<type>pom</type>
-			</dependency>
+            <dependency>
+                <groupId>fish.focus.uvms.maven</groupId>
+                <artifactId>uvms-pom-gis-deps</artifactId>
+                <version>1.14</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>fish.focus.uvms.maven</groupId>
+                <artifactId>uvms-pom-logging-deps</artifactId>
+                <version>1.14</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>fish.focus.uvms.maven</groupId>
+                <artifactId>uvms-pom-monitoring-deps</artifactId>
+                <version>1.14</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>fish.focus.uvms.maven</groupId>
+                <artifactId>uvms-pom-test-deps</artifactId>
+                <version>1.14</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>fish.focus.uvms.maven</groupId>
+                <artifactId>uvms-pom-arquillian-deps</artifactId>
+                <version>1.14</version>
+                <type>pom</type>
+            </dependency>
 
             <dependency>
                 <groupId>dom4j</groupId>
@@ -122,10 +126,10 @@
                 <artifactId>rules-model</artifactId>
                 <version>${rules.model}</version>
                 <exclusions>
-                	<exclusion>
-                		<groupId>org.powermock</groupId>
-      					<artifactId>powermock-api-mockito</artifactId>
-                	</exclusion>
+                    <exclusion>
+                        <groupId>org.powermock</groupId>
+                        <artifactId>powermock-api-mockito</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -145,9 +149,15 @@
             <!-- Common libraries dependencies -->
 
             <dependency>
-	            <groupId>eu.europa.ec.fisheries.uvms.commons</groupId>
-	            <artifactId>uvms-commons-message</artifactId>
+                <groupId>eu.europa.ec.fisheries.uvms.commons</groupId>
+                <artifactId>uvms-commons-message</artifactId>
                 <version>${uvms.commons.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>eu.europa.ec.fisheries.uvms</groupId>
@@ -155,11 +165,11 @@
                 <version>${uvms.test.version}</version>
                 <scope>test</scope>
                 <exclusions>
-                	<exclusion>
-                		<groupId>commons-logging</groupId>
-                		<artifactId>commons-logging</artifactId>
-                	</exclusion>
-                </exclusions>                
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 			<dependency>
 				<groupId>eu.europa.ec.fisheries.uvms</groupId>
@@ -172,7 +182,7 @@
 					</exclusion>
 					<exclusion>
 					    <groupId>net.sf.ehcache</groupId>
-	  					<artifactId>ehcache</artifactId>				
+	  					<artifactId>ehcache</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -186,7 +196,7 @@
 	    				 <artifactId>slf4j-api</artifactId>
 	            	</exclusion>
 	            </exclusions>
-	        </dependency>		
+	        </dependency>
 
             <!-- Other dependencies -->
 
@@ -226,7 +236,7 @@
                     </exclusion>
                     <exclusion>
                         <groupId>org.hibernate</groupId>
-                		<artifactId>hibernate-entitymanager</artifactId>                    
+                        <artifactId>hibernate-entitymanager</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -273,10 +283,10 @@
                 <artifactId>resteasy-jaxb-provider</artifactId>
                 <version>3.0.11.Final</version>
                 <exclusions>
-                	<exclusion>
-                	    <groupId>com.sun.xml.bind</groupId>
-    					<artifactId>jaxb-impl</artifactId>
-                	</exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -336,7 +346,7 @@
         </dependency>
     </dependencies>
 
-	<distributionManagement>
+    <distributionManagement>
         <repository>
             <id>focus-releases</id>
             <name>UnionVms Repository</name>
@@ -353,9 +363,9 @@
         <connection>${scm.connection}</connection>
         <tag>HEAD</tag>
     </scm>
-	
-	<profiles>
-		<profile>
+
+    <profiles>
+        <profile>
             <id>dg-mare</id>
             <distributionManagement>
                 <repository>
@@ -371,7 +381,9 @@
             </distributionManagement>
 
             <properties>
-                <scm.connection>scm:git:https://emserveje@webgate.ec.europa.eu/CITnet/stash/scm/unionvms/uvms-mdr-module.git</scm.connection>
+                <scm.connection>
+                    scm:git:https://emserveje@webgate.ec.europa.eu/CITnet/stash/scm/unionvms/uvms-mdr-module.git
+                </scm.connection>
             </properties>
         </profile>
     </profiles>

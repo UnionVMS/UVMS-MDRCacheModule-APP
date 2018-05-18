@@ -47,8 +47,8 @@ public class MdrRequestMapper {
     }
 
 
-    public static String mapMdrQueryTypeToStringForINDEXServiceType(String serviceType) throws MdrMappingException {
-        return mapMdrQueryTypeToString(INDEX, serviceType, java.util.UUID.randomUUID().toString());
+    public static String mapMdrQueryTypeToStringForINDEXServiceType(String serviceType, String nationCode) throws MdrMappingException {
+        return mapMdrQueryTypeToString(INDEX, serviceType, java.util.UUID.randomUUID().toString(), nationCode);
     }
 
     /**
@@ -62,7 +62,7 @@ public class MdrRequestMapper {
      * @return
      * @throws MdrMappingException
      */
-    public static String mapMdrQueryTypeToString(String acronym, String serviceType, String uuid) throws MdrMappingException {
+    public static String mapMdrQueryTypeToString(String acronym, String serviceType, String uuid, String nationCode) throws MdrMappingException {
 
         SetFLUXMDRSyncMessageRulesRequest fluxRequestObject = new SetFLUXMDRSyncMessageRulesRequest();
         FLUXMDRQueryMessage mdrQueryMsg = new FLUXMDRQueryMessage();
@@ -98,7 +98,7 @@ public class MdrRequestMapper {
         FLUXPartyType fluxParty = new FLUXPartyType();
         List<IDType> countryIds = new ArrayList<>();
         IDType contryId = new IDType();
-        contryId.setValue(SUBMITTER_PARTY);
+        contryId.setValue(nationCode);
         countryIds.add(contryId);
         fluxParty.setIDS(countryIds);
         mdrQuery.setSubmitterFLUXParty(fluxParty);

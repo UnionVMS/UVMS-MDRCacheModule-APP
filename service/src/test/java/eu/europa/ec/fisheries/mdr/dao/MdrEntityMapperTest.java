@@ -56,7 +56,7 @@ public class MdrEntityMapperTest {
 	@Test
 	@SneakyThrows
 	public void testMdrEntityJaxBMarshalling(){
-		String strReqObj = MdrRequestMapper.mapMdrQueryTypeToString(entityName, "ALL", "uuid");
+		String strReqObj = MdrRequestMapper.mapMdrQueryTypeToString(entityName, "ALL", "uuid", "");
 		assertNotNull(strReqObj);
 	}
 	
@@ -86,7 +86,7 @@ public class MdrEntityMapperTest {
 	@Test
 	@SneakyThrows
 	public void testCreateRequestForMDRAcronym(){
-		String theReqStr = MdrRequestMapper.mapMdrQueryTypeToString("ACTION_TYPE", "OBJ_DESC", "uuid");
+		String theReqStr = MdrRequestMapper.mapMdrQueryTypeToString("ACTION_TYPE", "OBJ_DESC", "uuid", "");
 		assertNotNull(theReqStr);
 	}
 	

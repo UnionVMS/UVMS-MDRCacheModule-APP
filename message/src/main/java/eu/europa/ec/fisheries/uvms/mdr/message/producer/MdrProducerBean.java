@@ -10,13 +10,16 @@ details. You should have received a copy of the GNU General Public License along
 */
 package eu.europa.ec.fisheries.uvms.mdr.message.producer;
 
+import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
+import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractProducer;
 import eu.europa.ec.fisheries.uvms.mdr.message.constants.ModuleQueues;
-import eu.europa.ec.fisheries.uvms.mdr.message.consumer.commonconsumers.MdrEventConsumer;
+import eu.europa.ec.fisheries.uvms.mdr.message.consumer.commonconsumers.MdrEventQueueConsumerBean;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.MdrQueueProducer;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.RulesEventQueueProducer;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.RulesQueueProducer;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Destination;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +29,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Stateless
-public class MdrMessageProducerBean implements IMdrMessageProducer {
+@LocalBean
+public class MdrProducerBean extends AbstractProducer {
 
     @EJB
-    private MdrEventConsumer mdrEventQueueConsumer;
+    private MdrEventQueueConsumerBean mdrEventQueueConsumer;
 
     @EJB
     private MdrQueueProducer mdrQueueProducer;
@@ -46,7 +50,6 @@ public class MdrMessageProducerBean implements IMdrMessageProducer {
      * @param text (to be sent to the queue)
      * @return messageID
      */
-    @Override
     public String sendRulesModuleMessage(String text) throws MessageException {
         log.info("Sending Request to Rules module.");
         String messageID;
@@ -66,7 +69,6 @@ public class MdrMessageProducerBean implements IMdrMessageProducer {
      * @param queue
      * @return JMSMessageID
      */
-    @Override
     public String sendModuleMessage(String text, ModuleQueues queue) throws MessageException {
         String messageId;
         switch (queue) {
@@ -87,6 +89,11 @@ public class MdrMessageProducerBean implements IMdrMessageProducer {
 
     private Destination getMdrEventQueue(){
         return mdrEventQueueConsumer.getDestination();
+    }
+
+    @Override
+    public String getDestinationName() {
+        return MessageConstants.QUEUE_MDR;
     }
 }
 

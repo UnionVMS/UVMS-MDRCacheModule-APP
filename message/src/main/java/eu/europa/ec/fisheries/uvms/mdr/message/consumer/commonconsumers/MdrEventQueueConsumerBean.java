@@ -8,18 +8,23 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 details. You should have received a copy of the GNU General Public License along with the IFDM Suite. If not, see <http://www.gnu.org/licenses/>.
 
 */
-package eu.europa.ec.fisheries.uvms.mdr.message.producer;
+package eu.europa.ec.fisheries.uvms.mdr.message.consumer.commonconsumers;
 
-import eu.europa.ec.fisheries.uvms.mdr.message.constants.ModuleQueues;
-import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
+import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractConsumer;
+import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 
 /**
- * Created by kovian on 02/12/2016.
+ * Created by kovian on 04/04/2017.
  */
-public interface IMdrMessageProducer {
 
-    String sendRulesModuleMessage(String text) throws MessageException;
+@Stateless
+@Local
+public class MdrEventQueueConsumerBean extends AbstractConsumer {
 
-    String sendModuleMessage(String text, ModuleQueues queue) throws MessageException;
-
+    @Override
+    public String getDestinationName() {
+        return MessageConstants.QUEUE_MDR_EVENT;
+    }
 }

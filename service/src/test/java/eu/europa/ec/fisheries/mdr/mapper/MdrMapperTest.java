@@ -31,7 +31,7 @@ public class MdrMapperTest {
     @SneakyThrows
     @Test
     public void testIndexRequestCreation(){
-        String index = MdrRequestMapper.mapMdrQueryTypeToStringForINDEXServiceType("INDEX");
+        String index = MdrRequestMapper.mapMdrQueryTypeToStringForINDEXServiceType("INDEX", "XEU");
         final SetFLUXMDRSyncMessageRulesRequest unmarshalled = JAXBUtils.unMarshallMessage(index, SetFLUXMDRSyncMessageRulesRequest.class);
         System.out.print(unmarshalled.getRequest());
     }
@@ -43,7 +43,7 @@ public class MdrMapperTest {
         List<String> requestsList = new ArrayList<>();
         String uuid = java.util.UUID.randomUUID().toString();
         for(String actualAcronym : existingAcronymsList){
-            final String req = MdrRequestMapper.mapMdrQueryTypeToString(actualAcronym, OBJ_DATA_ALL, uuid);
+            final String req = MdrRequestMapper.mapMdrQueryTypeToString(actualAcronym, OBJ_DATA_ALL, uuid, "XEU");
             SetFLUXMDRSyncMessageRulesRequest unmarshalledReq = JAXBUtils.unMarshallMessage(req, SetFLUXMDRSyncMessageRulesRequest.class);
             requestsList.add(req);
             System.out.println(unmarshalledReq.getRequest());
@@ -53,7 +53,7 @@ public class MdrMapperTest {
     @SneakyThrows
     @Test
     public void testCreationOfStructureServiceRequest(){
-        final String request = MdrRequestMapper.mapMdrQueryTypeToString(MEMEBRSTATES_ACRONYM, OBJ_DESC, UUID.randomUUID().toString());
+        final String request = MdrRequestMapper.mapMdrQueryTypeToString(MEMEBRSTATES_ACRONYM, OBJ_DESC, UUID.randomUUID().toString(), "XEU");
         final SetFLUXMDRSyncMessageRulesRequest unmarshalled = JAXBUtils.unMarshallMessage(request, SetFLUXMDRSyncMessageRulesRequest.class);
         System.out.println(unmarshalled.getRequest());
     }
