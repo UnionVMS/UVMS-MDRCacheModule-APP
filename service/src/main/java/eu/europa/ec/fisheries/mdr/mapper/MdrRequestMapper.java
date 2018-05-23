@@ -65,6 +65,7 @@ public class MdrRequestMapper {
     public static String mapMdrQueryTypeToString(String acronym, String serviceType, String uuid, String nationCode) throws MdrMappingException {
 
         SetFLUXMDRSyncMessageRulesRequest fluxRequestObject = new SetFLUXMDRSyncMessageRulesRequest();
+        fluxRequestObject.setFr(nationCode);
         FLUXMDRQueryMessage mdrQueryMsg = new FLUXMDRQueryMessage();
         MDRQueryType mdrQuery = new MDRQueryType();
 

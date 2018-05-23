@@ -47,7 +47,7 @@
         <mdr.model.version>1.0.2</mdr.model.version>
 
         <!-- Other modules dependencies -->
-        <rules.model>3.0.11</rules.model>
+        <rules.model>3.0.31-SNAPSHOT</rules.model>
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
