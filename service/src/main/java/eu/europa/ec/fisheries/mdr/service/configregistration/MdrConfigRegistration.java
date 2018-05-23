@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @Stateless
-public class ConfigRegistration implements ConfigHelper {
+public class MdrConfigRegistration implements ConfigHelper {
 
     @PersistenceContext(unitName = "mdrConfig")
     private EntityManager em;

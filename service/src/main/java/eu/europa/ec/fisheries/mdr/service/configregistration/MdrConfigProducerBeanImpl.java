@@ -29,7 +29,7 @@ import javax.jms.Queue;
 
 @Stateless
 @Slf4j
-public class ConfigProducerBeanImpl extends AbstractProducer implements ConfigMessageProducer {
+public class MdrConfigProducerBeanImpl extends AbstractProducer implements ConfigMessageProducer {
 
     /**
      * Once a message is sent to config, config needs to know where to send the response... This is MDRQueue in case of MDR modules..
@@ -47,7 +47,7 @@ public class ConfigProducerBeanImpl extends AbstractProducer implements ConfigMe
         try {
             return sendModuleMessage(textMsg, mdrINQueue);
         } catch (MessageException e) {
-            log.error("[ERROR] Error while trying to send message to Config! Check ConfigProducerBeanImpl..");
+            log.error("[ERROR] Error while trying to send message to Config! Check MdrConfigProducerBeanImpl..");
         }
         return StringUtils.EMPTY;
     }
