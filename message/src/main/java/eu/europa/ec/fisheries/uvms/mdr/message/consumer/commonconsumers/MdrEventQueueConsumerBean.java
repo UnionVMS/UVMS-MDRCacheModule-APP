@@ -10,9 +10,10 @@ details. You should have received a copy of the GNU General Public License along
 */
 package eu.europa.ec.fisheries.uvms.mdr.message.consumer.commonconsumers;
 
-import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractConsumer;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
-import javax.ejb.Local;
+import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractConsumer;
+
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
@@ -20,7 +21,7 @@ import javax.ejb.Stateless;
  */
 
 @Stateless
-@Local
+@LocalBean
 public class MdrEventQueueConsumerBean extends AbstractConsumer {
 
     @Override

@@ -51,7 +51,7 @@
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
-        <uvms.commons.version>3.0.19</uvms.commons.version>
+        <uvms.commons.version>3.0.20-SNAPSHOT</uvms.commons.version>
         <uvms.test.version>0.0.8</uvms.test.version>
 
         <hibernate-search-orm.version>5.3.0.Final</hibernate-search-orm.version>
@@ -68,6 +68,8 @@
         <dom4j.version>1.6.1</dom4j.version>
         <lucene.index.directory>./mdr-module/luceneIndexes</lucene.index.directory>
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
+
+        <uvms.config.version>4.0.0</uvms.config.version>
 
         <scm.connection>scm:git:https://github.com/UnionVMS/UVMS-MDRCacheModule-APP.git</scm.connection>
     </properties>
@@ -322,6 +324,12 @@
                 <artifactId>jaxrs-api</artifactId>
                 <version>${reasteasy.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.europa.ec.fisheries.uvms</groupId>
+                <artifactId>uvms-config</artifactId>
+                <version>${uvms.config.version}</version>
             </dependency>
         </dependencies>
 

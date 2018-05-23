@@ -17,7 +17,6 @@ import javax.ejb.Startup;
  * Created by kovian on 31/05/2017.
  */
 @Singleton
-@Startup
 @Slf4j
 public class MdrConfigurationCache extends AbstractConfigSettingsBean {
 

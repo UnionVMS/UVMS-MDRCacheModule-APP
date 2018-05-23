@@ -203,6 +203,10 @@
             <version>1.4.184</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>eu.europa.ec.fisheries.uvms</groupId>
+			<artifactId>uvms-config</artifactId>
+		</dependency>
     </dependencies>
 
 	<profiles>
