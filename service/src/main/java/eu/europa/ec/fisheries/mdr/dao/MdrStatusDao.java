@@ -17,18 +17,15 @@ import eu.europa.ec.fisheries.mdr.exception.AcronymNotFoundException;
 import eu.europa.ec.fisheries.uvms.commons.domain.DateRange;
 import eu.europa.ec.fisheries.uvms.commons.service.dao.AbstractDAO;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Session;
 import un.unece.uncefact.data.standard.mdr.response.DataSetVersionType;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataSetType;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.*;
 
 /**
  * Created by kovian on 29/07/2016.
@@ -40,7 +37,9 @@ public class MdrStatusDao extends AbstractDAO<MdrCodeListStatus> {
 
     private static final String SELECT_FROM_MDRSTATUS_WHERE_ACRONYM = "FROM MdrCodeListStatus WHERE objectAcronym=";
     private static final String SELECT_UPDATABLE_FROM_MDRSTATUS     = "FROM MdrCodeListStatus WHERE schedulable='Y'";
+    private static final String SELECT_LAST_REFRESH_DATE_FROM_MDRSTATUS = "FROM MdrCodeListStatus WHERE lastSuccess IN (SELECT max(lastSuccess) FROM MdrCodeListStatus)";
     private static final String ERROR_WHILE_SAVING_STATUS           = "Error while trying to save/update new MDR Code List Status";
+
 
     public MdrStatusDao(EntityManager em) {
         this.em = em;
@@ -51,6 +50,16 @@ public class MdrStatusDao extends AbstractDAO<MdrCodeListStatus> {
         return em;
     }
 
+
+    public Date findLastRefreshDateFromStatuses() {
+        List<MdrCodeListStatus> statuses = new ArrayList<>();
+        try {
+            statuses = findEntityByHqlQuery(MdrCodeListStatus.class, SELECT_LAST_REFRESH_DATE_FROM_MDRSTATUS);
+        } catch (ServiceException e) {
+            log.error("Error while trying to get last refresh date from Acronyms list : ", e);
+        }
+        return CollectionUtils.isEmpty(statuses) ? null : statuses.get(0).getLastSuccess();
+    }
 
     public MdrCodeListStatus findStatusByAcronym(String acronym) {
         MdrCodeListStatus entity = null;

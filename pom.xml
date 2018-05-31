@@ -43,7 +43,7 @@
 
         <!-- The MDR name is used as a common point to rename the application alias visible in USM-->
         <mdr.name>MDR Cache</mdr.name>
-        <mdr.model.version>1.0.2</mdr.model.version>
+        <mdr.model.version>1.0.4-SNAPSHOT</mdr.model.version>
 
         <!-- Other modules dependencies -->
         <rules.model>3.0.31</rules.model>
@@ -68,7 +68,7 @@
         <lucene.index.directory>./mdr-module/luceneIndexes</lucene.index.directory>
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
 
-        <uvms.config.version>4.0.0</uvms.config.version>
+        <uvms.config.version>4.0.1-SNAPSHOT</uvms.config.version>
 
         <scm.connection>scm:git:https://github.com/UnionVMS/UVMS-MDRCacheModule-APP.git</scm.connection>
     </properties>
