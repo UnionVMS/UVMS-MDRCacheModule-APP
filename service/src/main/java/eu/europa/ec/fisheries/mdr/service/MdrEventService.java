@@ -11,6 +11,7 @@ details. You should have received a copy of the GNU General Public License along
 package eu.europa.ec.fisheries.mdr.service;
 
 import eu.europa.ec.fisheries.uvms.mdr.message.event.GetAllMdrCodeListsMessageEvent;
+import eu.europa.ec.fisheries.uvms.mdr.message.event.GetLastRefreshDate;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.GetSingleMdrListMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.MdrSyncMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
@@ -25,4 +26,6 @@ public interface MdrEventService {
     void recievedGetSingleMdrCodeListMessage(@Observes @GetSingleMdrListMessageEvent EventMessage message);
 
     void recievedGetAllMdrCodeListMessage(@Observes @GetAllMdrCodeListsMessageEvent EventMessage message);
+
+    void receivedGetLastRefreshDateFromStatuses(@Observes @GetLastRefreshDate EventMessage message);
 }
