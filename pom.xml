@@ -68,7 +68,7 @@
         <lucene.index.directory>./mdr-module/luceneIndexes</lucene.index.directory>
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
 
-        <uvms.config.version>4.0.1-SNAPSHOT</uvms.config.version>
+        <uvms.config.version>4.0.1</uvms.config.version>
 
         <scm.connection>scm:git:https://github.com/UnionVMS/UVMS-MDRCacheModule-APP.git</scm.connection>
     </properties>
