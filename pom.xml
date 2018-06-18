@@ -11,7 +11,7 @@
 
     <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
     <artifactId>mdr</artifactId>
-    <version>1.0.12-SNAPSHOT</version>
+    <version>1.0.13-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Maven project-archetype for UnionVms modules</description>
 
@@ -24,8 +24,8 @@
 
     <properties>
         <focus-pom.enforce.jdk.version.disabled>true</focus-pom.enforce.jdk.version.disabled>
-        <application.name>${project.artifactId}</application.name>
-        <application.version>${project.version}</application.version>
+        <application.name>${project.parent.artifactId}</application.name>
+        <application.version>${project.parent.version}</application.version>
         <application.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}.log
         </application.logfile>
         <application.error.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}-error.log
