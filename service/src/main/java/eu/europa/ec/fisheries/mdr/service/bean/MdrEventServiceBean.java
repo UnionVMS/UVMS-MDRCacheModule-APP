@@ -132,6 +132,7 @@ public class MdrEventServiceBean implements MdrEventService {
         MdrGetCodeListRequest requestObj;
         try {
             requestObj = extractMdrGetCodeListEventMessage(extractMessageRequestString(message));
+            log.debug("[INFO] Requested object is : [ "+requestObj+" ].");
             // Request is Not OK
             if (!requestIsOk(message, requestObj)) {
                 return;
@@ -143,7 +144,6 @@ public class MdrEventServiceBean implements MdrEventService {
             if (CollectionUtils.isNotEmpty(columnFilters)) {
                 columnFiltersArr = columnFilters.toArray(new String[columnFilters.size()]);
             } else {
-                log.warn("No search attributes provided. Going to consider all 'code' and 'description' attributes.");
                 columnFiltersArr = new String[]{"code", "description"}; //getAllFieldsForAcronym(requestObj.getAcronym());
             }
             if (StringUtils.isNotEmpty(filter) && !filter.equals(STAR)) {
