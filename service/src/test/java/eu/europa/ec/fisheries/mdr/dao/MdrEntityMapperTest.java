@@ -8,18 +8,20 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 details. You should have received a copy of the GNU General Public License along with the IFDM Suite. If not, see <http://www.gnu.org/licenses/>.
 
  */
+
 package eu.europa.ec.fisheries.mdr.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.mapper.MdrEntityMapper;
 import eu.europa.ec.fisheries.mdr.mapper.MdrRequestMapper;
 import eu.europa.ec.fisheries.mdr.util.ClassFinder;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +56,7 @@ public class MdrEntityMapperTest {
 	@Test
 	@SneakyThrows
 	public void testMdrEntityJaxBMarshalling(){
-		String strReqObj = MdrRequestMapper.mapMdrQueryTypeToString(entityName, "ALL", "uuid");
+		String strReqObj = MdrRequestMapper.mapMdrQueryTypeToString(entityName, "ALL", "uuid", "");
 		assertNotNull(strReqObj);
 	}
 	
@@ -84,8 +86,8 @@ public class MdrEntityMapperTest {
 	@Test
 	@SneakyThrows
 	public void testCreateRequestForMDRAcronym(){
-		String theReqStr = MdrRequestMapper.mapMdrQueryTypeToString("ACTION_TYPE", "OBJ_DESC", "uuid");
-		System.out.println("YES");
+		String theReqStr = MdrRequestMapper.mapMdrQueryTypeToString("ACTION_TYPE", "OBJ_DESC", "uuid", "");
+		assertNotNull(theReqStr);
 	}
 	
 }

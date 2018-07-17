@@ -25,6 +25,8 @@ import javax.ejb.Local;
 @Local
 public interface MdrStatusRepository {
 
+    Date getLastRefreshDate();
+
     List<MdrCodeListStatus> getAllAcronymsStatuses();
 
     MdrCodeListStatus getStatusForAcronym(String acronym);

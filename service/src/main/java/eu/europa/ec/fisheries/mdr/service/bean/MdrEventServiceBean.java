@@ -15,10 +15,14 @@ import eu.europa.ec.fisheries.mdr.exception.MdrCacheInitException;
 import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
 import eu.europa.ec.fisheries.mdr.repository.MdrLuceneSearchRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
+import eu.europa.ec.fisheries.mdr.repository.MdrStatusRepository;
+import eu.europa.ec.fisheries.mdr.repository.bean.MdrStatusRepositoryBean;
 import eu.europa.ec.fisheries.mdr.service.MdrEventService;
+import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.GetAllMdrCodeListsMessageEvent;
+import eu.europa.ec.fisheries.uvms.mdr.message.event.GetLastRefreshDate;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.GetSingleMdrListMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.MdrSyncMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
@@ -28,6 +32,7 @@ import eu.europa.ec.fisheries.uvms.mdr.model.mapper.MdrModuleMapper;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -36,6 +41,8 @@ import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import javax.persistence.Column;
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,12 +67,15 @@ public class MdrEventServiceBean implements MdrEventService {
     @EJB
     private MdrRepository mdrRepository;
 
+    @EJB
+    private MdrStatusRepository statusBean;
+
 
     @EJB
     private MdrLuceneSearchRepository mdrSearchRepositroy;
 
     @EJB
-    MdrQueueProducer mdrResponseQueueProducer;
+    private MdrQueueProducer mdrResponseQueueProducer;
 
     private static final String STAR = "*";
     private static final String MDR_MODEL_MARSHALL_EXCEPTION = "MdrModelMarshallException while unmarshalling message from flux : ";
@@ -80,14 +90,10 @@ public class MdrEventServiceBean implements MdrEventService {
     @Override
     public void recievedSyncMdrEntityMessage(@Observes @MdrSyncMessageEvent EventMessage message) {
         log.info("[INFO] Recieved message from FLUX related to MDR Entity Synchronization.");
-        try {
-            String messageStr = extractMessageRequestString(message);
-            FLUXMDRReturnMessage responseMessage = extractMdrFluxResponseFromEventMessage(messageStr);
-            if (isDataMessage(messageStr, responseMessage)) {
-                mdrRepository.updateMdrEntity(responseMessage);
-            }
-        } catch (MdrModelMarshallException e) {
-            log.error("[ERROR] MdrModelMarshallException while unmarshalling message from flux ", e);
+        String messageStr = extractMessageRequestString(message);
+        FLUXMDRReturnMessage responseMessage = extractMdrFluxResponseFromEventMessage(messageStr);
+        if (isDataMessage(messageStr, responseMessage)) {
+            mdrRepository.updateMdrEntity(responseMessage);
         }
     }
 
@@ -108,11 +114,11 @@ public class MdrEventServiceBean implements MdrEventService {
     }
 
     private boolean isObjDescriptionMessage(FLUXMDRReturnMessage fluxReturnMessage) {
-        FLUXResponseDocumentType fluxResponseDocument = fluxReturnMessage.getFLUXResponseDocument();
-        if (fluxResponseDocument != null && fluxResponseDocument.getTypeCode() != null && "OBJ_DESC".equals(fluxResponseDocument.getTypeCode().getValue())) {
-            return true;
+        FLUXResponseDocumentType fluxResponseDocument = null;
+        if(fluxReturnMessage != null){
+            fluxResponseDocument = fluxReturnMessage.getFLUXResponseDocument();
         }
-        return false;
+        return fluxResponseDocument != null && fluxResponseDocument.getTypeCode() != null && "OBJ_DESC".equals(fluxResponseDocument.getTypeCode().getValue());
     }
 
     /**
@@ -122,10 +128,11 @@ public class MdrEventServiceBean implements MdrEventService {
      */
     @Override
     public void recievedGetSingleMdrCodeListMessage(@Observes @GetSingleMdrListMessageEvent EventMessage message) {
-        log.info("[INFO] Recieved GetSingleMDRListMessageEvent.. Going to fetch Lucene Indexes..");
+        log.debug("[INFO] Recieved GetSingleMDRListMessageEvent.. Going to fetch Lucene Indexes..");
         MdrGetCodeListRequest requestObj;
         try {
             requestObj = extractMdrGetCodeListEventMessage(extractMessageRequestString(message));
+            log.debug("[INFO] Requested object is : [ "+requestObj+" ].");
             // Request is Not OK
             if (!requestIsOk(message, requestObj)) {
                 return;
@@ -137,7 +144,6 @@ public class MdrEventServiceBean implements MdrEventService {
             if (CollectionUtils.isNotEmpty(columnFilters)) {
                 columnFiltersArr = columnFilters.toArray(new String[columnFilters.size()]);
             } else {
-                log.warn("No search attributes provided. Going to consider all 'code' and 'description' attributes.");
                 columnFiltersArr = new String[]{"code", "description"}; //getAllFieldsForAcronym(requestObj.getAcronym());
             }
             if (StringUtils.isNotEmpty(filter) && !filter.equals(STAR)) {
@@ -168,7 +174,7 @@ public class MdrEventServiceBean implements MdrEventService {
     @Override
     public void recievedGetAllMdrCodeListMessage(@Observes @GetAllMdrCodeListsMessageEvent EventMessage message) {
         try {
-            log.info("[INFO] Got GetAllMdrCodeListsMessageEvent..");
+            log.debug("[INFO] Got GetAllMdrCodeListsMessageEvent..");
             List<String> acronymsList = null;
             try {
                 acronymsList = MasterDataRegistryEntityCacheFactory.getAcronymsList();
@@ -190,6 +196,16 @@ public class MdrEventServiceBean implements MdrEventService {
         }
     }
 
+    @Override
+    public void receivedGetLastRefreshDateFromStatuses(@Observes @GetLastRefreshDate EventMessage message) {
+        try {
+            String mdrGetLastRefreshDateResponse = MdrModuleMapper.createMdrGetLastRefreshDateResponse(statusBean.getLastRefreshDate());
+            mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetLastRefreshDateResponse);
+        } catch (MdrModelMarshallException | MessageException | DatatypeConfigurationException e) {
+            sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
+        }
+    }
+
     private String[] getAllFieldsForAcronym(String acronym) {
         Field[] fields = null;
         List<String> fieldsList = new ArrayList<String>(){{add("code");add("description");}};
@@ -199,6 +215,7 @@ public class MdrEventServiceBean implements MdrEventService {
         } catch (MdrCacheInitException e) {
             log.error("[ERROR] Error while trying to get instance for acronym : " + acronym);
         }
+        assert fields != null;
         for(Field field : fields){
             if(field.isAnnotationPresent(Column.class) && !"id".equals(field.getName())){
                 fieldsList.add(field.getName());
@@ -217,7 +234,7 @@ public class MdrEventServiceBean implements MdrEventService {
      */
     private boolean requestIsOk(EventMessage message, MdrGetCodeListRequest requestObj) {
         if (requestObj == null || StringUtils.isEmpty(requestObj.getAcronym())) {
-            log.error("The message received is not of type MdrGetCodeListRequest so it won't be attempted to unmarshall it! " +
+            log.error("[ERROR] The message received is not of type MdrGetCodeListRequest so it won't be attempted to unmarshall it! " +
                     "Message content is as follows : " + extractMessageRequestString(message));
             sendErrorMessageToMdrQueue("Request object or Acronym for the request has not been specified!", message.getJmsMessage());
             return false;
@@ -240,18 +257,12 @@ public class MdrEventServiceBean implements MdrEventService {
             log.error(textMessage);
             mdrResponseQueueProducer.sendModuleResponseMessage(jmsMessage, MdrModuleMapper.createFluxMdrGetCodeListErrorResponse(textMessage), "MDR");
         } catch (MdrModelMarshallException e) {
-            log.error("Something went wrong during sending of error message back to MdrQueue out! Couldn't recover anymore from this! Response will not be posted!", e);
+            log.error("[ERROR] Something went wrong during sending of error message back to MdrQueue out! Couldn't recover anymore from this! Response will not be posted!", e);
         }
     }
 
     private boolean isAcnowledgeMessage(String jmsMessage) {
-        if (StringUtils.isBlank(jmsMessage)) {
-            return false;
-        }
-        if (jmsMessage.contains("ACK") && jmsMessage.contains("Acknowledge Of Receipt")) {
-            return true;
-        }
-        return false;
+        return !StringUtils.isBlank(jmsMessage) && jmsMessage.contains("ACK") && jmsMessage.contains("Acknowledge Of Receipt");
     }
 
     /**
@@ -260,15 +271,15 @@ public class MdrEventServiceBean implements MdrEventService {
      * @param textMessage
      * @return ResponseType
      */
-    private FLUXMDRReturnMessage extractMdrFluxResponseFromEventMessage(String textMessage) throws MdrModelMarshallException {
+    private FLUXMDRReturnMessage extractMdrFluxResponseFromEventMessage(String textMessage) {
         FLUXMDRReturnMessage respType = null;
         try {
             SetFLUXMDRSyncMessageResponse mdrResp = JAXBUtils.unMarshallMessage(textMessage, SetFLUXMDRSyncMessageResponse.class);
             respType = JAXBUtils.unMarshallMessage(mdrResp.getRequest(), FLUXMDRReturnMessage.class);
         } catch (JAXBException e) {
-            log.error(">> Error while attempting to Unmarshall Flux Response Object (XML MDR Entity)! Maybe not a FLUXMDRReturnMessage!!");
+            log.error("[ERROR] Error while attempting to Unmarshall Flux Response Object (XML MDR Entity)! Maybe not a FLUXMDRReturnMessage!!");
         }
-        log.info("FluxMdrReturnMessage Unmarshalled successfully.. Going to save the data received! \n");
+        log.debug("FluxMdrReturnMessage Unmarshalled successfully.. Going to save the data received! \n");
         return respType;
     }
 
@@ -278,14 +289,13 @@ public class MdrEventServiceBean implements MdrEventService {
      * @param textMessage
      * @return ResponseType
      */
-    private MdrGetCodeListRequest extractMdrGetCodeListEventMessage(String textMessage) throws MdrModelMarshallException {
+    private MdrGetCodeListRequest extractMdrGetCodeListEventMessage(String textMessage) {
         MdrGetCodeListRequest codelistReq = null;
         try {
             codelistReq = JAXBUtils.unMarshallMessage(textMessage, SetFLUXMDRSyncMessageResponse.class);
         } catch (JAXBException e) {
-            log.error(">> Error while attempting to Unmarshall MdrGetCodeListRequest Object (XML MDR Request) : \n", e);
+            log.error("[ERROR] Error while attempting to Unmarshall MdrGetCodeListRequest Object (XML MDR Request) : \n", e);
         }
-        log.info("MdrGetCodeListRequest Unmarshalled successfully.. Going to validate and get the data now! /n");
         return codelistReq;
     }
 
@@ -300,7 +310,7 @@ public class MdrEventServiceBean implements MdrEventService {
         try {
             textMessage = eventMessage.getJmsMessage().getText();
         } catch (JMSException e) {
-            log.error("Error : The message is null or empty!", e);
+            log.error("[ERROR] The message is null or empty!", e);
         }
         return textMessage;
     }

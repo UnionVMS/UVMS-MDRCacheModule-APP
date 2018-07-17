@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
 		<artifactId>mdr</artifactId>
-		<version>1.0.8-SNAPSHOT</version>
+		<version>1.0.14-SNAPSHOT</version>
 	</parent>
 	
 	<properties>
@@ -39,15 +39,9 @@
 			<scope>test</scope>
 		</dependency>
 
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>mdr-model</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>eu.europa.ec.fisheries.uvms.exchange</groupId>
-			<artifactId>exchange-model</artifactId>
 		</dependency>
 
 		<dependency>
@@ -209,6 +203,10 @@
             <version>1.4.184</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>eu.europa.ec.fisheries.uvms</groupId>
+			<artifactId>uvms-config</artifactId>
+		</dependency>
     </dependencies>
 
 	<profiles>

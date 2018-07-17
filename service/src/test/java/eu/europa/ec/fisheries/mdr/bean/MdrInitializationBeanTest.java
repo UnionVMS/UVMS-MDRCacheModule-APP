@@ -22,8 +22,7 @@ import eu.europa.ec.fisheries.mdr.service.bean.BaseMdrBean;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrInitializationBean;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrSchedulerServiceBean;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrSynchronizationServiceBean;
-import eu.europa.ec.fisheries.uvms.mdr.message.producer.IMdrMessageProducer;
-import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrMessageProducerBean;
+import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.TimerService;
@@ -45,7 +44,7 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
 
     private MdrSynchronizationService synchBean = new MdrSynchronizationServiceBean();
     private MdrStatusRepository statusRepository = new MdrStatusRepositoryBean();
-    private IMdrMessageProducer producer = new MdrMessageProducerBean();
+    private MdrProducerBean producer = new MdrProducerBean();
     private MdrLuceneSearchRepositoryBean mdrSearchRepository = new MdrLuceneSearchRepositoryBean();
     private MdrSchedulerService schedulerBean = new MdrSchedulerServiceBean();
 

@@ -26,7 +26,6 @@ import javax.persistence.MappedSuperclass;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.Dialect;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.reflections.Reflections;
 
@@ -53,7 +52,8 @@ public class HibernateSchemaGenerationTest {
     //@Ignore
     public void createCreationScriptTest() {
         prepareFilesAndDirs();
-        HibernateSchemaGeneration exporter = new HibernateSchemaGeneration("org.hibernate.spatial.dialect.postgis.PostgisDialect", "eu.europa.ec.fisheries.mdr.entities.codelists");
+        HibernateSchemaGeneration exporter = new HibernateSchemaGeneration("org.hibernate.spatial.dialect.postgis.PostgisDialect",
+                "eu.europa.ec.fisheries.mdr.entities.codelists");
         System.out.println("\n\n Generated Script : \n\n");
         exporter.exportToConsole();
         System.out.println("\n\n Done... All the scripts requested were correctly generated.");

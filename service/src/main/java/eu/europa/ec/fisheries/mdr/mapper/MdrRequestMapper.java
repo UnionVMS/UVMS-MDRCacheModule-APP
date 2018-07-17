@@ -10,16 +10,17 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.mapper;
 
-import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
-import eu.europa.ec.fisheries.schema.rules.module.v1.RulesModuleMethod;
-import eu.europa.ec.fisheries.schema.rules.module.v1.SetFLUXMDRSyncMessageRulesRequest;
-import eu.europa.ec.fisheries.uvms.exchange.model.exception.ExchangeModelMarshallException;
-import eu.europa.ec.fisheries.uvms.exchange.model.mapper.JAXBMarshaller;
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.ArrayList;
+import java.util.List;
+
+import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
+import eu.europa.ec.fisheries.schema.rules.module.v1.RulesModuleMethod;
+import eu.europa.ec.fisheries.schema.rules.module.v1.SetFLUXMDRSyncMessageRulesRequest;
+import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
 import org.joda.time.DateTime;
 import un.unece.uncefact.data.standard.mdr.query.CodeType;
 import un.unece.uncefact.data.standard.mdr.query.DateTimeType;
@@ -31,11 +32,11 @@ import un.unece.uncefact.data.standard.mdr.query.MDRQueryType;
 
 public class MdrRequestMapper {
 
-    public static final String EN = "EN";
-    public static final String UUID = "UUID";
-    public static final String SUBMITTER_PARTY = "BEL";
-    public static final String INDEX = "INDEX";
-    public static final String FLUX_MDR_QUERY_TYPE = "FLUX_MDR_QUERY_TYPE";
+    private static final String EN = "EN";
+    private static final String UUID = "UUID";
+    private static final String SUBMITTER_PARTY = "AHR:VMS";
+    private static final String INDEX = "INDEX";
+    private static final String FLUX_MDR_QUERY_TYPE = "FLUX_MDR_QUERY_TYPE";
 
 
     /**
@@ -46,8 +47,8 @@ public class MdrRequestMapper {
     }
 
 
-    public static String mapMdrQueryTypeToStringForINDEXServiceType(String serviceType) throws MdrMappingException {
-        return mapMdrQueryTypeToString(INDEX, serviceType, java.util.UUID.randomUUID().toString());
+    public static String mapMdrQueryTypeToStringForINDEXServiceType(String serviceType, String nationCode) throws MdrMappingException {
+        return mapMdrQueryTypeToString(INDEX, serviceType, java.util.UUID.randomUUID().toString(), nationCode);
     }
 
     /**
@@ -59,11 +60,12 @@ public class MdrRequestMapper {
      * @param acronym
      * @param serviceType
      * @return
-     * @throws ExchangeModelMarshallException
+     * @throws MdrMappingException
      */
-    public static String mapMdrQueryTypeToString(String acronym, String serviceType, String uuid) throws MdrMappingException {
+    public static String mapMdrQueryTypeToString(String acronym, String serviceType, String uuid, String nationCode) throws MdrMappingException {
 
         SetFLUXMDRSyncMessageRulesRequest fluxRequestObject = new SetFLUXMDRSyncMessageRulesRequest();
+        fluxRequestObject.setFr(nationCode);
         FLUXMDRQueryMessage mdrQueryMsg = new FLUXMDRQueryMessage();
         MDRQueryType mdrQuery = new MDRQueryType();
 
@@ -97,7 +99,7 @@ public class MdrRequestMapper {
         FLUXPartyType fluxParty = new FLUXPartyType();
         List<IDType> countryIds = new ArrayList<>();
         IDType contryId = new IDType();
-        contryId.setValue(SUBMITTER_PARTY);
+        contryId.setValue(nationCode);
         countryIds.add(contryId);
         fluxParty.setIDS(countryIds);
         mdrQuery.setSubmitterFLUXParty(fluxParty);
@@ -107,10 +109,10 @@ public class MdrRequestMapper {
             // Submitted DateTime
             mdrQuery.setSubmittedDateTime(createSubmitedDate());
             mdrQueryMsg.setMDRQuery(mdrQuery);
-            fluxRequestObject.setRequest(JAXBMarshaller.marshallJaxBObjectToString(mdrQueryMsg));
+            fluxRequestObject.setRequest(JAXBUtils.marshallJaxBObjectToString(mdrQueryMsg));
             fluxRequestObject.setMethod(RulesModuleMethod.SET_FLUX_MDR_SYNC_REQUEST);
-            fluxStrReq = JAXBMarshaller.marshallJaxBObjectToString(fluxRequestObject);
-        } catch (ExchangeModelMarshallException | DatatypeConfigurationException e) {
+            fluxStrReq = JAXBUtils.marshallJaxBObjectToString(fluxRequestObject);
+        } catch (DatatypeConfigurationException | JAXBException e) {
             throw new MdrMappingException(e);
         }
         return fluxStrReq;

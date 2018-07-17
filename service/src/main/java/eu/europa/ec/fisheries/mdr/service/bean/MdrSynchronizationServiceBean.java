@@ -20,13 +20,13 @@ import eu.europa.ec.fisheries.mdr.service.MdrSynchronizationService;
 import eu.europa.ec.fisheries.mdr.util.GenericOperationOutcome;
 import eu.europa.ec.fisheries.mdr.util.OperationOutcome;
 import eu.europa.ec.fisheries.uvms.commons.date.DateUtils;
-import eu.europa.ec.fisheries.uvms.mdr.message.producer.IMdrMessageProducer;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
@@ -35,8 +35,11 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.transaction.Transactional;
+
+import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author kovian
@@ -57,7 +60,10 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
     private MdrStatusRepository statusRepository;
 
     @EJB
-    private IMdrMessageProducer producer;
+    private MdrProducerBean producer;
+
+    @EJB
+    private MdrConfigurationCache mdrConfigurationCache;
 
     private static final String OBJ_DATA_ALL = "OBJ_DATA_ALL";
     private static final String OBJ_DESC     = "OBJ_DESC";
@@ -73,7 +79,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
         InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("exclusionList.properties");
         Properties props = new Properties();
         props.load(resourceAsStream);
-        List<String> propertyStr = Arrays.asList((props.getProperty(MDR_EXCLUSION_LIST)));
+        List<String> propertyStr = Collections.singletonList((props.getProperty(MDR_EXCLUSION_LIST)));
         exclusionList = CollectionUtils.isNotEmpty(propertyStr) ? Arrays.asList(propertyStr.get(0).split(",")) : new ArrayList<String>();
     }
 
@@ -165,7 +171,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
                 String strReqObj;
                 String uuid = java.util.UUID.randomUUID().toString();
                 try {
-                    strReqObj   = MdrRequestMapper.mapMdrQueryTypeToString(actualAcronym, OBJ_DATA_ALL, uuid);
+                    strReqObj   = MdrRequestMapper.mapMdrQueryTypeToString(actualAcronym, OBJ_DATA_ALL, uuid, mdrConfigurationCache.getNationCode());
                     producer.sendRulesModuleMessage(strReqObj);
                     statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.RUNNING, DateUtils.nowUTC().toDate(), uuid);
                     log.info("Synchronization Request Sent for Entity : " + actualAcronym);
@@ -188,11 +194,9 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
         return errorContainer;
     }
 
+
     private boolean acronymIsInExclusionList(String acronym) {
-        if(exclusionList.contains(acronym)){
-            return true;
-        }
-        return false;
+        return exclusionList.contains(acronym);
     }
 
 
@@ -211,14 +215,14 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
 
     @Override
     public void sendRequestForSingleMdrCodelistsStructure(String actAcron) throws MdrMappingException, MessageException {
-        String strReqObj = MdrRequestMapper.mapMdrQueryTypeToString(actAcron, OBJ_DESC, java.util.UUID.randomUUID().toString());
+        String strReqObj = MdrRequestMapper.mapMdrQueryTypeToString(actAcron, OBJ_DESC, java.util.UUID.randomUUID().toString(), mdrConfigurationCache.getNationCode());
         producer.sendRulesModuleMessage(strReqObj);
     }
 
     @Override
     public void sendRequestForMdrCodelistsIndex() {
         try {
-            String strReqObj = MdrRequestMapper.mapMdrQueryTypeToStringForINDEXServiceType(INDEX);
+            String strReqObj = MdrRequestMapper.mapMdrQueryTypeToStringForINDEXServiceType(INDEX, mdrConfigurationCache.getNationCode());
             producer.sendRulesModuleMessage(strReqObj);
             log.info("Synchronization Request Sent for INDEX ServiceType");
         } catch (MdrMappingException e) {

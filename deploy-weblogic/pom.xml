@@ -9,7 +9,7 @@
     <parent>
         <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
         <artifactId>mdr</artifactId>
-        <version>1.0.8-SNAPSHOT</version>
+        <version>1.0.14-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -122,7 +122,7 @@
                         </jarModule>
                         <webModule>
                             <groupId>${project.groupId}</groupId>
-                            <context-root>${project.parent.artifactId}</context-root>
+                            <context-root>${context.root}${project.parent.artifactId}</context-root>
                             <artifactId>rest</artifactId>
                             <classifier>weblogic</classifier>
                             <bundleDir>/</bundleDir>

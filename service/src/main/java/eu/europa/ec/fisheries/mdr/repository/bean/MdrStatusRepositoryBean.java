@@ -42,6 +42,11 @@ public class MdrStatusRepositoryBean extends BaseMdrBean implements MdrStatusRep
     }
 
     @Override
+    public Date getLastRefreshDate(){
+        return statusDao.findLastRefreshDateFromStatuses();
+    }
+
+    @Override
     public List<MdrCodeListStatus> getAllAcronymsStatuses() {
         return statusDao.getAllAcronymsStatuses();
     }

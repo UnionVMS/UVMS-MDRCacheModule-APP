@@ -9,7 +9,7 @@
     <parent>
         <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
         <artifactId>mdr</artifactId>
-        <version>1.0.8-SNAPSHOT</version>
+        <version>1.0.14-SNAPSHOT</version>
     </parent>
     
     <dependencies>
@@ -22,11 +22,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>eu.europa.ec.fisheries.uvms.exchange</groupId>
-            <artifactId>exchange-model</artifactId>
         </dependency>
 
         <dependency>
