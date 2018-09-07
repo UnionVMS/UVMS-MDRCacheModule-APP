@@ -96,7 +96,7 @@ public class FaoSpecies extends MasterDataRegistry {
             } else if (StringUtils.equalsIgnoreCase(fieldName, "ALL_SPECIES.BIOORDER")) {
                 this.setBioOrder(fieldValue);
             } else if (StringUtils.equalsIgnoreCase(fieldName, "ALL_SPECIES.TAXOCODE")) {
-                this.setEnName(fieldValue);
+                this.setTaxoCode(fieldValue);
             } else {
                 logError(fieldName, this.getClass().getSimpleName());
             }
