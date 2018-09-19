@@ -12,12 +12,17 @@ package eu.europa.ec.fisheries.uvms.mdr.message.consumer;
 
 
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
+import eu.europa.ec.fisheries.uvms.commons.message.context.MappedDiagnosticContext;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.GetAllMdrCodeListsMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.GetLastRefreshDate;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.GetSingleMdrListMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.MdrSyncMessageEvent;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
+import lombok.extern.slf4j.Slf4j;
+import un.unece.uncefact.data.standard.mdr.communication.MdrModuleMethod;
+import un.unece.uncefact.data.standard.mdr.communication.MdrModuleRequest;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.ejb.TransactionAttribute;
@@ -29,12 +34,6 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBException;
-
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import un.unece.uncefact.data.standard.mdr.communication.MdrModuleMethod;
-import un.unece.uncefact.data.standard.mdr.communication.MdrModuleRequest;
 
 
 @MessageDriven(mappedName = MessageConstants.QUEUE_MDR_EVENT, activationConfig = {
@@ -67,6 +66,7 @@ public class MdrMessageConsumerBean implements MessageListener {
         
         try {
             TextMessage textMessage = (TextMessage) message;
+            MappedDiagnosticContext.addMessagePropertiesToThreadMappedDiagnosticContext(textMessage);
             MdrModuleRequest request = JAXBUtils.unMarshallMessage(textMessage.getText(), MdrModuleRequest.class);
             if(request==null){
                 log.error("[ERROR] Request is null!!!");
