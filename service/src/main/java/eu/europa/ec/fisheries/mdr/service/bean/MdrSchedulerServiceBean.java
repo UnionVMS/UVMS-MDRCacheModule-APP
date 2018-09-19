@@ -9,21 +9,15 @@ details. You should have received a copy of the GNU General Public License along
 */
 package eu.europa.ec.fisheries.mdr.service.bean;
 
+import javax.annotation.Resource;
+import javax.ejb.*;
+import javax.transaction.Transactional;
+import java.util.Collection;
 import eu.europa.ec.fisheries.mdr.entities.MdrConfiguration;
 import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.service.MdrSchedulerService;
 import eu.europa.ec.fisheries.mdr.service.MdrSynchronizationService;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
-import java.util.Collection;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.ScheduleExpression;
-import javax.ejb.Stateless;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
-import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -59,7 +53,7 @@ public class MdrSchedulerServiceBean implements MdrSchedulerService {
     @Timeout
     public void timeOut() {
         log.info("\n\t---> STARTING SCHEDULED SYNCHRONIZATION OF MDR ENTITIES! \n");
-        //synchBean.extractAcronymsAndUpdateMdr();
+        synchBean.extractAcronymsAndUpdateMdr();
     }
 
 
