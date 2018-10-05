@@ -52,7 +52,7 @@
                 <db.passwd>mdr</db.passwd>
                 <db.defaultSchema>mdr</db.defaultSchema>
                 <db.changeLogFile>postgres/changelog/db-changelog-master.xml</db.changeLogFile>
-                <db.outputFile>postgres/changelog/generatedChangelog.xml</db.outputFile>
+                <db.outputFile>postgres/changelog/generatedChangelog-new.xml</db.outputFile>
                 <driver.groupId>org.postgresql</driver.groupId>
                 <driver.artifactId>postgresql</driver.artifactId>
                 <driver.version>42.2.1.jre7</driver.version>
