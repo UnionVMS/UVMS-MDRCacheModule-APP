@@ -2,7 +2,7 @@
 mvn liquibase:dropAll -Ppostgres
 
 ## Create the tables and initialize with test data
-mvn liquibase:update -Ppostgres, testdata
+mvn liquibase:update -Ppostgres,testdata
 
 ## To clean and install database locally on postgres you can run:
 mvn liquibase:update -Dverbose=true -Ppostgres
@@ -10,7 +10,7 @@ mvn liquibase:update -Dverbose=true -Ppostgres
 ## To clean and RE-install database locally on postgres :
 mvn clean liquibase:update -Ppostgres
 
-## To clean and RE-install database (locally on postgres) including the test data WITHOUT BIG LISTS:
+## To clean and RE-install database (locally on postgres) including the test data:
 mvn clean liquibase:update -Ppostgres,testdata
 
 ## Check status :
