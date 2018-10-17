@@ -16,7 +16,6 @@ import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
 import eu.europa.ec.fisheries.mdr.repository.MdrLuceneSearchRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrStatusRepository;
-import eu.europa.ec.fisheries.mdr.repository.bean.MdrStatusRepositoryBean;
 import eu.europa.ec.fisheries.mdr.service.MdrEventService;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
@@ -29,20 +28,6 @@ import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.MdrQueueProducer;
 import eu.europa.ec.fisheries.uvms.mdr.model.exception.MdrModelMarshallException;
 import eu.europa.ec.fisheries.uvms.mdr.model.mapper.MdrModuleMapper;
-import java.lang.reflect.Field;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.enterprise.event.Observes;
-import javax.jms.JMSException;
-import javax.jms.TextMessage;
-import javax.persistence.Column;
-import javax.xml.bind.JAXBException;
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,6 +37,19 @@ import un.unece.uncefact.data.standard.mdr.communication.SingleCodeListRappresen
 import un.unece.uncefact.data.standard.mdr.communication.ValidationResultType;
 import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
 import un.unece.uncefact.data.standard.mdr.response.FLUXResponseDocumentType;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.enterprise.event.Observes;
+import javax.jms.JMSException;
+import javax.jms.TextMessage;
+import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.jms.DeliveryMode.NON_PERSISTENT;
 
 /**
  * Observer class listening to events fired from MdrMessageConsumerBean (MDR Module).
@@ -70,7 +68,6 @@ public class MdrEventServiceBean implements MdrEventService {
     @EJB
     private MdrStatusRepository statusBean;
 
-
     @EJB
     private MdrLuceneSearchRepository mdrSearchRepositroy;
 
@@ -81,6 +78,8 @@ public class MdrEventServiceBean implements MdrEventService {
     private static final String MDR_MODEL_MARSHALL_EXCEPTION = "MdrModelMarshallException while unmarshalling message from flux : ";
     private static final String ERROR_GET_LIST_FOR_THE_REQUESTED_CODE = "Error while trying to get list for the requested CodeList : ";
     private static final String ACRONYM_DOESNT_EXIST = "The acronym you are searching for does not exist! Acronym ::: ";
+    private static final long ONE_MINUTE = 60000L;
+
 
     /**
      * This method saves the received codeList (from FLUX or MANUAL upload).
@@ -163,10 +162,10 @@ public class MdrEventServiceBean implements MdrEventService {
                 validation = ValidationResultType.WOK;
             }
             String mdrGetCodeListResponse = MdrModuleMapper.createFluxMdrGetCodeListResponse(mdrList, requestObj.getAcronym(), validation, validationStr);
-            mdrResponseQueueProducer.sendModuleResponseMessage(message.getJmsMessage(), mdrGetCodeListResponse, "MDR");
+            mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetCodeListResponse, ONE_MINUTE, NON_PERSISTENT);
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
-        } catch (ServiceException e) {
+        } catch (ServiceException | MessageException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
         }
     }
@@ -188,10 +187,10 @@ public class MdrEventServiceBean implements MdrEventService {
                 allCoceLists.add(MdrModuleMapper.mapToSingleCodeListRappresentation(mdrList, actAcronym, null, "OK"));
             }
             String response = MdrModuleMapper.mapToMdrGetAllCodeListsResponse(allCoceLists);
-            mdrResponseQueueProducer.sendModuleResponseMessage(message.getJmsMessage(), response, "MDR");
+            mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), response, ONE_MINUTE, NON_PERSISTENT);
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
-        } catch (ServiceException e) {
+        } catch (ServiceException | MessageException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
         }
     }
@@ -204,25 +203,6 @@ public class MdrEventServiceBean implements MdrEventService {
         } catch (MdrModelMarshallException | MessageException | DatatypeConfigurationException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
         }
-    }
-
-    private String[] getAllFieldsForAcronym(String acronym) {
-        Field[] fields = null;
-        List<String> fieldsList = new ArrayList<String>(){{add("code");add("description");}};
-        try {
-            MasterDataRegistry newInstanceForEntity = MasterDataRegistryEntityCacheFactory.getInstance().getNewInstanceForEntity(acronym);
-            fields = newInstanceForEntity.getClass().getDeclaredFields();
-        } catch (MdrCacheInitException e) {
-            log.error("[ERROR] Error while trying to get instance for acronym : " + acronym);
-        }
-        assert fields != null;
-        for(Field field : fields){
-            if(field.isAnnotationPresent(Column.class) && !"id".equals(field.getName())){
-                fieldsList.add(field.getName());
-            }
-        }
-        String[] ausArr = new String[fieldsList.size()];
-        return fieldsList.toArray(ausArr);
     }
 
     /**
@@ -255,8 +235,8 @@ public class MdrEventServiceBean implements MdrEventService {
     private void sendErrorMessageToMdrQueue(String textMessage, TextMessage jmsMessage) {
         try {
             log.error(textMessage);
-            mdrResponseQueueProducer.sendModuleResponseMessage(jmsMessage, MdrModuleMapper.createFluxMdrGetCodeListErrorResponse(textMessage), "MDR");
-        } catch (MdrModelMarshallException e) {
+            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, MdrModuleMapper.createFluxMdrGetCodeListErrorResponse(textMessage),  ONE_MINUTE, NON_PERSISTENT);
+        } catch (MdrModelMarshallException | MessageException e) {
             log.error("[ERROR] Something went wrong during sending of error message back to MdrQueue out! Couldn't recover anymore from this! Response will not be posted!", e);
         }
     }
