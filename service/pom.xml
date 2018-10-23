@@ -13,8 +13,8 @@
 	</parent>
 	
 	<properties>
-		<commons.lang.version>2.6</commons.lang.version>
-		<guava.version>20.0</guava.version>
+		<commons.lang.version>${commons-io.version}</commons.lang.version>
+		<guava.version>${google.guava.version}</guava.version>
 	</properties>
 
 	<dependencies>
@@ -194,7 +194,7 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.2.2</version>
+            <version>${commons-collections.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
