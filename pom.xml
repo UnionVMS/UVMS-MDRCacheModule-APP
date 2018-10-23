@@ -5,7 +5,7 @@
     <parent>
         <groupId>fish.focus.uvms.maven</groupId>
         <artifactId>uvms-pom</artifactId>
-        <version>1.17</version>
+        <version>1.18</version>
         <relativePath />
     </parent>
 
@@ -63,14 +63,22 @@
         <database.dialect>oracle</database.dialect>
         <geotools.version>14.4</geotools.version>
 
-        <reasteasy.version>3.0.11.Final</reasteasy.version>
+        <reasteasy.version>${resteasy-jaxb-provider.version}</reasteasy.version>
         <dom4j.version>1.6.1</dom4j.version>
         <lucene.index.directory>./mdr-module/luceneIndexes</lucene.index.directory>
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
 
         <uvms.config.version>4.0.1</uvms.config.version>
-
+        <uvms.poms.version>1.14</uvms.poms.version>
+        <webtoken.version>0.4</webtoken.version>
+        <apache.commons.version>3.7</apache.commons.version>
+        <geojson.version>0.7.0</geojson.version>
         <scm.connection>scm:git:https://github.com/UnionVMS/UVMS-MDRCacheModule-APP.git</scm.connection>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <commons-io.version>2.6</commons-io.version>
+        <lombok.version>1.16.18</lombok.version>
+        <google.guava.version>20.0</google.guava.version>
+        <resteasy-jaxb-provider.version>3.0.11.Final</resteasy-jaxb-provider.version>
     </properties>
 
     <dependencyManagement>
@@ -80,34 +88,27 @@
             <dependency>
                 <groupId>fish.focus.uvms.maven</groupId>
                 <artifactId>uvms-pom-gis-deps</artifactId>
-                <version>1.14</version>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>fish.focus.uvms.maven</groupId>
-                <artifactId>uvms-pom-logging-deps</artifactId>
-                <version>1.14</version>
+                <version>${uvms.poms.version}</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>fish.focus.uvms.maven</groupId>
                 <artifactId>uvms-pom-monitoring-deps</artifactId>
-                <version>1.14</version>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>fish.focus.uvms.maven</groupId>
-                <artifactId>uvms-pom-test-deps</artifactId>
-                <version>1.14</version>
+                <version>${uvms.poms.version}</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>fish.focus.uvms.maven</groupId>
                 <artifactId>uvms-pom-arquillian-deps</artifactId>
-                <version>1.14</version>
+                <version>${uvms.poms.version}</version>
                 <type>pom</type>
             </dependency>
-
+            <dependency>
+                <groupId>fish.focus.uvms.maven</groupId>
+                <artifactId>uvms-pom-test-deps</artifactId>
+                <version>${uvms.poms.version}</version>
+                <type>pom</type>
+            </dependency>
             <dependency>
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
@@ -222,7 +223,7 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
-                <version>0.4</version>
+                <version>${webtoken.version}</version>
             </dependency>
 
             <!--HIBERNATE SEARCH-->
@@ -245,19 +246,19 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.7</version>
+                <version>${apache.commons.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
-                <version>3.2.2</version>
+                <version>${commons-collections.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.6</version>
+                <version>${commons-io.version}</version>
             </dependency>
 
             <dependency>
@@ -270,19 +271,19 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.16.18</version>
+                <version>${lombok.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>20.0</version>
+                <version>${google.guava.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>resteasy-jaxb-provider</artifactId>
-                <version>3.0.11.Final</version>
+                <version>${resteasy-jaxb-provider.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.sun.xml.bind</groupId>
@@ -299,7 +300,7 @@
             <dependency>
                 <groupId>org.wololo</groupId>
                 <artifactId>jts2geojson</artifactId>
-                <version>0.7.0</version>
+                <version>${geojson.version}</version>
             </dependency>
 
             <!-- don't delete needed for org.wololo -->
@@ -447,7 +448,6 @@
             </plugins>
         </pluginManagement>
 
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -492,7 +492,6 @@
         <module>rest</module>
         <module>service</module>
         <module>message</module>
-        <module>deploy-wildfly</module>
-        <module>deploy-weblogic</module>
+        <module>module</module>
     </modules>
 </project>
