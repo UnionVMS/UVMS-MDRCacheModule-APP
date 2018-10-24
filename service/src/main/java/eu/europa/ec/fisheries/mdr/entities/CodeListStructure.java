@@ -10,21 +10,11 @@ details. You should have received a copy of the GNU General Public License along
 */
 package eu.europa.ec.fisheries.mdr.entities;
 
-import static eu.europa.ec.fisheries.mdr.entities.CodeListStructure.DELETE_FROM_CODE_LIST_STRUCTURE;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import static eu.europa.ec.fisheries.mdr.entities.CodeListStructure.DELETE_FROM_CODE_LIST_STRUCTURE;
 
 /**
  * Created by kovian on 06/10/2017.
@@ -43,8 +33,8 @@ public class CodeListStructure implements Serializable {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @SequenceGenerator(name = "SEQ_GEN", sequenceName = "code_list_structure_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN")
+    @SequenceGenerator(name = "CODE_LIST_STRUCTURE_SEQ_GEN", sequenceName = "code_list_structure_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CODE_LIST_STRUCTURE_SEQ_GEN")
     private long id;
 
     @Column(name = "acronym")

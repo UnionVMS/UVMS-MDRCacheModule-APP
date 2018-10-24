@@ -14,14 +14,8 @@ package eu.europa.ec.fisheries.mdr.entities;
  * Created by kovian on 29/07/2016.
  */
 
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 /**
  * Entity that will map the configuration of MDR module module.
@@ -32,8 +26,8 @@ public class MdrConfiguration implements Serializable {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @SequenceGenerator(name = "SEQ_GEN", sequenceName = "mdr_configuration_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN")
+    @SequenceGenerator(name = "MDR_CONFIGURATION_SEQ_GEN", sequenceName = "mdr_configuration_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MDR_CONFIGURATION_SEQ_GEN")
     private long id;
 
     @Column(name = "config_name")

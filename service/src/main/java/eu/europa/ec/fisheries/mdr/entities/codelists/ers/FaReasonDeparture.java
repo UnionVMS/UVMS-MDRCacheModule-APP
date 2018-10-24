@@ -13,17 +13,12 @@ package eu.europa.ec.fisheries.mdr.entities.codelists.ers;
 
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Indexed;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "mdr_fa_reason_departure")
@@ -34,8 +29,8 @@ public class FaReasonDeparture extends MasterDataRegistry {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
-	@SequenceGenerator(name = "SEQ_GEN", sequenceName = "mdr_fa_reason_departure_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN")
+	@SequenceGenerator(name = "FA_REASON_DEPARTURE_SEQ_GEN", sequenceName = "mdr_fa_reason_departure_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FA_REASON_DEPARTURE_SEQ_GEN")
 	private long id;
 
 	@Override
