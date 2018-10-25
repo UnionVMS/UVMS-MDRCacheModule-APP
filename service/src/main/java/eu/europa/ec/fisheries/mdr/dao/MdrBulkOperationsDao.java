@@ -73,14 +73,11 @@ public class MdrBulkOperationsDao {
      * @throws InterruptedException
      */
     public void deleteFromDbAndPurgeAllFromIndex(String entityName, Class mdrClass) throws ServiceException {
+        // DELETION PHASE (Deleting old entries)
+        deleteFromDb(entityName, mdrClass);
         FullTextSession fullTextSession = getFullTextSession();
         Transaction ftTx                = fullTextSession.beginTransaction();
         try {
-            log.info("Deleting and purging entity entries for : {}", entityName);
-            // DELETION PHASE (Deleting old entries)
-            String query = new StringBuilder(HQL_DELETE).append(entityName).toString();
-            fullTextSession.createQuery(query).executeUpdate();
-
             // Purging old indexes
             fullTextSession.purgeAll(mdrClass);  // Remove obsolete content
             fullTextSession.flushToIndexes();    // Apply purge now, before optimize
@@ -90,9 +87,25 @@ public class MdrBulkOperationsDao {
         } catch (Exception e) {
             ftTx.rollback();
             throw new ServiceException("Rollbacking transaction for reason : ", e);
+        }
+    }
+
+    private void deleteFromDb(String entityName, Class mdrClass) throws ServiceException {
+        Session jpaSession = null;
+        Transaction tx                = jpaSession.beginTransaction();
+        try {
+            // DELETION PHASE (Deleting old entries)
+            jpaSession = getJpaSession();
+            String query = new StringBuilder(HQL_DELETE).append(entityName).toString();
+            jpaSession.createQuery(query).executeUpdate();
+            tx.commit();
+            log.info("Deletion and purging-all for {} completed.", mdrClass.toString());
+        } catch (Exception e) {
+            tx.rollback();
+            throw new ServiceException("Rollbacking transaction for reason : ", e);
         } finally {
             log.debug("Closing session");
-            fullTextSession.close();
+            jpaSession.close();
         }
     }
 
@@ -119,9 +132,6 @@ public class MdrBulkOperationsDao {
         } catch (Exception e) {
             tx.rollback();
             throw new ServiceException("Rollbacking transaction for reason : ", e);
-        } finally {
-            log.debug("Closing session");
-            fullTextSession.close();
         }
     }
 

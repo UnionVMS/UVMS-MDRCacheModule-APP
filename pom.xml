@@ -5,7 +5,7 @@
     <parent>
         <groupId>fish.focus.uvms.maven</groupId>
         <artifactId>uvms-pom</artifactId>
-        <version>1.18</version>
+        <version>1.21</version>
         <relativePath />
     </parent>
 
@@ -52,11 +52,11 @@
         <uvms.commons.version>3.0.29</uvms.commons.version>
         <uvms.test.version>0.0.8</uvms.test.version>
 
-        <hibernate-search-orm.version>5.3.0.Final</hibernate-search-orm.version>
+        <hibernate-search-orm.version>5.10.4.Final</hibernate-search-orm.version>
 
         <junit.version>4.12</junit.version>
 
-        <usm4uvms.version>4.0.8</usm4uvms.version>
+        <usm4uvms.version>4.0.10</usm4uvms.version>
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
         <database.dialect>oracle</database.dialect>
@@ -68,7 +68,7 @@
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
 
         <uvms.config.version>4.0.1</uvms.config.version>
-        <uvms.poms.version>1.14</uvms.poms.version>
+        <uvms.poms.version>1.21</uvms.poms.version>
         <webtoken.version>0.4</webtoken.version>
         <apache.commons.version>3.7</apache.commons.version>
         <geojson.version>0.7.0</geojson.version>
@@ -386,7 +386,6 @@
                     <url>https://webgate.ec.europa.eu/CITnet/nexus/content/repositories/mare-snapshots/</url>
                 </snapshotRepository>
             </distributionManagement>
-
             <properties>
                 <scm.connection>
                     scm:git:https://emserveje@webgate.ec.europa.eu/CITnet/stash/scm/unionvms/uvms-mdr-module.git

@@ -61,14 +61,12 @@ public class MdrMessageConsumerBean implements MessageListener {
     private Event<EventMessage> getLastRefreshDate;
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void onMessage(Message message) {
-        
         try {
             TextMessage textMessage = (TextMessage) message;
             MappedDiagnosticContext.addMessagePropertiesToThreadMappedDiagnosticContext(textMessage);
             MdrModuleRequest request = JAXBUtils.unMarshallMessage(textMessage.getText(), MdrModuleRequest.class);
-            if(request==null){
+            if(request == null){
                 log.error("[ERROR] Request is null!!!");
                 return;
             }

@@ -18,11 +18,12 @@ import eu.europa.ec.fisheries.uvms.mdr.message.consumer.commonconsumers.MdrEvent
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.MdrQueueProducer;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.RulesEventQueueProducer;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.RulesQueueProducer;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Destination;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by kovian on 02/12/2016.
