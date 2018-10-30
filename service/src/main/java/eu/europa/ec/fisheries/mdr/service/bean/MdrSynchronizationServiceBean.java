@@ -45,6 +45,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author kovian
  *         <p>
  *         EJB that provides the MDR Synchronization Functionality.
+ *
  *         1. Methods for synchronizing the MDR lists
  *         2. Method for getting the actual state of the MDR codeLists
  */
@@ -80,7 +81,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
         Properties props = new Properties();
         props.load(resourceAsStream);
         List<String> propertyStr = Collections.singletonList((props.getProperty(MDR_EXCLUSION_LIST)));
-        exclusionList = CollectionUtils.isNotEmpty(propertyStr) ? Arrays.asList(propertyStr.get(0).split(",")) : new ArrayList<String>();
+        exclusionList = CollectionUtils.isNotEmpty(propertyStr) ? Arrays.asList(propertyStr.get(0).split(",")) : new ArrayList<>();
     }
 
     /**

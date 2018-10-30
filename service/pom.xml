@@ -19,11 +19,31 @@
 
 	<dependencies>
 
+		<!-- START Focus Dependencies -->
+
  		<dependency>
 			<groupId>fish.focus.uvms.maven</groupId>
 			<artifactId>uvms-pom-gis-deps</artifactId>
 			<type>pom</type>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-spatial</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-ehcache</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
         <dependency>
@@ -38,6 +58,38 @@
 			<type>pom</type>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>eu.europa.ec.fisheries.uvms</groupId>
+			<artifactId>uvms-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.ninja-squad</groupId>
+					<artifactId>DbSetup</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ninja-squad</groupId>
+			<artifactId>DbSetup</artifactId>
+			<version>2.1.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- END Focus Dependencies -->
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -111,10 +163,6 @@
 			<artifactId>commons-lang</artifactId>
 			<version>${commons.lang.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>eu.europa.ec.fisheries.uvms</groupId>
-			<artifactId>uvms-test</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>javax</groupId>
@@ -146,11 +194,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
@@ -165,24 +208,20 @@
 			<artifactId>commons-collections</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jetbrains</groupId>
-			<artifactId>annotations-java5</artifactId>
-			<version>RELEASE</version>
-		</dependency>
+		<!-- TEST -->
 
-		<dependency>
-			<groupId>org.jetbrains</groupId>
-			<artifactId>annotations-java5</artifactId>
-			<version>RELEASE</version>
-		</dependency>
-
-		<dependency>
+<!--		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>-->
 
 		<!-- Hibernate dependencies -->
 
@@ -190,17 +229,21 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-orm</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
 		
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
             <version>${commons-collections.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.184</version>
             <scope>test</scope>
         </dependency>
 		<dependency>
@@ -219,9 +262,7 @@
 	</profiles>
 
 	<build>
-
 		<finalName>${project.name}-${project.version}</finalName>
-
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -236,7 +277,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
-				<version>2.3</version>
+				<version>3.0.1</version>
 				<configuration>
 					<ejbVersion>3.1</ejbVersion>
 				</configuration>
@@ -257,7 +298,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -267,36 +307,6 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>properties-maven-plugin</artifactId>
-										<versionRange>[1.0-alpha-2,)</versionRange>
-										<goals>
-											<goal>write-project-properties</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
 </project>

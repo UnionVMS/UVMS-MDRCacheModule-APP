@@ -43,15 +43,8 @@ public class MdrLuceneSearchRepositoryBeanTest extends BaseMdrDaoTest {
 
     @Test
     @SneakyThrows
-    public void testLuceneIndexingNoSearchFilters() throws ServiceException {
+    public void testLuceneIndexingNoSearchFilters() {
         List<FaoSpecies> species = mockSpecies();
-
-        FullTextSession fullTextSession = Search.getFullTextSession((Session) em.getDelegate());
-        Transaction tx = fullTextSession.beginTransaction();
-        FaoSpecies faoSpecies = (FaoSpecies) fullTextSession.load( FaoSpecies.class, 1L );
-        fullTextSession.index(faoSpecies);
-        tx.commit(); //index only updated at commit time
-
         try {
             mdrSearchingRepoBean.findCodeListItemsByAcronymAndFilter(species.get(0).getAcronym(), 0, 5, CODE, false, null, null);
             fail("ServiceException was expected but not thrown.");
@@ -65,7 +58,7 @@ public class MdrLuceneSearchRepositoryBeanTest extends BaseMdrDaoTest {
 
     @Test
     @SneakyThrows
-    public void testLuceneSearch() throws ServiceException {
+    public void testLuceneSearch() {
         List<FaoSpecies> species = mockSpecies();
 
         List<FaoSpecies> filterredEntities = (List<FaoSpecies>) mdrSearchingRepoBean.findCodeListItemsByAcronymAndFilter(species.get(0).getAcronym(),
@@ -79,7 +72,7 @@ public class MdrLuceneSearchRepositoryBeanTest extends BaseMdrDaoTest {
 
     @Test
     @SneakyThrows
-    public void testLuceneSearchOnMultipleFields() throws ServiceException {
+    public void testLuceneSearchOnMultipleFields() {
         List<FaoSpecies> species = mockSpecies();
 
         String[] fields= {CODE, "description"};
@@ -100,7 +93,7 @@ public class MdrLuceneSearchRepositoryBeanTest extends BaseMdrDaoTest {
 
     @Test
     @SneakyThrows
-    public void testLuceneSearchCount() throws ServiceException {
+    public void testLuceneSearchCount() {
         List<FaoSpecies> species = mockSpecies();
         int totalCount=  mdrSearchingRepoBean.countCodeListItemsByAcronymAndFilter(species.get(0).getAcronym(), "c*", CODE);
         assertEquals(2, totalCount);

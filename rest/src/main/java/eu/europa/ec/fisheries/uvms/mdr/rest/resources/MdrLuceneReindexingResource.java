@@ -36,7 +36,7 @@ import un.unece.uncefact.data.standard.mdr.communication.MdrFeaturesEnum;
 public class MdrLuceneReindexingResource extends UnionVMSResource {
 
     @EJB
-    MdrLuceneSearchRepository searchRepository;
+    private MdrLuceneSearchRepository searchRepository;
 
     /**
      * Reindex Lucene indexes in order to have results when for Example the db has been loaded from a back-up,
@@ -53,14 +53,11 @@ public class MdrLuceneReindexingResource extends UnionVMSResource {
     @IUserRoleInterceptor(requiredUserRole = {MdrFeaturesEnum.MDR_LUCENE_REINDEX})
     public Response findCodeListByAcronymFilterredByFilter(@Context HttpServletRequest request) {
         final boolean[] error = {false};
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    searchRepository.massiveUpdateFullTextIndex();
-                } catch (InterruptedException e) {
-                    error[0] = true;
-                }
+        new Thread(() -> {
+            try {
+                searchRepository.massiveUpdateFullTextIndex();
+            } catch (InterruptedException e) {
+                error[0] = true;
             }
         }).start();
         if(error[0]){

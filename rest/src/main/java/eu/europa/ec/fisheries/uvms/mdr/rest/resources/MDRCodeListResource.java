@@ -13,27 +13,6 @@
 
 package eu.europa.ec.fisheries.uvms.mdr.rest.resources;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.ejb.EJB;
-import javax.interceptor.Interceptors;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
 import eu.europa.ec.fisheries.mdr.repository.MdrLuceneSearchRepository;
@@ -45,7 +24,19 @@ import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
 import eu.europa.ec.fisheries.uvms.mdr.rest.resources.util.IUserRoleInterceptor;
 import eu.europa.ec.fisheries.uvms.mdr.rest.resources.util.MdrExceptionInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import un.unece.uncefact.data.standard.mdr.communication.MdrFeaturesEnum;
+
+import javax.ejb.EJB;
+import javax.interceptor.Interceptors;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by georgige on 8/22/2016.
@@ -90,7 +81,6 @@ public class MDRCodeListResource extends UnionVMSResource {
         return response;
     }
 
-    @NotNull
     private String[] getSearchAttributesAsArray(Object attributesObj){
         if(attributesObj == null){
             return new String[0];

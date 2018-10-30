@@ -40,25 +40,13 @@ public class MdrBulkOperationsDaoTest extends BaseMdrDaoTest {
 	@Test
 	@SneakyThrows
 	public void testBulkDeletionAndInsertion() {
-
 		dbSetupTracker.skipNextLaunch();
-
-		// List of Entity rows (List of instances of an entity) == List of Lists;
-		List<List<? extends MasterDataRegistry>> entitiesList = new ArrayList<>();
-		
 		// ActionType list
 		List<FaoSpecies> actionEntityRows = mockSpecies();
-
 		// BulkInsertion of 2 different entities
-		em.getTransaction().begin();
 		bulkDao.singleEntityBulkDeleteAndInsert(actionEntityRows);
 
-		em.flush();
-		em.getTransaction().commit();
-
 		Assert.assertEquals(11, bulkDao.getEntityManager().createQuery("FROM " + FaoSpecies.class.getSimpleName(), FaoSpecies.class).getResultList().size());
-
-		
 	}
 
 	private List<FaoSpecies> mockSpecies() {

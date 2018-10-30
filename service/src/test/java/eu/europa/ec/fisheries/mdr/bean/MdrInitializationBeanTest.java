@@ -23,9 +23,6 @@ import eu.europa.ec.fisheries.mdr.service.bean.MdrInitializationBean;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrSchedulerServiceBean;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrSynchronizationServiceBean;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
-import java.util.ArrayList;
-import java.util.List;
-import javax.ejb.TimerService;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +31,10 @@ import org.mockito.internal.util.reflection.Whitebox;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.TextType;
+
+import javax.ejb.TimerService;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kovian on 06/01/2017.
@@ -56,6 +57,10 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
     private MdrRepositoryBean mdrRepository = new MdrRepositoryBean();
 
     private BaseMdrBean baseBean;
+
+    public MdrInitializationBeanTest() {
+       super();
+    }
 
     @Before
     @SneakyThrows
@@ -86,7 +91,7 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
     }
 
     @Test
-    public void testChnkingOperation(){
+    public void testChunkingOperation(){
         int initCap = 1000000;
         final long start = System.currentTimeMillis();
         List<MDRDataNodeType> containedMDRDataNodes = new ArrayList<>(initCap);

@@ -65,8 +65,7 @@ public class MdrStatusDao extends AbstractDAO<MdrCodeListStatus> {
         MdrCodeListStatus entity = null;
         List<MdrCodeListStatus> stausList;
         try {
-            stausList = findEntityByHqlQuery(MdrCodeListStatus.class,
-                    new StringBuilder(SELECT_FROM_MDRSTATUS_WHERE_ACRONYM).append("'").append(acronym).append("'").toString());
+            stausList = findEntityByHqlQuery(MdrCodeListStatus.class, SELECT_FROM_MDRSTATUS_WHERE_ACRONYM + "'" + acronym + "'");
             if(CollectionUtils.isNotEmpty(stausList)){
                 entity = stausList.get(0);
             } else {

@@ -15,9 +15,14 @@ import static com.ninja_squad.dbsetup.Operations.insertInto;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 
 import com.ninja_squad.dbsetup.operation.Operation;
-import eu.europa.ec.fisheries.uvms.BaseDAOTest;
+import eu.europa.ec.fisheries.mdr.BaseDAOTest;
+
 
 public abstract class BaseMdrDaoTest extends BaseDAOTest {
+
+    public BaseMdrDaoTest() {
+        super();
+    }
 
     // Delete tables statements.
     protected static final Operation DELETE_ALL_MDR_CR_NAFO_STOCK = sequenceOf(
@@ -80,7 +85,7 @@ public abstract class BaseMdrDaoTest extends BaseDAOTest {
 
 
     );
-   
+
     protected String getSchema() {
         return "mdr";
     }

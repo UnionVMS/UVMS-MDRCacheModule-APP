@@ -23,7 +23,6 @@
     </developers>
 
     <properties>
-        <focus-pom.enforce.jdk.version.disabled>true</focus-pom.enforce.jdk.version.disabled>
         <application.name>${project.parent.artifactId}</application.name>
         <application.version>${project.parent.version}</application.version>
         <application.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}.log
@@ -52,8 +51,9 @@
         <uvms.commons.version>3.0.29</uvms.commons.version>
         <uvms.test.version>0.0.8</uvms.test.version>
 
-        <hibernate-search-orm.version>5.10.4.Final</hibernate-search-orm.version>
+        <hibernate-search-orm.version>5.5.8.Final</hibernate-search-orm.version>
 
+        <mockito.version>2.23.0</mockito.version>
         <junit.version>4.12</junit.version>
 
         <usm4uvms.version>4.0.10</usm4uvms.version>
@@ -78,17 +78,30 @@
         <lombok.version>1.16.18</lombok.version>
         <google.guava.version>20.0</google.guava.version>
         <resteasy-jaxb-provider.version>3.0.11.Final</resteasy-jaxb-provider.version>
+        <hibernate-core.version>5.1.9.Final</hibernate-core.version>
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
 
+            <!-- START Focus Dependencies -->
+
             <dependency>
                 <groupId>fish.focus.uvms.maven</groupId>
                 <artifactId>uvms-pom-gis-deps</artifactId>
                 <version>${uvms.poms.version}</version>
                 <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-entitymanager</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>fish.focus.uvms.maven</groupId>
@@ -108,6 +121,9 @@
                 <version>${uvms.poms.version}</version>
                 <type>pom</type>
             </dependency>
+
+            <!-- END Focus Dependencies -->
+
             <dependency>
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
@@ -165,12 +181,6 @@
                 <artifactId>uvms-test</artifactId>
                 <version>${uvms.test.version}</version>
                 <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 			<dependency>
 				<groupId>eu.europa.ec.fisheries.uvms</groupId>
@@ -226,6 +236,7 @@
             </dependency>
 
             <!--HIBERNATE SEARCH-->
+
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-search-orm</artifactId>
@@ -241,6 +252,18 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate-core.version}</version>
+            </dependency>
+
+            <!--HIBERNATE SEARCH-->
 
             <dependency>
                 <groupId>org.apache.commons</groupId>

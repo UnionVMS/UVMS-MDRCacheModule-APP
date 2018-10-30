@@ -12,14 +12,14 @@ package eu.europa.ec.fisheries.mdr.dao;
 
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
-import java.util.List;
-import javax.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.jpa.Search;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 /***
  * This class is used only for bulk insertions.
@@ -73,39 +73,23 @@ public class MdrBulkOperationsDao {
      * @throws InterruptedException
      */
     public void deleteFromDbAndPurgeAllFromIndex(String entityName, Class mdrClass) throws ServiceException {
-        // DELETION PHASE (Deleting old entries)
-        deleteFromDb(entityName, mdrClass);
         FullTextSession fullTextSession = getFullTextSession();
-        Transaction ftTx                = fullTextSession.beginTransaction();
         try {
+            log.info("Deleting and purging entity entries for : {}", entityName);
+            // DELETION PHASE (Deleting old entries)
+            String query = new StringBuilder(HQL_DELETE).append(entityName).toString();
+            fullTextSession.createQuery(query).executeUpdate();
+
             // Purging old indexes
             fullTextSession.purgeAll(mdrClass);  // Remove obsolete content
             fullTextSession.flushToIndexes();    // Apply purge now, before optimize
             fullTextSession.getSearchFactory().optimize(mdrClass);
-            ftTx.commit();
             log.info("Deletion and purging-all for {} completed.", mdrClass.toString());
         } catch (Exception e) {
-            ftTx.rollback();
-            throw new ServiceException("Rollbacking transaction for reason : ", e);
-        }
-    }
-
-    private void deleteFromDb(String entityName, Class mdrClass) throws ServiceException {
-        Session jpaSession = null;
-        Transaction tx                = jpaSession.beginTransaction();
-        try {
-            // DELETION PHASE (Deleting old entries)
-            jpaSession = getJpaSession();
-            String query = new StringBuilder(HQL_DELETE).append(entityName).toString();
-            jpaSession.createQuery(query).executeUpdate();
-            tx.commit();
-            log.info("Deletion and purging-all for {} completed.", mdrClass.toString());
-        } catch (Exception e) {
-            tx.rollback();
             throw new ServiceException("Rollbacking transaction for reason : ", e);
         } finally {
             log.debug("Closing session");
-            jpaSession.close();
+            fullTextSession.close();
         }
     }
 
@@ -119,7 +103,7 @@ public class MdrBulkOperationsDao {
      */
     public void saveNewEntriesAndRefreshLuceneIndexes(Class mdrClass, List<? extends MasterDataRegistry> entityRows) throws ServiceException {
         FullTextSession fullTextSession = getFullTextSession();
-        Transaction tx  = fullTextSession.beginTransaction();
+        fullTextSession.getSessionFactory().openSession();
         try {
             log.info("Saving all entity entries for Acronym : ", entityRows.get(0).getAcronym());
             for (MasterDataRegistry actualEnityRow : entityRows) {
@@ -127,11 +111,12 @@ public class MdrBulkOperationsDao {
             }
             fullTextSession.flush();
             fullTextSession.clear();
-            tx.commit();
             log.info("Insertion for {} completed.", mdrClass.toString());
         } catch (Exception e) {
-            tx.rollback();
             throw new ServiceException("Rollbacking transaction for reason : ", e);
+        } finally {
+            log.debug("Closing session");
+            fullTextSession.close();
         }
     }
 
