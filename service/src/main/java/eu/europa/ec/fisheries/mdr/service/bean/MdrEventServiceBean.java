@@ -31,6 +31,7 @@ import eu.europa.ec.fisheries.uvms.mdr.model.mapper.MdrModuleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import un.unece.uncefact.data.standard.mdr.communication.MdrGetCodeListRequest;
 import un.unece.uncefact.data.standard.mdr.communication.SetFLUXMDRSyncMessageResponse;
 import un.unece.uncefact.data.standard.mdr.communication.SingleCodeListRappresentation;
@@ -45,9 +46,11 @@ import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static javax.jms.DeliveryMode.NON_PERSISTENT;
 
@@ -79,6 +82,7 @@ public class MdrEventServiceBean implements MdrEventService {
     private static final String ERROR_GET_LIST_FOR_THE_REQUESTED_CODE = "Error while trying to get list for the requested CodeList : ";
     private static final String ACRONYM_DOESNT_EXIST = "The acronym you are searching for does not exist! Acronym ::: ";
     private static final long ONE_MINUTE = 60000L;
+    private static final int MB = 1024*1024;
 
 
     /**
@@ -175,6 +179,7 @@ public class MdrEventServiceBean implements MdrEventService {
         try {
             log.debug("[INFO] Got GetAllMdrCodeListsMessageEvent..");
             List<String> acronymsList = null;
+            StopWatch watch = StopWatch.createStarted();
             try {
                 acronymsList = MasterDataRegistryEntityCacheFactory.getAcronymsList();
             } catch (MdrCacheInitException e) {
@@ -186,13 +191,40 @@ public class MdrEventServiceBean implements MdrEventService {
                         0, 99999999, "code", false, "*", "code");
                 allCoceLists.add(MdrModuleMapper.mapToSingleCodeListRappresentation(mdrList, actAcronym, null, "OK"));
             }
+            watch.stop();
+            printOutJavHepSize();
             String response = MdrModuleMapper.mapToMdrGetAllCodeListsResponse(allCoceLists);
+            log.info("Retrived and marshalled [{}] codelists in [{}] seconds. Size of message to be sent is [{}] Mb. Now sending..", allCoceLists.size(), watch.getTime(TimeUnit.SECONDS), getSizeInMb(response));
             mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), response, ONE_MINUTE, NON_PERSISTENT);
+            log.info("Response sent...");
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
-        } catch (ServiceException | MessageException e) {
+        } catch (ServiceException | MessageException | IllegalStateException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
         }
+    }
+
+    private Object getSizeInMb(String response) {
+        try {
+            return response.getBytes("UTF-8").length/MB;
+        } catch (UnsupportedEncodingException e) {
+            log.warn("Couldn't get the size of the response!", e);
+        }
+        return 0;
+    }
+
+    private void printOutJavHepSize() {
+        //Getting the runtime reference from system
+        Runtime runtime = Runtime.getRuntime();
+        log.info("##### Heap utilization statistics [MB] #####");
+        //Print used memory
+        log.info("Used Memory : [{}] MB.", (runtime.totalMemory() - runtime.freeMemory()) / MB);
+        //Print free memory
+        log.info("Free Memory : [{}] MB.", runtime.freeMemory() / MB);
+        //Print total available memory
+        log.info("Total Memory : [{}] MB.", runtime.totalMemory() / MB);
+        //Print Maximum available memory
+        log.info("Max Memory : [{}] MB.", runtime.maxMemory() / MB);
     }
 
     @Override

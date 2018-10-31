@@ -27,13 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.commongrams.CommonGramsFilterFactory;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.AnalyzerDef;
-import org.hibernate.search.annotations.DateBridge;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Resolution;
-import org.hibernate.search.annotations.TokenFilterDef;
-import org.hibernate.search.annotations.TokenizerDef;
+import org.hibernate.search.annotations.*;
 import un.unece.uncefact.data.standard.mdr.response.DelimitedPeriodType;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
@@ -62,6 +56,7 @@ public abstract class MasterDataRegistry implements Serializable {
     @DateBridge(resolution = Resolution.SECOND)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_date")
+    @SortableField
     private Date startDate;
 
 
@@ -69,6 +64,7 @@ public abstract class MasterDataRegistry implements Serializable {
     @DateBridge(resolution = Resolution.SECOND)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_date")
+    @SortableField
     private Date endDate;
 
 
@@ -79,11 +75,13 @@ public abstract class MasterDataRegistry implements Serializable {
     @Column(name = "code")
     @Field(name = "code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String code;
 
     @Column(name = "description")
     @Field(name = "description")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String description;
 
     // Fields that will contain [ACRONYM].[FIELD_NAME] values after calling populateDataNodeNames();.

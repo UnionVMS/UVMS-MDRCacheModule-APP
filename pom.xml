@@ -56,7 +56,7 @@
         <mockito.version>2.23.0</mockito.version>
         <junit.version>4.12</junit.version>
 
-        <usm4uvms.version>4.0.10</usm4uvms.version>
+        <usm4uvms.version>4.0.13-SNAPSHOT</usm4uvms.version>
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
         <database.dialect>oracle</database.dialect>
