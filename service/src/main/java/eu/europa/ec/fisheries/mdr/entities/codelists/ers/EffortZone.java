@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -28,6 +29,7 @@ import javax.persistence.*;
 @Table(name = "mdr_effort_zone")
 @Indexed
 public class EffortZone extends MasterDataRegistry {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -39,6 +41,7 @@ public class EffortZone extends MasterDataRegistry {
     @Column(name = "legal_reference")
     @Field(name="legal_reference")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "legal_reference")
     private String legalReference;
 
     @Override

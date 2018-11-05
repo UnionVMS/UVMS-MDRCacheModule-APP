@@ -25,6 +25,7 @@ import javax.persistence.*;
 @Indexed
 @Analyzer(impl = StandardAnalyzer.class)
 public class FlapIdType extends MasterDataRegistry {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

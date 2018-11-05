@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -31,6 +32,8 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class MemberState extends MasterDataRegistry {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @SequenceGenerator(name = "MEMBER_STATE_SEQ_GEN", sequenceName = "mdr_member_state_seq", allocationSize = 1)
@@ -40,11 +43,13 @@ public class MemberState extends MasterDataRegistry {
     @Column(name = "iso_2_code")
     @Field(name = "iso_2_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "iso_2_code")
     private String iso2Code;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
     private String enName;
 
     @Override

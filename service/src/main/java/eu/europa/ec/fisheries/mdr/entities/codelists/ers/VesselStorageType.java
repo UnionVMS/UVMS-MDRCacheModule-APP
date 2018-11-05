@@ -30,6 +30,8 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class VesselStorageType extends MasterDataRegistry {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @SequenceGenerator(name = "VESSEL_STORAGE_TYPE_SEQ_GEN", sequenceName = "mdr_vessel_storage_type_seq", allocationSize = 1)

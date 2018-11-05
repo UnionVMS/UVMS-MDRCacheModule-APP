@@ -7,6 +7,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -21,6 +22,8 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class Territory extends MasterDataRegistry {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @SequenceGenerator(name = "TERRITORY_SEQ_GEN", sequenceName = "mdr_territory_seq", allocationSize = 1)
@@ -30,21 +33,25 @@ public class Territory extends MasterDataRegistry {
     @Column(name = "code_2")
     @Field(name = "code_2")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "code_2")
     private String code2;
 
     @Column(name = "land_type_code")
     @Field(name = "land_type_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "land_type_code")
     private String landTypeCode;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
     private String enName;
 
     @Column(name = "land_lock_ind")
     @Field(name = "land_lock_ind")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "land_lock_ind")
     private String landLockInd;
 
     @Override
@@ -79,24 +86,31 @@ public class Territory extends MasterDataRegistry {
     public String getCode2() {
         return code2;
     }
+
     public void setCode2(String code2) {
         this.code2 = code2;
     }
+
     public String getEnName() {
         return enName;
     }
+
     public void setEnName(String enName) {
         this.enName = enName;
     }
+
     public String getLandLockInd() {
         return landLockInd;
     }
+
     public void setLandLockInd(String landLockInd) {
         this.landLockInd = landLockInd;
     }
+
     public String getLandTypeCode() {
         return landTypeCode;
     }
+
     public void setLandTypeCode(String landTypeCode) {
         this.landTypeCode = landTypeCode;
     }

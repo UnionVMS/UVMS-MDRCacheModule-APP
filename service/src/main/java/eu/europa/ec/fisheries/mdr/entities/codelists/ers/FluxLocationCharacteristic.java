@@ -28,6 +28,8 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class FluxLocationCharacteristic extends MasterDataRegistry {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @SequenceGenerator(name = "FLUX_LOCATION_CHARACTERISTIC_SEQ_GEN", sequenceName = "mdr_flux_location_characteristic_seq", allocationSize = 1)

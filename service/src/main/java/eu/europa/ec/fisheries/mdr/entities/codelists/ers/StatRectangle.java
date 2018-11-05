@@ -15,10 +15,7 @@ import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.RectangleCoord
 import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.*;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -50,6 +47,7 @@ public class StatRectangle extends MasterDataRegistry {
     @Column(name = "source")
     @Field(name = "source")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String source;
 
 
@@ -62,7 +60,7 @@ public class StatRectangle extends MasterDataRegistry {
             String fieldValue = field.getValue().getValue();
             if (StringUtils.equalsIgnoreCase(fieldName, "STAT_RECTANGLE.SOURCE")) {
                 this.setSource(fieldValue);
-            }  else {
+            } else {
                 logError(fieldName, this.getClass().getSimpleName());
             }
         }
@@ -76,12 +74,15 @@ public class StatRectangle extends MasterDataRegistry {
     public RectangleCoordinates getRectangle() {
         return rectangle;
     }
+
     public void setRectangle(RectangleCoordinates rectangle) {
         this.rectangle = rectangle;
     }
+
     public String getSource() {
         return source;
     }
+
     public void setSource(String source) {
         this.source = source;
     }

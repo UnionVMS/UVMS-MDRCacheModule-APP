@@ -7,6 +7,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -21,6 +22,8 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class FaoSpecies extends MasterDataRegistry {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @SequenceGenerator(name = "FAO_SPECIES_SEQ_GEN", sequenceName = "mdr_fao_species_seq", allocationSize = 1)
@@ -30,41 +33,49 @@ public class FaoSpecies extends MasterDataRegistry {
     @Column(name = "is_group")
     @Field(name = "is_group")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "is_group")
     private String isGroup;
 
     @Column(name = "scientific_name")
     @Field(name = "scientific_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "scientific_name")
     private String scientificName;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
     private String enName;
 
     @Column(name = "fr_name")
     @Field(name = "fr_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "fr_name")
     private String frName;
 
     @Column(name = "es_name")
     @Field(name = "es_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "es_name")
     private String esName;
 
     @Column(name = "family")
     @Field(name = "family")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String family;
 
     @Column(name = "bio_order")
     @Field(name = "bio_order")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "bio_order")
     private String bioOrder;
 
     @Column(name = "taxo_code")
     @Field(name = "taxo_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "taxo_code")
     private String taxoCode;
 
 

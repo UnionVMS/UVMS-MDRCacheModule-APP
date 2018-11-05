@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -32,67 +33,77 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class FaoAreaCodes extends MasterDataRegistry {
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	@SequenceGenerator(name = "FAO_AREA_CODES_SEQ_GEN", sequenceName = "mdr_fao_area_codes_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FAO_AREA_CODES_SEQ_GEN")
-	private long id;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "level")
-	@Field(name="level")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String level;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @SequenceGenerator(name = "FAO_AREA_CODES_SEQ_GEN", sequenceName = "mdr_fao_area_codes_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FAO_AREA_CODES_SEQ_GEN")
+    private long id;
 
-	@Column(name = "en_level_name")
-	@Field(name="en_level_name")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String enLevelName;
+    @Column(name = "level")
+    @Field(name = "level")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
+    private String level;
 
-	@Column(name = "terminal_ind")
-	@Field(name="terminal_ind")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String terminalInd;
+    @Column(name = "en_level_name")
+    @Field(name = "en_level_name")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_level_name")
+    private String enLevelName;
 
-	@Override
-	public String getAcronym() {
-		return "FAO_AREA";
-	}
+    @Column(name = "terminal_ind")
+    @Field(name = "terminal_ind")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "terminal_ind")
+    private String terminalInd;
+
+    @Override
+    public String getAcronym() {
+        return "FAO_AREA";
+    }
 
 
-	@Override
-	public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
-		populateCommonFields(mdrDataType);
-		for(MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()){
-			String fieldName  = field.getName().getValue();
-			String fieldValue  = field.getValue().getValue();
-			if(StringUtils.equalsIgnoreCase(fieldName, "FAO_AREA.LEVEL")){
-				this.setLevel(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "FAO_AREA.ENLEVELNAME")){
-				this.setEnLevelName(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "FAO_AREA.TERMINALIND")){
-				this.setTerminalInd(fieldValue);
-			} else {
-				logError(fieldName, this.getClass().getSimpleName());
-			}
-		}
-	}
+    @Override
+    public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
+        populateCommonFields(mdrDataType);
+        for (MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()) {
+            String fieldName = field.getName().getValue();
+            String fieldValue = field.getValue().getValue();
+            if (StringUtils.equalsIgnoreCase(fieldName, "FAO_AREA.LEVEL")) {
+                this.setLevel(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "FAO_AREA.ENLEVELNAME")) {
+                this.setEnLevelName(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "FAO_AREA.TERMINALIND")) {
+                this.setTerminalInd(fieldValue);
+            } else {
+                logError(fieldName, this.getClass().getSimpleName());
+            }
+        }
+    }
 
-	public String getLevel() {
-		return level;
-	}
-	public void setLevel(String level) {
-		this.level = level;
-	}
-	public String getEnLevelName() {
-		return enLevelName;
-	}
-	public void setEnLevelName(String enLevelName) {
-		this.enLevelName = enLevelName;
-	}
-	public String getTerminalInd() {
-		return terminalInd;
-	}
-	public void setTerminalInd(String terminalInd) {
-		this.terminalInd = terminalInd;
-	}
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getEnLevelName() {
+        return enLevelName;
+    }
+
+    public void setEnLevelName(String enLevelName) {
+        this.enLevelName = enLevelName;
+    }
+
+    public String getTerminalInd() {
+        return terminalInd;
+    }
+
+    public void setTerminalInd(String terminalInd) {
+        this.terminalInd = terminalInd;
+    }
 }

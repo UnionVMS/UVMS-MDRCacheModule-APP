@@ -18,6 +18,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -28,6 +29,7 @@ import javax.persistence.*;
 @Indexed
 @Analyzer(impl = StandardAnalyzer.class)
 public class FaGearCharacteristic extends MasterDataRegistry {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -39,11 +41,13 @@ public class FaGearCharacteristic extends MasterDataRegistry {
     @Column(name = "data_type")
     @Field(name = "data_type")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "data_type")
     private String dataType;
 
     @Column(name = "data_type_desc")
     @Field(name = "data_type_desc")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "data_type_desc")
     private String dataTypeDesc;
 
     @Override
@@ -70,12 +74,15 @@ public class FaGearCharacteristic extends MasterDataRegistry {
     public String getDataType() {
         return dataType;
     }
+
     public void setDataType(String dataType) {
         this.dataType = dataType;
     }
+
     public String getDataTypeDesc() {
         return dataTypeDesc;
     }
+
     public void setDataTypeDesc(String dataTypeDesc) {
         this.dataTypeDesc = dataTypeDesc;
     }

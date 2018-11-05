@@ -14,9 +14,7 @@ import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegi
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.RectangleCoordinates;
 import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.*;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 
 import javax.persistence.*;
@@ -28,33 +26,36 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class GfcmStatisticalRectangles extends MasterDataRegistry {
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	@SequenceGenerator(name = "GFCM_STAT_RECTANGLE_SEQ_GEN", sequenceName = "mdr_gfcm_statistical_rectangles_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GFCM_STAT_RECTANGLE_SEQ_GEN")
-	private long id;
+    private static final long serialVersionUID = 1L;
 
-	@Embedded
-	@IndexedEmbedded
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private RectangleCoordinates rectangle;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @SequenceGenerator(name = "GFCM_STAT_RECTANGLE_SEQ_GEN", sequenceName = "mdr_gfcm_statistical_rectangles_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GFCM_STAT_RECTANGLE_SEQ_GEN")
+    private long id;
 
-	@Override
-	public String getAcronym() {
-		return "GFCM_STAT_RECTANGLE";
-	}
+    @Embedded
+    @IndexedEmbedded
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    private RectangleCoordinates rectangle;
 
-	@Override
-	public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
-		populateCommonFields(mdrDataType);
-		rectangle = new RectangleCoordinates(mdrDataType);
-	}
+    @Override
+    public String getAcronym() {
+        return "GFCM_STAT_RECTANGLE";
+    }
 
-	public RectangleCoordinates getRectangle() {
-		return rectangle;
-	}
-	public void setRectangle(RectangleCoordinates rectangle) {
-		this.rectangle = rectangle;
-	}
+    @Override
+    public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
+        populateCommonFields(mdrDataType);
+        rectangle = new RectangleCoordinates(mdrDataType);
+    }
+
+    public RectangleCoordinates getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(RectangleCoordinates rectangle) {
+        this.rectangle = rectangle;
+    }
 
 }

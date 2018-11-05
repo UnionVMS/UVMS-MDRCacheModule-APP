@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -30,6 +31,7 @@ import javax.persistence.*;
 @Indexed
 @Analyzer(impl = StandardAnalyzer.class)
 public class FaBrDef extends MasterDataRegistry {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -41,41 +43,49 @@ public class FaBrDef extends MasterDataRegistry {
     @Column(name = "field")
     @Field(name = "field")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String field;
 
     @Column(name = "message_if_failing")
     @Field(name = "message_if_failing")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "message_if_failing")
     private String messageIfFailing;
 
     @Column(name = "sequence_order")
     @Field(name = "sequence_order")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "sequence_order")
     private String sequenceOrder;
 
     @Column(name = "br_sublevel")
     @Field(name = "br_sublevel")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "br_sublevel")
     private String brSublevel;
 
     @Column(name = "flux_gp_validation_type_code")
     @Field(name = "flux_gp_validation_type_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "flux_gp_validation_type_code")
     private String fluxGpValidationTypeCode;
 
     @Column(name = "flux_gp_validation_en_descr")
     @Field(name = "flux_gp_validation_en_descr")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "flux_gp_validation_en_descr")
     private String fluxGpValidationEnDescr;
 
     @Column(name = "flux_gp_validation_level_code")
     @Field(name = "flux_gp_validation_level_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "flux_gp_validation_level_code")
     private String fluxGpValidationLevelCode;
 
     @Column(name = "flux_gp_validation_level_en_descr")
     @Field(name = "flux_gp_validation_level_en_descr")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "flux_gp_validation_level_en_descr")
     private String fluxGpValidationLevelEnDescr;
 
     @Override

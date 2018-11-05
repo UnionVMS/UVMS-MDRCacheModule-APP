@@ -28,6 +28,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)@Indexed
 @Analyzer(impl = StandardAnalyzer.class)
 public class FluxFaReportType extends MasterDataRegistry {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

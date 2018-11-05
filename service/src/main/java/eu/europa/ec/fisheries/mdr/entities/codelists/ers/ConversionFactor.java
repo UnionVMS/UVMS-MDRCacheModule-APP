@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -28,6 +29,7 @@ import javax.persistence.*;
 @Table(name = "mdr_conversion_factor")
 @Indexed
 public class ConversionFactor extends MasterDataRegistry {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -39,86 +41,103 @@ public class ConversionFactor extends MasterDataRegistry {
     @Column(name = "is_group")
     @Field(name = "is_group")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "is_group")
     private String isGroup;
 
     @Column(name = "scient_name")
     @Field(name = "scient_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "scient_name")
     private String scientName;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
     private String enName;
 
     @Column(name = "fr_name")
     @Field(name = "fr_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "fr_name")
     private String frName;
 
     @Column(name = "es_name")
     @Field(name = "es_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "es_name")
     private String esName;
 
     @Column(name = "family")
     @Field(name = "family")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String family;
 
     @Column(name = "bioorder")
     @Field(name = "bioorder")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String bioorder;
 
     @Column(name = "taxocode")
     @Field(name = "taxocode")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String taxocode;
 
     @Column(name = "state")
     @Field(name = "state")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String state;
 
     @Column(name = "presentation")
     @Field(name = "presentation")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String presentation;
 
     @Column(name = "factor")
     @Field(name = "factor")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String factor;
 
     @Column(name = "places_code")
     @Field(name = "places_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "places_code")
     private String placesCode;
 
     @Column(name = "places_code2")
     @Field(name = "places_code2")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "places_code2")
     private String placesCode2;
 
     @Column(name = "places_enname")
     @Field(name = "places_enname")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "places_enname")
     private String placesEnname;
 
     @Column(name = "legal_source")
     @Field(name = "legal_source")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "legal_source")
     private String legalSource;
 
     @Column(name = "collective")
     @Field(name = "collective")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String collective;
 
     @Column(name = "comment")
     @Field(name = "comment")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String comment;
 
     @Override

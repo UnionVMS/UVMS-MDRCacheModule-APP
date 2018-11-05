@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -38,11 +39,13 @@ public class FluxGpParty extends MasterDataRegistry {
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
     private String enName;
 
     @Column(name = "code_2")
     @Field(name = "code_2")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "code_2")
     private String code2;
 
     @Override

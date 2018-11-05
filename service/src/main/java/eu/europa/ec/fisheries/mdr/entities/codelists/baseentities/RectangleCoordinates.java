@@ -10,15 +10,16 @@ details. You should have received a copy of the GNU General Public License along
 */
 package eu.europa.ec.fisheries.mdr.entities.codelists.baseentities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.search.annotations.Field;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @Embeddable

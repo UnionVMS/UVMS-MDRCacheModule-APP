@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -30,122 +31,143 @@ import javax.persistence.*;
 @Indexed
 @Analyzer(impl = StandardAnalyzer.class)
 public class GearType extends MasterDataRegistry {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	@SequenceGenerator(name = "GEAR_TYPE_SEQ_GEN", sequenceName = "mdr_gear_type_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEAR_TYPE_SEQ_GEN")
-	private long id;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "group_name")
-	@Field(name="group_name")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String category;
-	
-	@Column(name = "sub_group_name")
-	@Field(name="sub_group_name")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String subCategory;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @SequenceGenerator(name = "GEAR_TYPE_SEQ_GEN", sequenceName = "mdr_gear_type_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEAR_TYPE_SEQ_GEN")
+    private long id;
 
-	@Column(name = "iss_cfg_code")
-	@Field(name="iss_cfg_code")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String issCfgCode;
+    @Column(name = "group_name")
+    @Field(name = "group_name")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "group_name")
+    private String category;
 
-	@Column(name = "iccat_code")
-	@Field(name="iccat_code")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String iccatCode;
+    @Column(name = "sub_group_name")
+    @Field(name = "sub_group_name")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "sub_group_name")
+    private String subCategory;
 
-	@Column(name = "target")
-	@Field(name="target")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String target;
+    @Column(name = "iss_cfg_code")
+    @Field(name = "iss_cfg_code")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "iss_cfg_code")
+    private String issCfgCode;
 
-	@Column(name = "gear_activity_code")
-	@Field(name="gear_activity_code")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String gearActivityCode;
+    @Column(name = "iccat_code")
+    @Field(name = "iccat_code")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "iccat_code")
+    private String iccatCode;
 
-	@Column(name = "gear_activity_description")
-	@Field(name="gear_activity_description")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String gearActivityDescription;
+    @Column(name = "target")
+    @Field(name = "target")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
+    private String target;
 
-	@Override
-	public String getAcronym() {
-		return "GEAR_TYPE";
-	}
+    @Column(name = "gear_activity_code")
+    @Field(name = "gear_activity_code")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "gear_activity_code")
+    private String gearActivityCode;
 
+    @Column(name = "gear_activity_description")
+    @Field(name = "gear_activity_description")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "gear_activity_description")
+    private String gearActivityDescription;
 
-	@Override
-	public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
-		populateCommonFields(mdrDataType);
-		for(MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()){
-			String fieldName  = field.getName().getValue();
-			String fieldValue  = field.getValue().getValue();
-			if(StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.CATEGORY")){
-				this.setCategory(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.SUBCATEGORY")){
-				this.setSubCategory(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.ICCATCODE")){
-				this.setIccatCode(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.ISSCFGCODE")){
-				this.setIssCfgCode(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.TARGET")){
-				this.setTarget(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "GEAR_ACTIVITY.CODE")){
-				this.setGearActivityCode(fieldValue);
-			} else if(StringUtils.equalsIgnoreCase(fieldName, "GEAR_ACTIVITY.ENDESCRIPTION")){
-				this.setGearActivityDescription(fieldValue);
-			} else {
-				logError(fieldName, this.getClass().getSimpleName());
-			}
-		}
-	}
+    @Override
+    public String getAcronym() {
+        return "GEAR_TYPE";
+    }
 
 
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
-	}
-	public String getSubCategory() {
-		return subCategory;
-	}
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
-	}
-	public String getIssCfgCode() {
-		return issCfgCode;
-	}
-	public void setIssCfgCode(String issCfgCode) {
-		this.issCfgCode = issCfgCode;
-	}
-	public String getIccatCode() {
-		return iccatCode;
-	}
-	public void setIccatCode(String iccatCode) {
-		this.iccatCode = iccatCode;
-	}
-	public String getTarget() {
-		return target;
-	}
-	public void setTarget(String target) {
-		this.target = target;
-	}
-	public String getGearActivityCode() {
-		return gearActivityCode;
-	}
-	public void setGearActivityCode(String gearActivityCode) {
-		this.gearActivityCode = gearActivityCode;
-	}
-	public String getGearActivityDescription() {
-		return gearActivityDescription;
-	}
-	public void setGearActivityDescription(String gearActivityDescription) {
-		this.gearActivityDescription = gearActivityDescription;
-	}
+    @Override
+    public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
+        populateCommonFields(mdrDataType);
+        for (MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()) {
+            String fieldName = field.getName().getValue();
+            String fieldValue = field.getValue().getValue();
+            if (StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.CATEGORY")) {
+                this.setCategory(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.SUBCATEGORY")) {
+                this.setSubCategory(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.ICCATCODE")) {
+                this.setIccatCode(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.ISSCFGCODE")) {
+                this.setIssCfgCode(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "GEAR_TYPE.TARGET")) {
+                this.setTarget(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "GEAR_ACTIVITY.CODE")) {
+                this.setGearActivityCode(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "GEAR_ACTIVITY.ENDESCRIPTION")) {
+                this.setGearActivityDescription(fieldValue);
+            } else {
+                logError(fieldName, this.getClass().getSimpleName());
+            }
+        }
+    }
+
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public String getIssCfgCode() {
+        return issCfgCode;
+    }
+
+    public void setIssCfgCode(String issCfgCode) {
+        this.issCfgCode = issCfgCode;
+    }
+
+    public String getIccatCode() {
+        return iccatCode;
+    }
+
+    public void setIccatCode(String iccatCode) {
+        this.iccatCode = iccatCode;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getGearActivityCode() {
+        return gearActivityCode;
+    }
+
+    public void setGearActivityCode(String gearActivityCode) {
+        this.gearActivityCode = gearActivityCode;
+    }
+
+    public String getGearActivityDescription() {
+        return gearActivityDescription;
+    }
+
+    public void setGearActivityDescription(String gearActivityDescription) {
+        this.gearActivityDescription = gearActivityDescription;
+    }
 }

@@ -28,6 +28,7 @@ import javax.persistence.*;
 @Indexed
 @Analyzer(impl = StandardAnalyzer.class)
 public class WeightMeans extends MasterDataRegistry {
+
     private static final long serialVersionUID = 1L;
 
     @Id

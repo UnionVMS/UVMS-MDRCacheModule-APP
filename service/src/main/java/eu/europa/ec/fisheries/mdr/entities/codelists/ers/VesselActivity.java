@@ -29,6 +29,8 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class VesselActivity extends MasterDataRegistry {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@SequenceGenerator(name = "VESSEL_ACTIVITY_SEQ_GEN", sequenceName = "mdr_vessel_activity_seq", allocationSize = 1)

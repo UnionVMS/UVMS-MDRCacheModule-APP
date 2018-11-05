@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -43,46 +44,55 @@ public class Farm extends MasterDataRegistry {
     @Column(name = "iso_2_code")
     @Field(name = "iso_2_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "iso_2_code")
     private String iso2Code;
 
     @Column(name = "rfmo_code")
     @Field(name = "rfmo_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "rfmo_code")
     private String rfmoCode;
 
     @Column(name = "places_code")
     @Field(name = "places_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "places_code")
     private String placesCode;
 
     @Column(name = "places_code2")
     @Field(name = "places_code2")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "places_code2")
     private String placesCode2;
 
     @Column(name = "rfmo_en_description")
     @Field(name = "rfmo_en_description")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "rfmo_en_description")
     private String rfmoEnDescription;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
     private String enName;
 
     @Column(name = "place_fk_x_key")
     @Field(name = "place_fk_x_key")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "place_fk_x_key")
     private String placeFkXKey;
 
     @Column(name = "contracting_party")
     @Field(name = "contracting_party")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "contracting_party")
     private String contractingParty;
 
     @Column(name = "legal_reference")
     @Field(name = "legal_reference")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "legal_reference")
     private String legalReference;
 
 
@@ -120,54 +130,71 @@ public class Farm extends MasterDataRegistry {
     public String getIso2Code() {
         return iso2Code;
     }
+
     public void setIso2Code(String iso2Code) {
         this.iso2Code = iso2Code;
     }
+
     public String getEnName() {
         return enName;
     }
+
     public void setEnName(String enName) {
         this.enName = enName;
     }
+
     public String getPlaceFkXKey() {
         return placeFkXKey;
     }
+
     public void setPlaceFkXKey(String placeFkXKey) {
         this.placeFkXKey = placeFkXKey;
     }
+
     public String getContractingParty() {
         return contractingParty;
     }
+
     public void setContractingParty(String contractingParty) {
         this.contractingParty = contractingParty;
     }
+
     public String getLegalReference() {
         return legalReference;
     }
+
     public void setLegalReference(String legalReference) {
         this.legalReference = legalReference;
     }
+
     public String getRfmoCode() {
         return rfmoCode;
     }
+
     public void setRfmoCode(String rfmoCode) {
         this.rfmoCode = rfmoCode;
     }
+
     public String getPlacesCode() {
         return placesCode;
     }
+
     public void setPlacesCode(String placesCode) {
         this.placesCode = placesCode;
     }
+
     public String getPlacesCode2() {
         return placesCode2;
     }
+
     public void setPlacesCode2(String placesCode2) {
         this.placesCode2 = placesCode2;
     }
+
     public String getRfmoEnDescription() {
         return rfmoEnDescription;
     }
+
     public void setRfmoEnDescription(String rfmoEnDescription) {
         this.rfmoEnDescription = rfmoEnDescription;
     }

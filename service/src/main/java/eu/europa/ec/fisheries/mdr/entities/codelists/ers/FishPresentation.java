@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -31,43 +32,45 @@ import javax.persistence.*;
 @Analyzer(impl = StandardAnalyzer.class)
 public class FishPresentation extends MasterDataRegistry {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	@SequenceGenerator(name = "FISH_PRESENTATION_SEQ_GEN", sequenceName = "mdr_fish_presentation_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FISH_PRESENTATION_SEQ_GEN")
-	private long id;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @SequenceGenerator(name = "FISH_PRESENTATION_SEQ_GEN", sequenceName = "mdr_fish_presentation_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FISH_PRESENTATION_SEQ_GEN")
+    private long id;
 
-	@Column(name = "en_name")
-	@Field(name="en_name")
-	@Analyzer(definition = LOW_CASE_ANALYSER)
-	private String enName;
+    @Column(name = "en_name")
+    @Field(name = "en_name")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
+    private String enName;
 
-	@Override
-	public String getAcronym() {
-		return "FISH_PRESENTATION";
-	}
+    @Override
+    public String getAcronym() {
+        return "FISH_PRESENTATION";
+    }
 
-	@Override
-	public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
-		populateCommonFields(mdrDataType);
-		for(MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()){
-			String fieldName  = field.getName().getValue();
-			String fieldValue  = field.getValue().getValue();
-			if(StringUtils.equalsIgnoreCase(fieldName, "FISH_PRESENTATION.ENNAME")){
-				this.setEnName(fieldValue);
-			} else {
-				logError(fieldName, this.getClass().getSimpleName());
-			}
-		}
-	}
+    @Override
+    public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
+        populateCommonFields(mdrDataType);
+        for (MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()) {
+            String fieldName = field.getName().getValue();
+            String fieldValue = field.getValue().getValue();
+            if (StringUtils.equalsIgnoreCase(fieldName, "FISH_PRESENTATION.ENNAME")) {
+                this.setEnName(fieldValue);
+            } else {
+                logError(fieldName, this.getClass().getSimpleName());
+            }
+        }
+    }
 
 
-	public String getEnName() {
-		return enName;
-	}
-	public void setEnName(String enName) {
-		this.enName = enName;
-	}
+    public String getEnName() {
+        return enName;
+    }
+
+    public void setEnName(String enName) {
+        this.enName = enName;
+    }
 }

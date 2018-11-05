@@ -18,6 +18,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -34,6 +35,8 @@ import javax.persistence.*;
 @Slf4j
 public class Location extends MasterDataRegistry {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @SequenceGenerator(name = "LOCATION_SEQ_GEN", sequenceName = "mdr_location_seq", allocationSize = 1)
@@ -43,56 +46,67 @@ public class Location extends MasterDataRegistry {
     @Column(name = "code_2")
     @Field(name = "code_2")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "code_2")
     private String code2;
 
     @Column(name = "places_code")
     @Field(name = "places_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "places_code")
     private String placesCode;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "en_name")
     private String enName;
 
     @Column(name = "latitude")
     @Field(name = "latitude")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private Double latitude;
 
     @Column(name = "longitude")
     @Field(name = "longitude")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private Double longitude;
 
     @Column(name = "fishing_port_ind")
     @Field(name = "fishing_port_ind")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "fishing_port_ind")
     private Boolean fishingPortInd;
 
     @Column(name = "landing_place_ind")
     @Field(name = "landing_place_ind")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "landing_place_ind")
     private Boolean landingPlaceInd;
 
     @Column(name = "commercial_port_ind")
     @Field(name = "commercial_port_ind")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "commercial_port_ind")
     private Boolean commercialPortInd;
 
     @Column(name = "unlo_code")
     @Field(name = "unlo_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "unlo_code")
     private String unloCode;
 
     @Column(name = "un_function_code")
     @Field(name = "un_function_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField(forField = "un_function_code")
     private String unFunctionCode;
 
     @Column(name = "coordinates")
     @Field(name = "coordinates")
     @Analyzer(definition = LOW_CASE_ANALYSER)
+    @SortableField
     private String coordinates;
 
     @Override
