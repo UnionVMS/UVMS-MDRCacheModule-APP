@@ -66,7 +66,7 @@ public class MdrMessageConsumerBean implements MessageListener {
             TextMessage textMessage = (TextMessage) message;
             MappedDiagnosticContext.addMessagePropertiesToThreadMappedDiagnosticContext(textMessage);
             MdrModuleRequest request = JAXBUtils.unMarshallMessage(textMessage.getText(), MdrModuleRequest.class);
-            if(request == null){
+            if (request == null) {
                 log.error("[ERROR] Request is null!!!");
                 return;
             }
@@ -78,25 +78,25 @@ public class MdrMessageConsumerBean implements MessageListener {
             EventMessage eventToBeFired = new EventMessage(textMessage);
             log.info("[INFO] Received following request method in MDR [{}]", requestMethod);
             switch (requestMethod) {
-                case SYNC_MDR_CODE_LIST :
-                	 synMdrListEvent.fire(eventToBeFired);
-                     break;
-                case GET_MDR_CODE_LIST :
-                     getSingleMdrListEvent.fire(eventToBeFired);
-                     break;
-                case GET_ALL_MDR_CODE_LIST :
+                case SYNC_MDR_CODE_LIST:
+                    synMdrListEvent.fire(eventToBeFired);
+                    break;
+                case GET_MDR_CODE_LIST:
+                    getSingleMdrListEvent.fire(eventToBeFired);
+                    break;
+                case GET_ALL_MDR_CODE_LIST:
                     getAllMdrListEvent.fire(eventToBeFired);
                     break;
-                case GET_LAST_REFRESH_DATE :
+                case GET_LAST_REFRESH_DATE:
                     getLastRefreshDate.fire(eventToBeFired);
                     break;
                 default:
                     log.error("[ERROR] Request method {} is not implemented!!", requestMethod.name());
-                   // errorEvent.fire(new EventMessage(textMessage, "[ Request method " + request.getMethod().name() + "  is not implemented ]"));
+                    // errorEvent.fire(new EventMessage(textMessage, "[ Request method " + request.getMethod().name() + "  is not implemented ]"));
             }
         } catch (JMSException | JAXBException | NullPointerException | ClassCastException e) {
             log.error("[ERROR] Error when receiving message in MDR module:  {}", e);
-           // errorEvent.fire(new EventMessage(textMessage, "Error when receiving message in movement: " + e.getMessage()));
+            // errorEvent.fire(new EventMessage(textMessage, "Error when receiving message in movement: " + e.getMessage()));
         }
     }
 
