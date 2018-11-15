@@ -56,7 +56,7 @@
         <mockito.version>2.23.0</mockito.version>
         <junit.version>4.12</junit.version>
 
-        <usm4uvms.version>4.0.14-WILDFLY14-JEE8</usm4uvms.version>
+        <usm4uvms.version>4.0.14-W14-J8</usm4uvms.version>
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
         <database.dialect>oracle</database.dialect>
@@ -67,7 +67,7 @@
         <lucene.index.directory>./mdr-module/luceneIndexes</lucene.index.directory>
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
 
-        <uvms.config.version>4.0.2-WILDFLY14-JEE8</uvms.config.version>
+        <uvms.config.version>4.0.2-W14-J8</uvms.config.version>
         <uvms.poms.version>1.21</uvms.poms.version>
         <webtoken.version>0.4</webtoken.version>
         <apache.commons.version>3.7</apache.commons.version>
@@ -350,7 +350,7 @@
 
             <dependency>
                 <groupId>eu.europa.ec.fisheries.uvms</groupId>
-                <artifactId>uvms-config</artifactId>
+                <artifactId>config-library</artifactId>
                 <version>${uvms.config.version}</version>
             </dependency>
         </dependencies>
