@@ -40,19 +40,19 @@ public class Rfmo extends MasterDataRegistry {
     @Column(name = "code_2")
     @Field(name = "code_2")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "code_2")
+    //@SortableField(forField = "code_2")
     private String code2;
 
     @Column(name = "places_code")
     @Field(name = "places_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "places_code")
+    //@SortableField(forField = "places_code")
     private String placesCode;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "en_name")
+    //@SortableField(forField = "en_name")
     private String enName;
 
     @Override

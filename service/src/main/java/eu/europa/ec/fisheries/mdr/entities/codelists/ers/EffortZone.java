@@ -41,7 +41,7 @@ public class EffortZone extends MasterDataRegistry {
     @Column(name = "legal_reference")
     @Field(name="legal_reference")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "legal_reference")
+    //@SortableField(forField = "legal_reference")
     private String legalReference;
 
     @Override

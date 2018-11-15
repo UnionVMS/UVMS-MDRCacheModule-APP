@@ -47,7 +47,7 @@ public class StatRectangle extends MasterDataRegistry {
     @Column(name = "source")
     @Field(name = "source")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField
+    //@SortableField
     private String source;
 
 

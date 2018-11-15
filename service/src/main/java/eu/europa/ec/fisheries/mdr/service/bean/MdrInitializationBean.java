@@ -37,8 +37,7 @@ import static javax.ejb.ConcurrencyManagementType.BEAN;
 @Slf4j
 @Singleton
 @Startup
-@ConcurrencyManagement(BEAN)
-@DependsOn(value = {"MdrStatusRepositoryBean", "MdrRepositoryBean", "MdrSchedulerServiceBean"})
+@DependsOn(value = {"MdrStatusRepositoryBean", "MdrRepositoryBean", "MdrSchedulerServiceBean", "MdrInitializerBean"})
 public class MdrInitializationBean {
 
     private static final String FIXED_SCHED_CONFIGURATION = "0 1 20 * *";
@@ -64,7 +63,7 @@ public class MdrInitializationBean {
      *
      */
     @PostConstruct
-    public void startUpMdrInitializationProcess() throws InterruptedException {
+    public void startUpMdrInitializationProcess() {
 
         long startTime  = System.currentTimeMillis();
 
@@ -100,16 +99,15 @@ public class MdrInitializationBean {
         }
 
         // 4. Reindex lucene (this is particularly useful when the data comes from a back-up)
+        log.info("\n\n\t\t4. Reindexing Lucene indexes.\n");
         try {
-            log.info("\n\n\t\t4. Reindexing Lucene indexes.\n");
             mdrSearchRepository.massiveUpdateFullTextIndex();
         } catch (InterruptedException e) {
-            log.error("An error occured while calli [ MdrLuceneSearchRepository.massiveUpdateFullTextIndex ]", e);
-            throw  e;
+            log.error("[ERROR] Error while trying to Massive Update The Lucene Indexes!");
         }
 
         log.info("[END] Finished Starting up MDR moduleModule Initialization.");
-        log.debug("\n\n -- It Took " + (System.currentTimeMillis() - startTime) + " milliseconds for startUp activities to finish.. -- \n\n");
+        log.info("[END] It Took " + (System.currentTimeMillis() - startTime) + " milliseconds for startUp activities to finish.. -- \n\n");
     }
 
     /**

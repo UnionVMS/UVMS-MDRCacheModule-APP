@@ -43,43 +43,43 @@ public class GearType extends MasterDataRegistry {
     @Column(name = "group_name")
     @Field(name = "group_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "group_name")
+    //@SortableField(forField = "group_name")
     private String category;
 
     @Column(name = "sub_group_name")
     @Field(name = "sub_group_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "sub_group_name")
+    //@SortableField(forField = "sub_group_name")
     private String subCategory;
 
     @Column(name = "iss_cfg_code")
     @Field(name = "iss_cfg_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "iss_cfg_code")
+    //@SortableField(forField = "iss_cfg_code")
     private String issCfgCode;
 
     @Column(name = "iccat_code")
     @Field(name = "iccat_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "iccat_code")
+    //@SortableField(forField = "iccat_code")
     private String iccatCode;
 
     @Column(name = "target")
     @Field(name = "target")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField
+    //@SortableField
     private String target;
 
     @Column(name = "gear_activity_code")
     @Field(name = "gear_activity_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "gear_activity_code")
+    //@SortableField(forField = "gear_activity_code")
     private String gearActivityCode;
 
     @Column(name = "gear_activity_description")
     @Field(name = "gear_activity_description")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "gear_activity_description")
+    //@SortableField(forField = "gear_activity_description")
     private String gearActivityDescription;
 
     @Override

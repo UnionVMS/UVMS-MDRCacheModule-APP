@@ -39,13 +39,13 @@ public class FluxGpParty extends MasterDataRegistry {
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "en_name")
+    //@SortableField(forField = "en_name")
     private String enName;
 
     @Column(name = "code_2")
     @Field(name = "code_2")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "code_2")
+    //@SortableField(forField = "code_2")
     private String code2;
 
     @Override

@@ -41,13 +41,13 @@ public class FaCharacteristic extends MasterDataRegistry {
     @Column(name = "data_type")
     @Field(name = "data_type")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "data_type")
+    //@SortableField(forField = "data_type")
     private String dataType;
 
     @Column(name = "data_type_desc")
     @Field(name = "data_type_desc")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "data_type_desc")
+    //@SortableField(forField = "data_type_desc")
     private String dataTypeDesc;
 
     @Override

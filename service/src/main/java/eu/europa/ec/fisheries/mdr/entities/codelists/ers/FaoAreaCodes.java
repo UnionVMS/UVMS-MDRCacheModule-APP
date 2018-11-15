@@ -44,19 +44,19 @@ public class FaoAreaCodes extends MasterDataRegistry {
     @Column(name = "level")
     @Field(name = "level")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField
+    //@SortableField
     private String level;
 
     @Column(name = "en_level_name")
     @Field(name = "en_level_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "en_level_name")
+    //@SortableField(forField = "en_level_name")
     private String enLevelName;
 
     @Column(name = "terminal_ind")
     @Field(name = "terminal_ind")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "terminal_ind")
+    //@SortableField(forField = "terminal_ind")
     private String terminalInd;
 
     @Override

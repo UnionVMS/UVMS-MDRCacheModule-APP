@@ -43,7 +43,7 @@ public class FishPresentation extends MasterDataRegistry {
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "en_name")
+    //@SortableField(forField = "en_name")
     private String enName;
 
     @Override

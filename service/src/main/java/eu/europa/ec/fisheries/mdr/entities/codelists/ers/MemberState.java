@@ -43,13 +43,13 @@ public class MemberState extends MasterDataRegistry {
     @Column(name = "iso_2_code")
     @Field(name = "iso_2_code")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "iso_2_code")
+    //@SortableField(forField = "iso_2_code")
     private String iso2Code;
 
     @Column(name = "en_name")
     @Field(name = "en_name")
     @Analyzer(definition = LOW_CASE_ANALYSER)
-    @SortableField(forField = "en_name")
+    //@SortableField(forField = "en_name")
     private String enName;
 
     @Override

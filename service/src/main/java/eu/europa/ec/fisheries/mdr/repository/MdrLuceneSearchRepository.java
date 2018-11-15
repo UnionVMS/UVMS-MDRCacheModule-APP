@@ -26,4 +26,5 @@ public interface MdrLuceneSearchRepository {
     List<? extends MasterDataRegistry> findCodeListItemsByAcronymAndFilter(String acronym, Integer offset, Integer pageSize, String sortBy, Boolean isReversed, String filter, String... searchAttributes) throws ServiceException;
 
     void massiveUpdateFullTextIndex() throws InterruptedException;
+
 }

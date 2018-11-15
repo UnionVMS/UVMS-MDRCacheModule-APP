@@ -20,15 +20,23 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.service.bean;
 
-import javax.ejb.Singleton;
-import java.io.InputStream;
-
+import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
+import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
 import eu.europa.ec.fisheries.uvms.init.AbstractModuleInitializerBean;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.jms.JMSException;
+import javax.xml.bind.JAXBException;
+import java.io.InputStream;
 
 /**
  * Created by kovian on 5/2/2016.
  */
 @Singleton
+@Slf4j
 public class MdrInitializerBean extends AbstractModuleInitializerBean {
 
     @Override

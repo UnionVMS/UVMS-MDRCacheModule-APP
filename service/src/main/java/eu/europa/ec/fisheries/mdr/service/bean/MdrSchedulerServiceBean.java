@@ -111,7 +111,6 @@ public class MdrSchedulerServiceBean implements MdrSchedulerService {
             cancelPreviousTimer();
             // Set up the new timer for this EJB;
             timerServ.createCalendarTimer(expression, TIMER_CONFIG);
-            ;
         } catch (IllegalArgumentException ex) {
             log.warn("Error creating new scheduled synchronization timer!", ex);
             throw ex;

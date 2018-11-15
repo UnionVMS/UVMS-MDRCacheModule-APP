@@ -15,25 +15,23 @@ import eu.europa.ec.fisheries.mdr.exception.MdrCacheInitException;
 import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
 import eu.europa.ec.fisheries.mdr.repository.MdrLuceneSearchRepository;
 import eu.europa.ec.fisheries.mdr.service.bean.BaseMdrBean;
+import eu.europa.ec.fisheries.mdr.service.bean.MdrInitializationBean;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.PhraseQuery;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.*;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by kovian on 15/12/2016.
@@ -77,7 +75,7 @@ public class MdrLuceneSearchRepositoryBean extends BaseMdrBean implements MdrLuc
         // Build fullTextQuery;
         FullTextQuery fullTextQuery = buildLuceneMdrQuery(acronym, filter, searchAttributes);
         // SetUp the query properties and get the resultList from it;
-        return setUpQueryProperties(offset, pageSize, sortBy, isReversed, fullTextQuery).getResultList();
+        return setUpQueryProperties(offset, pageSize, sortBy, isReversed != null ? isReversed : false, fullTextQuery).getResultList();
     }
 
     /**
@@ -234,7 +232,7 @@ public class MdrLuceneSearchRepositoryBean extends BaseMdrBean implements MdrLuc
     @Override
     public void massiveUpdateFullTextIndex() throws InterruptedException {
         log.info("Updating Lucene Index for MDR module..");
-        getFullTextEntityManager().createIndexer().startAndWait();
+        getFullTextEntityManager().createIndexer().threadsToLoadObjects(4).optimizeOnFinish(false).startAndWait();
     }
 
 }
