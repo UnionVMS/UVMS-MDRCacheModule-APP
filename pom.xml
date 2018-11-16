@@ -48,7 +48,7 @@
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
-        <uvms.commons.version>3.0.29</uvms.commons.version>
+
         <uvms.test.version>0.0.8</uvms.test.version>
 
         <hibernate-search-orm.version>5.5.8.Final</hibernate-search-orm.version>
@@ -56,7 +56,11 @@
         <mockito.version>2.23.0</mockito.version>
         <junit.version>4.12</junit.version>
 
+        <!-- UVMS Libraries -->
+        <uvms.config.version>4.0.2-W14-J8</uvms.config.version>
         <usm4uvms.version>4.0.14-W14-J8</usm4uvms.version>
+        <uvms.commons.version>3.0.29</uvms.commons.version>
+
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
         <database.dialect>oracle</database.dialect>
@@ -67,7 +71,7 @@
         <lucene.index.directory>./mdr-module/luceneIndexes</lucene.index.directory>
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
 
-        <uvms.config.version>4.0.2-W14-J8</uvms.config.version>
+
         <uvms.poms.version>1.21</uvms.poms.version>
         <webtoken.version>0.4</webtoken.version>
         <apache.commons.version>3.7</apache.commons.version>
