@@ -82,7 +82,7 @@ public class MdrEventServiceBean implements MdrEventService {
     private static final String ERROR_GET_LIST_FOR_THE_REQUESTED_CODE = "Error while trying to get list for the requested CodeList : ";
     private static final String ACRONYM_DOESNT_EXIST = "The acronym you are searching for does not exist! Acronym ::: ";
     private static final long ONE_MINUTE = 60000L;
-    private static final int MB = 1024*1024;
+    private static final int MB = 1024 * 1024;
 
 
     /**
@@ -118,7 +118,7 @@ public class MdrEventServiceBean implements MdrEventService {
 
     private boolean isObjDescriptionMessage(FLUXMDRReturnMessage fluxReturnMessage) {
         FLUXResponseDocumentType fluxResponseDocument = null;
-        if(fluxReturnMessage != null){
+        if (fluxReturnMessage != null) {
             fluxResponseDocument = fluxReturnMessage.getFLUXResponseDocument();
         }
         return fluxResponseDocument != null && fluxResponseDocument.getTypeCode() != null && "OBJ_DESC".equals(fluxResponseDocument.getTypeCode().getValue());
@@ -135,7 +135,7 @@ public class MdrEventServiceBean implements MdrEventService {
         MdrGetCodeListRequest requestObj;
         try {
             requestObj = extractMdrGetCodeListEventMessage(extractMessageRequestString(message));
-            log.debug("[INFO] Requested object is : [ "+requestObj+" ].");
+            log.debug("[INFO] Requested object is : [ " + requestObj + " ].");
             // Request is Not OK
             if (!requestIsOk(message, requestObj)) {
                 return;
@@ -167,9 +167,10 @@ public class MdrEventServiceBean implements MdrEventService {
             }
             String mdrGetCodeListResponse = MdrModuleMapper.createFluxMdrGetCodeListResponse(mdrList, requestObj.getAcronym(), validation, validationStr);
             mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetCodeListResponse, ONE_MINUTE, NON_PERSISTENT);
+            log.info("Response sent on queue [{}].", message.getJmsMessage().getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
-        } catch (ServiceException | MessageException e) {
+        } catch (ServiceException | MessageException | JMSException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
         }
     }
@@ -188,7 +189,7 @@ public class MdrEventServiceBean implements MdrEventService {
                 log.error("[ERROR] While trying to get the acronym list (MasterDataRegistryEntityCacheFactory.getAcronymsList())!!");
             }
             List<SingleCodeListRappresentation> allCoceLists = new ArrayList<>();
-            for(String actAcronym : acronymsList){
+            for (String actAcronym : acronymsList) {
                 List<? extends MasterDataRegistry> mdrList = mdrSearchRepositroy.findCodeListItemsByAcronymAndFilter(actAcronym,
                         0, 99999999, "code", false, "*", "code");
                 allCoceLists.add(MdrModuleMapper.mapToSingleCodeListRappresentation(mdrList, actAcronym, null, "OK"));
@@ -208,7 +209,7 @@ public class MdrEventServiceBean implements MdrEventService {
 
     private Object getSizeInMb(String response) {
         try {
-            return response.getBytes("UTF-8").length/MB;
+            return response.getBytes("UTF-8").length / MB;
         } catch (UnsupportedEncodingException e) {
             log.warn("Couldn't get the size of the response!", e);
         }
@@ -269,7 +270,7 @@ public class MdrEventServiceBean implements MdrEventService {
     private void sendErrorMessageToMdrQueue(String textMessage, TextMessage jmsMessage) {
         try {
             log.error(textMessage);
-            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, MdrModuleMapper.createFluxMdrGetCodeListErrorResponse(textMessage),  ONE_MINUTE, NON_PERSISTENT);
+            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, MdrModuleMapper.createFluxMdrGetCodeListErrorResponse(textMessage), ONE_MINUTE, NON_PERSISTENT);
         } catch (MdrModelMarshallException | MessageException e) {
             log.error("[ERROR] Something went wrong during sending of error message back to MdrQueue out! Couldn't recover anymore from this! Response will not be posted!", e);
         }
