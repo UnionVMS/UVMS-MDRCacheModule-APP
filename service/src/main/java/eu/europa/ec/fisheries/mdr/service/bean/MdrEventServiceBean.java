@@ -176,7 +176,9 @@ public class MdrEventServiceBean implements MdrEventService {
 
     @Override
     public void recievedGetAllMdrCodeListMessage(@Observes @GetAllMdrCodeListsMessageEvent EventMessage message) {
+        TextMessage jmsMessage = null;
         try {
+            jmsMessage = message.getJmsMessage();
             log.debug("[INFO] Got GetAllMdrCodeListsMessageEvent..");
             List<String> acronymsList = null;
             StopWatch watch = StopWatch.createStarted();
@@ -195,12 +197,12 @@ public class MdrEventServiceBean implements MdrEventService {
             printOutJavHepSize();
             String response = MdrModuleMapper.mapToMdrGetAllCodeListsResponse(allCoceLists);
             log.info("Retrived and marshalled [{}] codelists in [{}] seconds. Size of message to be sent is [{}] Mb. Now sending..", allCoceLists.size(), watch.getTime(TimeUnit.SECONDS), getSizeInMb(response));
-            mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), response, ONE_MINUTE, NON_PERSISTENT);
-            log.info("Response sent...");
+            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, response, ONE_MINUTE, NON_PERSISTENT);
+            log.info("Response sent on queue [{}].", jmsMessage.getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
-            sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
-        } catch (ServiceException | MessageException | IllegalStateException e) {
-            sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
+            sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, jmsMessage);
+        } catch (ServiceException | MessageException | IllegalStateException | JMSException e) {
+            sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, jmsMessage);
         }
     }
 
