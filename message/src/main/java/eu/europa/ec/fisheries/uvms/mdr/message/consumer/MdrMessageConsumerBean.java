@@ -39,7 +39,11 @@ import javax.xml.bind.JAXBException;
 @MessageDriven(mappedName = MessageConstants.QUEUE_MDR_EVENT, activationConfig = {
     @ActivationConfigProperty(propertyName = MessageConstants.MESSAGING_TYPE_STR,   propertyValue = MessageConstants.CONNECTION_TYPE),
     @ActivationConfigProperty(propertyName = MessageConstants.DESTINATION_TYPE_STR, propertyValue = MessageConstants.DESTINATION_TYPE_QUEUE),
-    @ActivationConfigProperty(propertyName = MessageConstants.DESTINATION_STR,      propertyValue = MessageConstants.MDR_MESSAGE_IN_QUEUE_NAME)
+    @ActivationConfigProperty(propertyName = MessageConstants.DESTINATION_STR,      propertyValue = MessageConstants.MDR_MESSAGE_IN_QUEUE_NAME),
+    @ActivationConfigProperty(propertyName = "maxMessagesPerSessions", propertyValue = "10"),
+    @ActivationConfigProperty(propertyName = "initialRedeliveryDelay", propertyValue = "2000"),
+    @ActivationConfigProperty(propertyName = "maximumRedeliveries", propertyValue = "3"),
+    @ActivationConfigProperty(propertyName = "maxSessions", propertyValue = "20")
 })
 @Slf4j
 public class MdrMessageConsumerBean implements MessageListener {

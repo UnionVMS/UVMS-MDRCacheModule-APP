@@ -57,9 +57,9 @@
         <junit.version>4.12</junit.version>
 
         <!-- UVMS Libraries -->
-        <uvms.config.version>4.0.2-W14-J8</uvms.config.version>
+        <uvms.config.version>4.0.3-W14J8</uvms.config.version>
         <usm4uvms.version>4.0.14-W14-J8</usm4uvms.version>
-        <uvms.commons.version>3.0.29</uvms.commons.version>
+        <uvms.commons.version>3.0.31-W14J8</uvms.commons.version>
 
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
@@ -82,7 +82,7 @@
         <lombok.version>1.16.18</lombok.version>
         <google.guava.version>20.0</google.guava.version>
         <resteasy-jaxb-provider.version>3.0.11.Final</resteasy-jaxb-provider.version>
-        <hibernate-core.version>5.1.9.Final</hibernate-core.version>
+        <hibernate.version>5.1.9.Final</hibernate.version>
     </properties>
 
     <dependencyManagement>
@@ -259,12 +259,12 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>${hibernate-core.version}</version>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
-                <version>${hibernate-core.version}</version>
+                <version>${hibernate.version}</version>
             </dependency>
 
             <!--HIBERNATE SEARCH-->

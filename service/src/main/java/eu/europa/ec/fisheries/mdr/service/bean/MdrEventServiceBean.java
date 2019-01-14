@@ -42,12 +42,14 @@ import un.unece.uncefact.data.standard.mdr.response.FLUXResponseDocumentType;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
+import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -82,6 +84,7 @@ public class MdrEventServiceBean implements MdrEventService {
     private static final String ERROR_GET_LIST_FOR_THE_REQUESTED_CODE = "Error while trying to get list for the requested CodeList : ";
     private static final String ACRONYM_DOESNT_EXIST = "The acronym you are searching for does not exist! Acronym ::: ";
     private static final long ONE_MINUTE = 60000L;
+    private static final long TWO_MINUTES = 120000;
     private static final int MB = 1024 * 1024;
 
 
@@ -145,12 +148,12 @@ public class MdrEventServiceBean implements MdrEventService {
             String filter = requestObj.getFilter();
             String[] columnFiltersArr;
             if (CollectionUtils.isNotEmpty(columnFilters)) {
-                columnFiltersArr = columnFilters.toArray(new String[columnFilters.size()]);
+                columnFiltersArr = columnFilters.toArray(new String[0]);
             } else {
                 columnFiltersArr = new String[]{"code", "description"}; //getAllFieldsForAcronym(requestObj.getAcronym());
             }
             if (StringUtils.isNotEmpty(filter) && !filter.equals(STAR)) {
-                filter = new StringBuilder(STAR).append(filter).append(STAR).toString();
+                filter = STAR + filter + STAR;
             } else {
                 filter = STAR;
             }
@@ -198,7 +201,7 @@ public class MdrEventServiceBean implements MdrEventService {
             printOutJavHepSize();
             String response = MdrModuleMapper.mapToMdrGetAllCodeListsResponse(allCoceLists);
             log.info("Retrived and marshalled [{}] codelists in [{}] seconds. Size of message to be sent is [{}] Mb. Now sending..", allCoceLists.size(), watch.getTime(TimeUnit.SECONDS), getSizeInMb(response));
-            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, response, ONE_MINUTE, NON_PERSISTENT);
+            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, response, TWO_MINUTES, NON_PERSISTENT);
             log.info("Response sent on queue [{}].", jmsMessage.getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, jmsMessage);
@@ -209,7 +212,7 @@ public class MdrEventServiceBean implements MdrEventService {
 
     private Object getSizeInMb(String response) {
         try {
-            return response.getBytes("UTF-8").length / MB;
+            return response.getBytes(StandardCharsets.UTF_8.name()).length / MB;
         } catch (UnsupportedEncodingException e) {
             log.warn("Couldn't get the size of the response!", e);
         }
@@ -234,7 +237,7 @@ public class MdrEventServiceBean implements MdrEventService {
     public void receivedGetLastRefreshDateFromStatuses(@Observes @GetLastRefreshDate EventMessage message) {
         try {
             String mdrGetLastRefreshDateResponse = MdrModuleMapper.createMdrGetLastRefreshDateResponse(statusBean.getLastRefreshDate());
-            mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetLastRefreshDateResponse);
+            mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetLastRefreshDateResponse, ONE_MINUTE, DeliveryMode.NON_PERSISTENT);
         } catch (MdrModelMarshallException | MessageException | DatatypeConfigurationException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
         }
