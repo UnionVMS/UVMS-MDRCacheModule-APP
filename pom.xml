@@ -59,7 +59,7 @@
         <!-- UVMS Libraries -->
         <uvms.config.version>4.0.3-W14J8</uvms.config.version>
         <usm4uvms.version>4.0.14-W14-J8</usm4uvms.version>
-        <uvms.commons.version>3.0.31-W14J8</uvms.commons.version>
+        <uvms.commons.version>3.3-W14J8</uvms.commons.version>
 
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
