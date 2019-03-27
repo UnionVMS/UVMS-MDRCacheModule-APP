@@ -10,6 +10,7 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.service.bean;
 
+import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.exception.MdrCacheInitException;
 import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
@@ -20,10 +21,7 @@ import eu.europa.ec.fisheries.mdr.service.MdrEventService;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetAllMdrCodeListsMessageEvent;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetLastRefreshDate;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetSingleMdrListMessageEvent;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.MdrSyncMessageEvent;
+import eu.europa.ec.fisheries.uvms.mdr.message.event.*;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.MdrQueueProducer;
 import eu.europa.ec.fisheries.uvms.mdr.model.exception.MdrModelMarshallException;
@@ -176,6 +174,27 @@ public class MdrEventServiceBean implements MdrEventService {
         } catch (ServiceException | MessageException | JMSException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
         }
+    }
+
+    @Override
+    public void receivedGetStatusRequest(@Observes @GetMdrStatus EventMessage message) {
+        try {
+            List<MdrCodeListStatus> codelistStatus = statusBean.findAllMdrStatuses();
+            String validationStr = "Validation is OK.";
+            ValidationResultType validation = ValidationResultType.OK;
+            if (CollectionUtils.isEmpty(codelistStatus)) {
+                validationStr = "Codelist was found but, the search criteria returned 0 results. (Maybe the Table is empty!)";
+                validation = ValidationResultType.WOK;
+            }
+            String mdrGetCodeListResponse = MdrModuleMapper.createFluxMdrGetCodeListResponse(codelistStatus, validation, validationStr);
+            mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetCodeListResponse, ONE_MINUTE, NON_PERSISTENT);
+            log.info("Response sent on queue [{}].", message.getJmsMessage().getJMSReplyTo());
+        } catch (MdrModelMarshallException e) {
+            sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
+        } catch (MessageException | JMSException e) {
+            sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
+        }
+
     }
 
     @Override

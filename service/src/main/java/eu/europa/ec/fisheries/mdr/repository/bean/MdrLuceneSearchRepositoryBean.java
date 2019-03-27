@@ -69,7 +69,7 @@ public class MdrLuceneSearchRepositoryBean extends BaseMdrBean implements MdrLuc
 
         if(searchAttributes == null || searchAttributes.length == 0){
             searchAttributes = new String[]{"code", "description"};
-            log.warn("No search attributes provided. Going to consider only 'code' attribute.");
+            log.warn("No search attributes provided. Going to consider only 'code' and 'description' attribute.");
         }
 
         // Build fullTextQuery;

@@ -10,10 +10,7 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.service;
 
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetAllMdrCodeListsMessageEvent;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetLastRefreshDate;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetSingleMdrListMessageEvent;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.MdrSyncMessageEvent;
+import eu.europa.ec.fisheries.uvms.mdr.message.event.*;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
 import javax.ejb.Local;
 import javax.enterprise.event.Observes;
@@ -24,6 +21,8 @@ public interface MdrEventService {
 	void recievedSyncMdrEntityMessage(@Observes @MdrSyncMessageEvent EventMessage message);
 
     void recievedGetSingleMdrCodeListMessage(@Observes @GetSingleMdrListMessageEvent EventMessage message);
+
+    void receivedGetStatusRequest(@Observes @GetMdrStatus EventMessage message);
 
     void recievedGetAllMdrCodeListMessage(@Observes @GetAllMdrCodeListsMessageEvent EventMessage message);
 

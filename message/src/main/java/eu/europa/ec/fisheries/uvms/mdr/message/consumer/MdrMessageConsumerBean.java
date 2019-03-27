@@ -14,10 +14,7 @@ package eu.europa.ec.fisheries.uvms.mdr.message.consumer;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
 import eu.europa.ec.fisheries.uvms.commons.message.context.MappedDiagnosticContext;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetAllMdrCodeListsMessageEvent;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetLastRefreshDate;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.GetSingleMdrListMessageEvent;
-import eu.europa.ec.fisheries.uvms.mdr.message.event.MdrSyncMessageEvent;
+import eu.europa.ec.fisheries.uvms.mdr.message.event.*;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
 import lombok.extern.slf4j.Slf4j;
 import un.unece.uncefact.data.standard.mdr.communication.MdrModuleMethod;
@@ -57,6 +54,10 @@ public class MdrMessageConsumerBean implements MessageListener {
     private Event<EventMessage> getSingleMdrListEvent;
 
     @Inject
+    @GetMdrStatus
+    private Event<EventMessage> getMdrStatus;
+
+    @Inject
     @GetAllMdrCodeListsMessageEvent
     private Event<EventMessage> getAllMdrListEvent;
 
@@ -87,6 +88,9 @@ public class MdrMessageConsumerBean implements MessageListener {
                     break;
                 case GET_MDR_CODE_LIST:
                     getSingleMdrListEvent.fire(eventToBeFired);
+                    break;
+                case GET_MDR_STATUS:
+                    getMdrStatus.fire(eventToBeFired);
                     break;
                 case GET_ALL_MDR_CODE_LIST:
                     getAllMdrListEvent.fire(eventToBeFired);

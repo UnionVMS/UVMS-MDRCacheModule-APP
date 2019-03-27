@@ -90,4 +90,9 @@ public class MdrStatusRepositoryBean extends BaseMdrBean implements MdrStatusRep
     public void updateSchedulableForAcronym(String acronym, boolean schedulable) {
         statusDao.updateSchedulableForAcronym(acronym, schedulable);
     }
+
+    @Override
+    public List<MdrCodeListStatus> findAllMdrStatuses() {
+        return statusDao.getAllAcronymsStatuses();
+    }
 }
