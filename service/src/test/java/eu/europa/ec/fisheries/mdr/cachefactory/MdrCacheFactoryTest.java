@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Created by kovian on 24/11/2016.
  */
-//@Ignore
+@Ignore
 public class MdrCacheFactoryTest {
 
     String filesPath              = "C:\\FLUX-FMC\\github\\MDR Cache APP\\LIQUIBASE\\postgres\\schema\\tables";
@@ -45,7 +45,7 @@ public class MdrCacheFactoryTest {
     }
 
     @Test
-	//@Ignore
+	@Ignore
     @SneakyThrows
     public void testEnlistFileEntriesInConsole(){
         String includeDeclarationEnd  = "\"/>";
