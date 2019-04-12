@@ -61,11 +61,12 @@ public class LiquibaseUtil {
     }
 
     static String splitter                 = "<changeSet ";
-    static String changeLogFilePath        = "C:\\GIT Repository\\Mdr Github\\UVMS-MDRCacheModule-APP\\LIQUIBASE\\postgres\\changelog\\generatedChangelog.xml";
+    static String changeLogFilePath        = "C:\\FLUX-FMC\\github\\MDR Cache APP\\LIQUIBASE\\postgres\\changelog\\generatedChangelog-new.xml";
     static String locationForGeneratedXmls = "C:\\newLiquibaseScripts\\";
     static String filePrefix               = StringUtils.EMPTY;
     static String fileSuffix               = ".xml";
     private static int sequence            = 0;
+
 
     public static void createXMLLiquibaseEntries() throws IOException {
 

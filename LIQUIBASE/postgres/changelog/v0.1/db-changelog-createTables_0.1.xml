@@ -21,17 +21,20 @@
 	<include file="\postgres\schema\tables\mdr_fa_br_def.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_catch_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_characteristic.xml"/>
+	<include file="\postgres\schema\tables\mdr_fa_device_gear_attachment.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_fishery.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_gear_characteristic.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_gear_problem.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_gear_recovery.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_gear_role.xml"/>
+	<include file="\postgres\schema\tables\mdr_fa_neafc_stock.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_query_parameter.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_query_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_reason_arrival.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_reason_departure.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_reason_discard.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_reason_entry.xml"/>
+	<include file="\postgres\schema\tables\mdr_fa_trip_id_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_fa_vessel_role.xml"/>
 	<include file="\postgres\schema\tables\mdr_fishing_trip_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_fish_freshness.xml"/>
@@ -42,6 +45,7 @@
 	<include file="\postgres\schema\tables\mdr_fish_size_class.xml"/>
 	<include file="\postgres\schema\tables\mdr_flap_id_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_flux_contact_role.xml"/>
+	<include file="\postgres\schema\tables\mdr_flux_df.xml"/>
 	<include file="\postgres\schema\tables\mdr_flux_fa_fcm.xml"/>
 	<include file="\postgres\schema\tables\mdr_flux_fa_report_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_flux_fa_type.xml"/>
@@ -61,24 +65,25 @@
 	<include file="\postgres\schema\tables\mdr_flux_sales_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_flux_unit.xml"/>
 	<include file="\postgres\schema\tables\mdr_flux_vessel_id_type.xml"/>
+	<include file="\postgres\schema\tables\mdr_flux_vessel_position_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_gear_type.xml"/>
+	<include file="\postgres\schema\tables\mdr_gender.xml"/>
 	<include file="\postgres\schema\tables\mdr_gfcm_gsa.xml"/>
 	<include file="\postgres\schema\tables\mdr_gfcm_statistical_rectangles.xml"/>
 	<include file="\postgres\schema\tables\mdr_ices_statistical_rectangles.xml"/>
 	<include file="\postgres\schema\tables\mdr_location.xml"/>
+	<include file="\postgres\schema\tables\mdr_management_area.xml"/>
 	<include file="\postgres\schema\tables\mdr_member_state.xml"/>
 	<include file="\postgres\schema\tables\mdr_prod_usage.xml"/>
 	<include file="\postgres\schema\tables\mdr_rfmo_codes.xml"/>
 	<include file="\postgres\schema\tables\mdr_sale_br.xml"/>
 	<include file="\postgres\schema\tables\mdr_sale_br_def.xml"/>
 	<include file="\postgres\schema\tables\mdr_statistical_rectangle.xml"/>
+	<include file="\postgres\schema\tables\mdr_target_species_group.xml"/>
 	<include file="\postgres\schema\tables\mdr_territory.xml"/>
 	<include file="\postgres\schema\tables\mdr_territory_curr.xml"/>
 	<include file="\postgres\schema\tables\mdr_vessel_activity.xml"/>
 	<include file="\postgres\schema\tables\mdr_vessel_storage_type.xml"/>
 	<include file="\postgres\schema\tables\mdr_weight_means.xml"/>
-	<include file="\postgres\schema\tables\mdr_target_species_group.xml"/>
-	<include file="\postgres\schema\tables\mdr_gender.xml"/>
-	<include file="\postgres\schema\tables\mdr_management_area.xml"/>
 
 </databaseChangeLog>

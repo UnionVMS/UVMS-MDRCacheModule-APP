@@ -12,10 +12,13 @@ package eu.europa.ec.fisheries.mdr.entities.codelists.ers;
 
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
+import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
 import javax.persistence.*;
 
@@ -33,6 +36,18 @@ public class ManagementArea extends MasterDataRegistry {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MANAGEMENT_AREA_SEQ_GEN")
     private long id;
 
+    @Column(name = "places_code")
+    @Field(name = "places_code")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    //@SortableField(forField = "places_code")
+    private String placesCode;
+
+    @Column(name = "places_code2")
+    @Field(name = "places_code2")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    //@SortableField(forField = "places_code2")
+    private String placesCode2;
+
     @Override
     public String getAcronym() {
         return "MANAGEMENT_AREA";
@@ -41,5 +56,32 @@ public class ManagementArea extends MasterDataRegistry {
     @Override
     public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
         populateCommonFields(mdrDataType);
+        for (MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()) {
+            String fieldName = field.getName().getValue();
+            String fieldValue = field.getValue().getValue();
+            if (StringUtils.equalsIgnoreCase(fieldName, "PLACES.CODE")) {
+                this.setPlacesCode(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "PLACES.CODE2")) {
+                this.setPlacesCode2(fieldValue);
+            } else {
+                logError(fieldName, this.getClass().getSimpleName());
+            }
+        }
+    }
+
+    public String getPlacesCode() {
+        return placesCode;
+    }
+
+    public void setPlacesCode(String placesCode) {
+        this.placesCode = placesCode;
+    }
+
+    public String getPlacesCode2() {
+        return placesCode2;
+    }
+
+    public void setPlacesCode2(String placesCode2) {
+        this.placesCode2 = placesCode2;
     }
 }

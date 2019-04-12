@@ -4,12 +4,12 @@
 				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
        
-    <changeSet author="kovian" id="189067210515248125">
+    <changeSet author="kovian" id="189067210515248129">
 	  <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807" minValue="1"
 					  sequenceName="mdr_fish_freshness_seq" startValue="2000"/>
     </changeSet>  
 
-	<changeSet author="kovian (generated)" id="1509379254114-94">
+	<changeSet author="KOVIAN (generated)" id="1555056563249-108">
         <createTable tableName="mdr_fish_freshness">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -22,11 +22,11 @@
         </createTable>
     </changeSet>
     
-	<changeSet author="kovian (generated)" id="1490280409454-25" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+	<changeSet author="kovian (generated)" id="1490280409454-29" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <addPrimaryKey columnNames="id" constraintName="mdr_fish_freshness_pkey" tableName="mdr_fish_freshness"/>
     </changeSet>
 	
-	<changeSet author="kovian" id="76817789687171-25" dbms="postgresql">
+	<changeSet author="kovian" id="76817789687171-29" dbms="postgresql">
 		<addDefaultValue 
 				columnDataType="BIGINT"
 				columnName="id"

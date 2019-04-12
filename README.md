@@ -20,15 +20,18 @@ How to efficiently introduce new codeLists in the MDR cache :
 	   .......
 
 	2. Run clean install (profile: postgres dev) to generate the .ddl script files (they will contain the SQL scripts for the tables creation).
-	   If this doesn't create the required files then use : HibernateExporterTest.exportTest() and it will cretae the creation script under "target/DDLscripts".
+	   If this doesn't create the required files then use : HibernateExporterTest.exportTest() and it will create the creation script under "service/scripts".
+       ATTENTION : If the script file exist it will append to it so be aware that you need to empty the file before this procedure.
 
-	2. Copy the content of create-tables.ddl/.sql and then Run it in "pgAdmin" - to the interested schema (ex. activity) - to generate the tables -
+	2.1 Copy the content of create-tables.ddl/.sql and then Run it in "pgAdmin" - to the interested schema (ex. activity) - to generate the tables -
 	   (PS: For postgres it will require some changes to the generated SQL code since it is not retro compatible with postgress)
 	   Using Postgis dialect I had to perform this corrections to the generated ddl script:
 
 			1. Change from int to BIGINT or int8;
 			2. From float to REAL or float8;
-			3. Put Colons (;) at the end of the rows;
+			3. Drom double to DOUBLE PRECISION
+			4. Put Colons (;) at the end of the rows;
+			
 
 	3. Now that the tables are created open CMDER and cd to the LIQUIBASE folder under the interested project (postgres must be up and running)
 	  (Example for Activity module : "cd C:\Projects-ARHS\trunk\Modules\Activity\LIQUIBASE" )
@@ -86,7 +89,7 @@ How to efficiently introduce new codeLists in the MDR cache :
     OPTIONAL :
 
     1. If you want to store test data so that you can use/restore them during development you need to call the "synchronize all" mdr service,
-    so that you get data from FLUX MDM service.
+       so that you get data from FLUX MDM service.
 
     2. Once the data is in the mdr db you can run the "mvn liquibase:generateChangeLog -Ppostgres,exec,export" to export the data in the changeLog file (clear changelog before of this procedure).
 

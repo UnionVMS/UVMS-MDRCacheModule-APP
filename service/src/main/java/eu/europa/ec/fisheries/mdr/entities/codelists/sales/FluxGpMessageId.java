@@ -12,8 +12,12 @@ package eu.europa.ec.fisheries.mdr.entities.codelists.sales;
 
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
+import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
 import javax.persistence.*;
 
@@ -32,6 +36,18 @@ public class FluxGpMessageId extends MasterDataRegistry {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FLUX_GP_MSG_ID_SEQ_GEN")
     private long id;
 
+    @Column(name = "format_expression")
+    @Field(name = "format_expression")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    //@SortableField(forField = "format_expression")
+    private String formatExpression;
+
+    @Column(name = "format_expression_desc")
+    @Field(name = "format_expression_desc")
+    @Analyzer(definition = LOW_CASE_ANALYSER)
+    //@SortableField(forField = "format_expression_desc")
+    private String formatExpressionDesc;
+
     @Override
     public String getAcronym() {
         return "FLUX_GP_MSG_ID";
@@ -40,6 +56,32 @@ public class FluxGpMessageId extends MasterDataRegistry {
     @Override
     public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
         populateCommonFields(mdrDataType);
+        for (MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()) {
+            String fieldName = field.getName().getValue();
+            String fieldValue = field.getValue().getValue();
+            if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_MSG_ID.FORMATDESC")) {
+                this.setFormatExpressionDesc(fieldValue);
+            } else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_MSG_ID.FORMATEXPRESSION")) {
+                this.setFormatExpression(fieldValue);
+            } else {
+                logError(fieldName, this.getClass().getSimpleName());
+            }
+        }
     }
 
+    public String getFormatExpression() {
+        return formatExpression;
+    }
+
+    public void setFormatExpression(String formatExpression) {
+        this.formatExpression = formatExpression;
+    }
+
+    public String getFormatExpressionDesc() {
+        return formatExpressionDesc;
+    }
+
+    public void setFormatExpressionDesc(String formatExpressionDesc) {
+        this.formatExpressionDesc = formatExpressionDesc;
+    }
 }

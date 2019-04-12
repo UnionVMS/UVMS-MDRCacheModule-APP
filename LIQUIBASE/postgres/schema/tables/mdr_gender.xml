@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+				   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+       
+    <changeSet author="kovian" id="189067210515248160">
+	  <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807" minValue="1"
+					  sequenceName="mdr_gender_seq" startValue="2000"/>
+    </changeSet>  
 
-    <changeSet author="kovian" id="18906721056624814">
-        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807" minValue="1"
-                        sequenceName="mdr_gender_seq" startValue="2000"/>
-    </changeSet>
-
-    <changeSet author="kovian (generated)" id="1509366254114-73">
+	<changeSet author="KOVIAN (generated)" id="1555056563249-139">
         <createTable tableName="mdr_gender">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -21,17 +21,17 @@
             <column name="version" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-
-    <changeSet author="kovian (generated)" id="1490280466454-4" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    
+	<changeSet author="kovian (generated)" id="1490280409454-60" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <addPrimaryKey columnNames="id" constraintName="mdr_gender_pkey" tableName="mdr_gender"/>
     </changeSet>
-
-    <changeSet author="kovian" id="76817786687171-4" dbms="postgresql">
-        <addDefaultValue
-                columnDataType="BIGINT"
-                columnName="id"
-                defaultValueSequenceNext="mdr_gender_seq"
-                tableName="mdr_gender"/>
-    </changeSet>
-
+	
+	<changeSet author="kovian" id="76817789687171-60" dbms="postgresql">
+		<addDefaultValue 
+				columnDataType="BIGINT"
+				columnName="id"
+				defaultValueSequenceNext="mdr_gender_seq"
+				tableName="mdr_gender"/>
+	</changeSet>	
+	
 </databaseChangeLog>

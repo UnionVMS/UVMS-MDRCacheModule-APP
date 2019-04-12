@@ -9,7 +9,7 @@
 					  sequenceName="mdr_acronymversion_seq" startValue="2000"/>
     </changeSet>  
 
-	<changeSet author="kovian (generated)" id="1509379254114-69">
+	<changeSet author="KOVIAN (generated)" id="1555056563249-79">
         <createTable tableName="mdr_acronymversion">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
