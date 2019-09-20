@@ -24,6 +24,7 @@ import eu.europa.ec.fisheries.mdr.mapper.MdrRequestMapper;
 import eu.europa.ec.fisheries.mdr.util.ClassFinder;
 import lombok.SneakyThrows;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
 import un.unece.uncefact.data.standard.mdr.response.IDType;
@@ -34,8 +35,8 @@ import un.unece.uncefact.data.standard.mdr.response.TextType;
 
 public class MdrEntityMapperTest {
 
-	FLUXMDRReturnMessage responseType;
-	String entityName;
+	private FLUXMDRReturnMessage responseType;
+	private String entityName;
 	
 	@Before
 	public void prepare(){
@@ -62,6 +63,7 @@ public class MdrEntityMapperTest {
 	
 	@Test
 	@SneakyThrows
+	@Ignore("Not a test")
 	public void testJarFilesExtractor(){	
 		List<Class<? extends MasterDataRegistry>> classList = ClassFinder.extractEntityInstancesFromPackage();		
 		System.out.println("DONE"+classList);

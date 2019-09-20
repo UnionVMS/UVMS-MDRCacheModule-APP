@@ -37,7 +37,6 @@ public class MdrStatusRepositoryBean extends BaseMdrBean implements MdrStatusRep
 
     @PostConstruct
     public void init() {
-        initEntityManager();
         statusDao = new MdrStatusDao(getEntityManager());
     }
 
@@ -94,5 +93,10 @@ public class MdrStatusRepositoryBean extends BaseMdrBean implements MdrStatusRep
     @Override
     public List<MdrCodeListStatus> findAllMdrStatuses() {
         return statusDao.getAllAcronymsStatuses();
+    }
+
+    @Override
+    public List<MdrCodeListStatus> findStatusAndVersionsForAcronym(String acronym) {
+        return statusDao.findStatusAndVersionsForAcronym(acronym);
     }
 }

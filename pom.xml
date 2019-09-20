@@ -5,12 +5,12 @@
     <parent>
         <groupId>fish.focus.uvms.maven</groupId>
         <artifactId>uvms-pom</artifactId>
-        <version>1.21</version>
+        <version>1.23</version>
         <relativePath />
     </parent>
 
-    <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
-    <artifactId>mdr</artifactId>
+    <groupId>eu.europa.ec.fisheries.uvms.mdrSwe</groupId>
+    <artifactId>mdrSwe</artifactId>
     <version>1.0.18-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Maven project-archetype for UnionVms modules</description>
@@ -23,6 +23,8 @@
     </developers>
 
     <properties>
+        <docker.dev.version>3.39.9.w17-SNAPSHOT</docker.dev.version>
+
         <application.name>${project.parent.artifactId}</application.name>
         <application.version>${project.parent.version}</application.version>
         <application.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}.log
@@ -44,22 +46,20 @@
         <mdr.model.version>1.0.5</mdr.model.version>
 
         <!-- Other modules dependencies -->
-        <rules.model>3.0.31</rules.model>
+        <rules.model>3.0.43</rules.model>
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
 
-        <uvms.test.version>0.0.8</uvms.test.version>
-
-        <hibernate-search-orm.version>5.5.8.Final</hibernate-search-orm.version>
+        <hibernate-search-orm.version>5.10.6.Final</hibernate-search-orm.version>
 
         <mockito.version>2.23.0</mockito.version>
-        <junit.version>4.12</junit.version>
 
         <!-- UVMS Libraries -->
-        <uvms.config.version>4.1-W14J8</uvms.config.version>
-        <usm4uvms.version>4.0.14-W14-J8</usm4uvms.version>
-        <uvms.commons.version>3.3-W14J8</uvms.commons.version>
+        <uvms.config.version>4.0.5</uvms.config.version>
+        <usm4uvms.version>4.0.23</usm4uvms.version>
+        <uvms.commons.version>4.0.4</uvms.commons.version>
+        <uvms.test.version>0.0.8</uvms.test.version>
 
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
@@ -72,7 +72,7 @@
         <jwt-handler-impl.version>2.1.1</jwt-handler-impl.version>
 
 
-        <uvms.poms.version>1.21</uvms.poms.version>
+        <uvms.poms.version>1.25</uvms.poms.version>
         <webtoken.version>0.4</webtoken.version>
         <apache.commons.version>3.7</apache.commons.version>
         <geojson.version>0.7.0</geojson.version>
@@ -82,7 +82,6 @@
         <lombok.version>1.16.18</lombok.version>
         <google.guava.version>20.0</google.guava.version>
         <resteasy-jaxb-provider.version>3.0.11.Final</resteasy-jaxb-provider.version>
-        <hibernate.version>5.1.9.Final</hibernate.version>
     </properties>
 
     <dependencyManagement>
@@ -96,16 +95,6 @@
                 <artifactId>uvms-pom-gis-deps</artifactId>
                 <version>${uvms.poms.version}</version>
                 <type>pom</type>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-entitymanager</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>fish.focus.uvms.maven</groupId>
@@ -180,12 +169,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <dependency>
-                <groupId>eu.europa.ec.fisheries.uvms</groupId>
-                <artifactId>uvms-test</artifactId>
-                <version>${uvms.test.version}</version>
-                <scope>test</scope>
-            </dependency>
 			<dependency>
 				<groupId>eu.europa.ec.fisheries.uvms</groupId>
 				<artifactId>usm4uvms</artifactId>
@@ -245,26 +228,6 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-search-orm</artifactId>
                 <version>${hibernate-search-orm.version}</version>
-                <exclusions>
-                    <exclusion>  <!-- declare the exclusion here -->
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-entitymanager</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>${hibernate.version}</version>
             </dependency>
 
             <!--HIBERNATE SEARCH-->
@@ -354,7 +317,7 @@
 
             <dependency>
                 <groupId>eu.europa.ec.fisheries.uvms</groupId>
-                <artifactId>config-library</artifactId>
+                <artifactId>uvms-config</artifactId>
                 <version>${uvms.config.version}</version>
             </dependency>
         </dependencies>
@@ -425,7 +388,7 @@
                 <jdk>[1.8,)</jdk>
             </activation>
             <properties>
-                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+                <javadoc.doclint>none</javadoc.doclint>
             </properties>
         </profile>
         <profile>
@@ -503,7 +466,7 @@
                                 <goal>jar</goal>
                             </goals>
                             <configuration>
-                                <additionalparam>${javadoc.opts}</additionalparam>
+                                <doclint>${javadoc.doclint}</doclint>
                             </configuration>
                         </execution>
                     </executions>

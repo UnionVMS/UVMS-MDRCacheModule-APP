@@ -12,11 +12,11 @@ package eu.europa.ec.fisheries.mdr.service;
 
 import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
 import eu.europa.ec.fisheries.mdr.util.GenericOperationOutcome;
-import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Local;
+import javax.jms.JMSException;
 
 @Local
 public interface MdrSynchronizationService {
@@ -31,7 +31,7 @@ public interface MdrSynchronizationService {
 
     void sendRequestForMdrCodelistsStructures(Collection<String> acronym);
 
-	void sendRequestForSingleMdrCodelistsStructure(String actAcron) throws MdrMappingException, MessageException;
+	void sendRequestForSingleMdrCodelistsStructure(String actAcron) throws MdrMappingException, JMSException;
 
 	void sendRequestForMdrCodelistsIndex();
 

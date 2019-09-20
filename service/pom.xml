@@ -7,8 +7,8 @@
 	<packaging>ejb</packaging>
 
 	<parent>
-		<groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
-		<artifactId>mdr</artifactId>
+		<groupId>eu.europa.ec.fisheries.uvms.mdrSwe</groupId>
+		<artifactId>mdrSwe</artifactId>
 		<version>1.0.18-SNAPSHOT</version>
 	</parent>
 	
@@ -26,24 +26,6 @@
 			<artifactId>uvms-pom-gis-deps</artifactId>
 			<type>pom</type>
 			<scope>provided</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-spatial</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-ehcache</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
         <dependency>
@@ -57,22 +39,6 @@
 			<artifactId>uvms-pom-arquillian-deps</artifactId>
 			<type>pom</type>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>eu.europa.ec.fisheries.uvms</groupId>
-			<artifactId>uvms-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>com.h2database</groupId>
-					<artifactId>h2</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.ninja-squad</groupId>
-					<artifactId>DbSetup</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -92,7 +58,7 @@
 		<!-- END Focus Dependencies -->
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
 			<artifactId>mdr-model</artifactId>
 		</dependency>
 
@@ -208,36 +174,9 @@
 			<artifactId>commons-collections</artifactId>
 		</dependency>
 
-		<!-- TEST -->
-
-<!--		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>-->
-
-		<!-- Hibernate dependencies -->
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-orm</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
 		
         <dependency>
@@ -246,9 +185,10 @@
             <version>${commons-collections.version}</version>
             <scope>test</scope>
         </dependency>
+
 		<dependency>
 			<groupId>eu.europa.ec.fisheries.uvms</groupId>
-			<artifactId>config-library</artifactId>
+			<artifactId>uvms-config</artifactId>
 		</dependency>
     </dependencies>
 

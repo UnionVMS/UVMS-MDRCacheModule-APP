@@ -6,8 +6,8 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
-        <artifactId>mdr</artifactId>
+        <groupId>eu.europa.ec.fisheries.uvms.mdrSwe</groupId>
+        <artifactId>mdrSwe</artifactId>
         <version>1.0.18-SNAPSHOT</version>
     </parent>
 

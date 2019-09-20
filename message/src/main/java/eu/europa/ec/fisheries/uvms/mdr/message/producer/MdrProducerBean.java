@@ -10,8 +10,6 @@ details. You should have received a copy of the GNU General Public License along
 */
 package eu.europa.ec.fisheries.uvms.mdr.message.producer;
 
-import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
-import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractProducer;
 import eu.europa.ec.fisheries.uvms.mdr.message.constants.ModuleQueues;
 import eu.europa.ec.fisheries.uvms.mdr.message.consumer.commonconsumers.MdrEventQueueConsumerBean;
@@ -24,6 +22,7 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Destination;
+import javax.jms.JMSException;
 
 /**
  * Created by kovian on 02/12/2016.
@@ -51,12 +50,12 @@ public class MdrProducerBean extends AbstractProducer {
      * @param text (to be sent to the queue)
      * @return messageID
      */
-    public String sendRulesModuleMessage(String text) throws MessageException {
+    public String sendRulesModuleMessage(String text) throws JMSException {
         log.info("Sending Request to Rules module.");
         String messageID;
         try {
             messageID = rulesEventQueueProducer.sendModuleMessage(text, getMdrEventQueue());
-        } catch (MessageException e) {
+        } catch (JMSException e) {
             log.error("Error sending message to Exchange Module.", e);
             throw e;
         }
@@ -70,7 +69,7 @@ public class MdrProducerBean extends AbstractProducer {
      * @param queue
      * @return JMSMessageID
      */
-    public String sendModuleMessage(String text, ModuleQueues queue) throws MessageException {
+    public String sendModuleMessage(String text, ModuleQueues queue) throws JMSException {
         String messageId;
         switch (queue) {
             case RULES:
@@ -83,7 +82,7 @@ public class MdrProducerBean extends AbstractProducer {
                 messageId = mdrQueueProducer.sendModuleMessage(text, getMdrEventQueue());
                 break;
             default:
-                throw new MessageException("Queue not defined or implemented");
+                throw new JMSException("Queue not defined or implemented");
         }
         return messageId;
     }
@@ -93,8 +92,8 @@ public class MdrProducerBean extends AbstractProducer {
     }
 
     @Override
-    public String getDestinationName() {
-        return MessageConstants.QUEUE_MDR;
+    public Destination getDestination() {
+        return mdrEventQueueConsumer.getDestination();
     }
 }
 

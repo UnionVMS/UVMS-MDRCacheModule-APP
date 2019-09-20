@@ -29,8 +29,6 @@ import javax.ejb.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.ejb.ConcurrencyManagementType.BEAN;
-
 /**
  * Created by kovian on 29/07/2016.
  */

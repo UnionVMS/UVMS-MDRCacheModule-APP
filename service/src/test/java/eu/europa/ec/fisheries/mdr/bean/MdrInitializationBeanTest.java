@@ -11,7 +11,6 @@ details. You should have received a copy of the GNU General Public License along
 package eu.europa.ec.fisheries.mdr.bean;
 
 import eu.europa.ec.fisheries.mdr.dao.BaseMdrDaoTest;
-import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.repository.MdrStatusRepository;
 import eu.europa.ec.fisheries.mdr.repository.bean.MdrLuceneSearchRepositoryBean;
 import eu.europa.ec.fisheries.mdr.repository.bean.MdrRepositoryBean;
@@ -25,6 +24,7 @@ import eu.europa.ec.fisheries.mdr.service.bean.MdrSynchronizationServiceBean;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
 import lombok.SneakyThrows;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -52,7 +52,6 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
     @Mock
     private TimerService timerServ;
 
-
     private MdrStatusRepositoryBean mdrStatusRepository = new MdrStatusRepositoryBean();
     private MdrRepositoryBean mdrRepository = new MdrRepositoryBean();
 
@@ -66,7 +65,6 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
     @SneakyThrows
     public void prepare() {
         // SyncBean internal state
-        Whitebox.setInternalState(synchBean, "mdrRepository", mdrRepository);
         Whitebox.setInternalState(synchBean, "statusRepository", statusRepository);
         Whitebox.setInternalState(synchBean, "producer", producer);
 
@@ -91,6 +89,7 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
     }
 
     @Test
+    @Ignore(value = "Not a test")
     public void testChunkingOperation(){
         int initCap = 1000000;
         final long start = System.currentTimeMillis();
@@ -98,7 +97,7 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
         for(int i = 0; i < initCap; i++){
             containedMDRDataNodes.add(prepareMock());
         }
-        final List<List<MasterDataRegistry>> dataNodesAsChunks = mdrRepository.getDataNodesAsChunks(containedMDRDataNodes, "FLUX_GP_RESPONSE", 500);
+        mdrRepository.getDataNodesAsChunks(containedMDRDataNodes, "FLUX_GP_RESPONSE", 500);
         final long end = System.currentTimeMillis() - start;
         System.out.print("FINISHED.. It took : " + end / 1000 + " seconds");
     }
@@ -124,9 +123,9 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
 
 
     @Test
-    @SneakyThrows
+    @Ignore(value = "Not a test and doesn't handle transactions")
     public void testStartUpMdrInitializationProcess() {
-            initBean.startUpMdrInitializationProcess();
+        initBean.startUpMdrInitializationProcess();
     }
 
 }

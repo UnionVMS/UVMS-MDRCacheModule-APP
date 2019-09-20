@@ -10,11 +10,7 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.repository.bean;
 
-import eu.europa.ec.fisheries.mdr.dao.CodeListStructureDao;
-import eu.europa.ec.fisheries.mdr.dao.MasterDataRegistryDao;
-import eu.europa.ec.fisheries.mdr.dao.MdrBulkOperationsDao;
-import eu.europa.ec.fisheries.mdr.dao.MdrConfigurationDao;
-import eu.europa.ec.fisheries.mdr.dao.MdrStatusDao;
+import eu.europa.ec.fisheries.mdr.dao.*;
 import eu.europa.ec.fisheries.mdr.entities.CodeListStructure;
 import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.mdr.entities.MdrConfiguration;
@@ -25,22 +21,18 @@ import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.service.bean.BaseMdrBean;
 import eu.europa.ec.fisheries.uvms.commons.date.DateUtils;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import un.unece.uncefact.data.standard.mdr.response.*;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
-import un.unece.uncefact.data.standard.mdr.response.FLUXResponseDocumentType;
-import un.unece.uncefact.data.standard.mdr.response.IDType;
-import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
-import un.unece.uncefact.data.standard.mdr.response.MDRDataSetType;
 
 @Stateless
 @Slf4j
@@ -59,7 +51,6 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
 
     @PostConstruct
     public void init() {
-        initEntityManager();
         bulkOperationsDao = new MdrBulkOperationsDao(getEntityManager());
         mdrDao = new MasterDataRegistryDao<>(getEntityManager());
         mdrConfigDao = new MdrConfigurationDao(getEntityManager());
@@ -120,7 +111,7 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
                 log.info("Inserting chunk : " + counter++);
                 insertNewDataWithoutPurging(chunkOfMdrEntityRows);
             }
-            statusDao.updateStatusSuccessForAcronym(response.getMDRDataSet(), AcronymListState.SUCCESS, DateUtils.nowUTC().toDate());
+            statusDao.updateStatusSuccessForAcronym(response.getMDRDataSet(), AcronymListState.SUCCESS, Date.from(DateUtils.nowUTC()));
         } catch (ServiceException e) {
             statusDao.updateStatusForAcronym(chuncksList.get(0).get(0).getAcronym(), AcronymListState.FAILED);
             log.error("Transaction rolled back! Couldn't persist mdr Entity : ", e);
@@ -135,7 +126,7 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
             log.info("START [STAT] : Received and going to save [ - " + mdrEntityRows.size() + " - ] Rows of the entity [ " + mdrEntityRows.get(0).getAcronym() + " ]");
             try {
                 insertNewData(mdrEntityRows);
-                statusDao.updateStatusSuccessForAcronym(response.getMDRDataSet(), AcronymListState.SUCCESS, DateUtils.nowUTC().toDate());
+                statusDao.updateStatusSuccessForAcronym(response.getMDRDataSet(), AcronymListState.SUCCESS, Date.from(DateUtils.nowUTC()));
             } catch (ServiceException e) {
                 statusDao.updateStatusForAcronym(mdrEntityRows.get(0).getAcronym(), AcronymListState.FAILED);
                 log.error("Transaction rolled back! Couldn't persist mdr Entity : ", e);

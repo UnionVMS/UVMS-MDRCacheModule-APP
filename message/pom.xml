@@ -7,17 +7,12 @@
     <packaging>ejb</packaging>
 
     <parent>
-        <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
-        <artifactId>mdr</artifactId>
+        <groupId>eu.europa.ec.fisheries.uvms.mdrSwe</groupId>
+        <artifactId>mdrSwe</artifactId>
         <version>1.0.18-SNAPSHOT</version>
     </parent>
     
     <dependencies>
-
-        <dependency>
-            <groupId>eu.europa.ec.fisheries.uvms</groupId>
-            <artifactId>uvms-test</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -35,7 +30,7 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
             <artifactId>mdr-model</artifactId>
             <scope>provided</scope>
         </dependency>

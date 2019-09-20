@@ -4,7 +4,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="mdrPUPostgres" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- MDR entities -->
@@ -98,7 +98,7 @@
             <property name="javax.persistence.schema-generation.scripts.create-target"
                       value="scripts/create-table.ddl"/>
             <property name="hibernate.connection.url"
-                      value="jdbc:h2:mem:testdb;INIT=CREATE SCHEMA IF NOT EXISTS mdr;DATABASE_TO_UPPER=false;TRACE_LEVEL_SYSTEM_OUT=2;MVCC=true;"/>
+                      value="jdbc:h2:mem:testdb;INIT=CREATE SCHEMA IF NOT EXISTS mdr;DATABASE_TO_UPPER=false;TRACE_LEVEL_SYSTEM_OUT=0;MVCC=true;"/>
             <property name="javax.persistence.schema-generation.create-database-schemas" value="true"/>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>

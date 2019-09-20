@@ -40,13 +40,13 @@ public class MdrConfigurationDao extends AbstractDAO<MdrConfiguration> {
         return em;
     }
 
-    public List<MdrConfiguration> findAllConfigurations() throws ServiceException {
+    public List<MdrConfiguration> findAllConfigurations() {
         return findAllEntity(MdrConfiguration.class);
     }
 
     public MdrConfiguration findConfiguration(String configName) {
         MdrConfiguration configEntry = null;
-        List<MdrConfiguration> configList = null;
+        List<MdrConfiguration> configList;
         try {
             configList = findEntityByHqlQuery(MdrConfiguration.class, SELECT_FROM_MDRCONFIG_WHERE_NAME_EQ + "'" + configName + "'");
             if (CollectionUtils.isNotEmpty(configList)) {
@@ -54,7 +54,7 @@ public class MdrConfigurationDao extends AbstractDAO<MdrConfiguration> {
             } else {
                 log.error("No configuration found in the db regarding {} ", configName);
             }
-        } catch (ServiceException | NullPointerException e) {
+        } catch (NullPointerException e) {
             log.error("Error while trying to get Configuration for configName : ", configName, e);
         }
         return configEntry;

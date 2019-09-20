@@ -15,13 +15,14 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
 import eu.europa.ec.fisheries.schema.rules.module.v1.RulesModuleMethod;
 import eu.europa.ec.fisheries.schema.rules.module.v1.SetFLUXMDRSyncMessageRulesRequest;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
-import org.joda.time.DateTime;
 import un.unece.uncefact.data.standard.mdr.query.CodeType;
 import un.unece.uncefact.data.standard.mdr.query.DateTimeType;
 import un.unece.uncefact.data.standard.mdr.query.FLUXMDRQueryMessage;
@@ -125,7 +126,10 @@ public class MdrRequestMapper {
      * @throws DatatypeConfigurationException
      */
     private static DateTimeType createSubmitedDate() throws DatatypeConfigurationException {
-        XMLGregorianCalendar date = DatatypeFactory.newInstance().newXMLGregorianCalendar(new DateTime().toGregorianCalendar());
+        GregorianCalendar gregory = new GregorianCalendar();
+        gregory.setTime(new Date());
+
+        XMLGregorianCalendar date = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregory);
         return new DateTimeType(date, null);
     }
 

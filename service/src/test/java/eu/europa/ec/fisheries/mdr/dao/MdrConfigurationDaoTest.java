@@ -100,8 +100,5 @@ public class MdrConfigurationDaoTest extends BaseMdrDaoTest {
         } catch (ServiceException e) {
             assertEquals("Cron expression cannot be empty!", e.getMessage());
         }
-
-
     }
-
 }

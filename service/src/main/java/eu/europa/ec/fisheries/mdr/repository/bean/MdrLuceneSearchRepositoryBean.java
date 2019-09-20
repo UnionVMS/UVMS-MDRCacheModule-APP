@@ -44,7 +44,6 @@ public class MdrLuceneSearchRepositoryBean extends BaseMdrBean implements MdrLuc
 
     @PostConstruct
     public void init() {
-        initEntityManager();
         fullTextEntityManager = getFullTextEntityManager();
     }
 

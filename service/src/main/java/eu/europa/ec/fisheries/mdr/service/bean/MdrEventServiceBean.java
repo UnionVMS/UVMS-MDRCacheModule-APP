@@ -18,7 +18,6 @@ import eu.europa.ec.fisheries.mdr.repository.MdrLuceneSearchRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrStatusRepository;
 import eu.europa.ec.fisheries.mdr.service.MdrEventService;
-import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.*;
@@ -171,7 +170,7 @@ public class MdrEventServiceBean implements MdrEventService {
             log.info("Response sent on queue [{}].", message.getJmsMessage().getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
-        } catch (ServiceException | MessageException | JMSException e) {
+        } catch (ServiceException | JMSException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
         }
     }
@@ -191,7 +190,7 @@ public class MdrEventServiceBean implements MdrEventService {
             log.info("Response sent on queue [{}].", message.getJmsMessage().getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
-        } catch (MessageException | JMSException e) {
+        } catch (JMSException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, message.getJmsMessage());
         }
 
@@ -224,7 +223,7 @@ public class MdrEventServiceBean implements MdrEventService {
             log.info("Response sent on queue [{}].", jmsMessage.getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, jmsMessage);
-        } catch (ServiceException | MessageException | IllegalStateException | JMSException e) {
+        } catch (ServiceException | IllegalStateException | JMSException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, jmsMessage);
         }
     }
@@ -257,7 +256,7 @@ public class MdrEventServiceBean implements MdrEventService {
         try {
             String mdrGetLastRefreshDateResponse = MdrModuleMapper.createMdrGetLastRefreshDateResponse(statusBean.getLastRefreshDate());
             mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetLastRefreshDateResponse, ONE_MINUTE, DeliveryMode.NON_PERSISTENT);
-        } catch (MdrModelMarshallException | MessageException | DatatypeConfigurationException e) {
+        } catch (MdrModelMarshallException | DatatypeConfigurationException | JMSException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
         }
     }
@@ -293,7 +292,7 @@ public class MdrEventServiceBean implements MdrEventService {
         try {
             log.error(textMessage);
             mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, MdrModuleMapper.createFluxMdrGetCodeListErrorResponse(textMessage), ONE_MINUTE, NON_PERSISTENT);
-        } catch (MdrModelMarshallException | MessageException e) {
+        } catch (MdrModelMarshallException | JMSException e) {
             log.error("[ERROR] Something went wrong during sending of error message back to MdrQueue out! Couldn't recover anymore from this! Response will not be posted!", e);
         }
     }

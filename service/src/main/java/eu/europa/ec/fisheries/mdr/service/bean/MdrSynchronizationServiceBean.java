@@ -14,32 +14,25 @@ import eu.europa.ec.fisheries.mdr.exception.MdrCacheInitException;
 import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
 import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
 import eu.europa.ec.fisheries.mdr.mapper.MdrRequestMapper;
-import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrStatusRepository;
 import eu.europa.ec.fisheries.mdr.service.MdrSynchronizationService;
 import eu.europa.ec.fisheries.mdr.util.GenericOperationOutcome;
 import eu.europa.ec.fisheries.mdr.util.OperationOutcome;
 import eu.europa.ec.fisheries.uvms.commons.date.DateUtils;
-import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.jms.JMSException;
 import javax.transaction.Transactional;
-
-import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * @author kovian
@@ -53,9 +46,6 @@ import org.apache.commons.lang3.StringUtils;
 @Stateless
 @Transactional
 public class MdrSynchronizationServiceBean implements MdrSynchronizationService {
-
-    @EJB
-    private MdrRepository mdrRepository;
 
     @EJB
     private MdrStatusRepository statusRepository;
@@ -174,16 +164,16 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
                 try {
                     strReqObj   = MdrRequestMapper.mapMdrQueryTypeToString(actualAcronym, OBJ_DATA_ALL, uuid, mdrConfigurationCache.getNationCode());
                     producer.sendRulesModuleMessage(strReqObj);
-                    statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.RUNNING, DateUtils.nowUTC().toDate(), uuid);
+                    statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.RUNNING, Date.from(DateUtils.nowUTC()), uuid);
                     log.info("Synchronization Request Sent for Entity : " + actualAcronym);
                 } catch (MdrMappingException e) {
                     log.error(ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM, actualAcronym, e);
                     errorContainer.addMessage("Error while trying to map MDRQueryType for acronym {} " + actualAcronym);
-                    statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.FAILED, DateUtils.nowUTC().toDate(), uuid);
-                } catch (MessageException e) {
+                    statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.FAILED, Date.from(DateUtils.nowUTC()), uuid);
+                } catch (JMSException e) {
                     log.error("Error while trying to send message from MDR module to Rules module.", e);
                     errorContainer.addMessage("Error while trying to send message from MDR module to Rules module for acronym {} " + actualAcronym);
-                    statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.FAILED, DateUtils.nowUTC().toDate(), uuid);
+                    statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.FAILED, Date.from(DateUtils.nowUTC()), uuid);
                 }
                 errorContainer.setIncludedObject(statusRepository.getAllAcronymsStatuses());
             } else {// Acronym does not exist
@@ -209,13 +199,13 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
             }
         } catch (MdrMappingException e) {
             log.error(ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM, acronymsList, e);
-        } catch (MessageException e) {
+        } catch (JMSException e) {
             log.error("Error while trying to send OBJ_DESC message from MDR module to Rules module.", e);
         }
     }
 
     @Override
-    public void sendRequestForSingleMdrCodelistsStructure(String actAcron) throws MdrMappingException, MessageException {
+    public void sendRequestForSingleMdrCodelistsStructure(String actAcron) throws MdrMappingException, JMSException {
         String strReqObj = MdrRequestMapper.mapMdrQueryTypeToString(actAcron, OBJ_DESC, java.util.UUID.randomUUID().toString(), mdrConfigurationCache.getNationCode());
         producer.sendRulesModuleMessage(strReqObj);
     }
@@ -228,7 +218,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
             log.info("Synchronization Request Sent for INDEX ServiceType");
         } catch (MdrMappingException e) {
             log.error(ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM, e);
-        } catch (MessageException e) {
+        } catch (JMSException e) {
             log.error("Error while trying to send message from MDR module to Rules module.", e);
         }
     }

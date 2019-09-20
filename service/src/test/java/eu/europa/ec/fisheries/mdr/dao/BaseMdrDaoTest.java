@@ -10,12 +10,10 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.dao;
 
-import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
-import static com.ninja_squad.dbsetup.Operations.insertInto;
-import static com.ninja_squad.dbsetup.Operations.sequenceOf;
-
 import com.ninja_squad.dbsetup.operation.Operation;
 import eu.europa.ec.fisheries.mdr.BaseDAOTest;
+
+import static com.ninja_squad.dbsetup.Operations.*;
 
 
 public abstract class BaseMdrDaoTest extends BaseDAOTest {
@@ -90,6 +88,6 @@ public abstract class BaseMdrDaoTest extends BaseDAOTest {
         return "mdr";
     }
     protected String getPersistenceUnitName() {
-        return "testPU";
+        return "mdrPUPostgres";
     }
 }

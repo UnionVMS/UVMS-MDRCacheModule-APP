@@ -13,8 +13,11 @@ package eu.europa.ec.fisheries.uvms.mdr.message.consumer.commonconsumers;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractConsumer;
 
+import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.jms.Destination;
+import javax.jms.Queue;
 
 /**
  * Created by kovian on 04/04/2017.
@@ -24,8 +27,11 @@ import javax.ejb.Stateless;
 @LocalBean
 public class MdrEventQueueConsumerBean extends AbstractConsumer {
 
+    @Resource(mappedName =  "java:/" + MessageConstants.QUEUE_MDR_EVENT)
+    private Queue destination;
+
     @Override
-    public String getDestinationName() {
-        return MessageConstants.QUEUE_MDR_EVENT;
+    public Destination getDestination() {
+        return destination;
     }
 }

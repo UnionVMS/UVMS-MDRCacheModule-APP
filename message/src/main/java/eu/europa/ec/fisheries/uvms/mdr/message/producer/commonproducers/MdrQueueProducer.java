@@ -10,10 +10,14 @@ details. You should have received a copy of the GNU General Public License along
 */
 package eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers;
 
-import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractProducer;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageConstants;
+import eu.europa.ec.fisheries.uvms.commons.message.impl.AbstractProducer;
+
+import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.jms.Destination;
+import javax.jms.Queue;
 
 /**
  * Created by kovian on 04/04/2017.
@@ -22,8 +26,11 @@ import javax.ejb.Stateless;
 @LocalBean
 public class MdrQueueProducer extends AbstractProducer {
 
+    @Resource(mappedName =  "java:/" + MessageConstants.QUEUE_MDR)
+    private Queue destination;
+
     @Override
-    public String getDestinationName() {
-        return MessageConstants.QUEUE_MDR;
+    public Destination getDestination() {
+        return destination;
     }
 }

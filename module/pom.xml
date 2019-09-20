@@ -7,8 +7,8 @@
     <packaging>ear</packaging>
 
     <parent>
-        <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
-        <artifactId>mdr</artifactId>
+        <groupId>eu.europa.ec.fisheries.uvms.mdrSwe</groupId>
+        <artifactId>mdrSwe</artifactId>
         <version>1.0.18-SNAPSHOT</version>
     </parent> 
 
@@ -30,7 +30,7 @@
                             <artifactId>service</artifactId>
                         </ejbModule>
                         <ejbModule>
-                            <groupId>${project.groupId}</groupId>
+                            <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
                             <artifactId>mdr-model</artifactId>
                         </ejbModule>
                         <webModule>
@@ -67,7 +67,7 @@
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
             <artifactId>mdr-model</artifactId>
             <version>${mdr.model.version}</version>
             <type>ejb</type>
@@ -103,7 +103,7 @@
     				 <artifactId>slf4j-api</artifactId>
             	</exclusion>
             </exclusions>
-        </dependency>		        
+        </dependency>
     </dependencies>
 
     <!-- USE following command to run this profile: mvn clean install -P wildfly-deploy wildfly:deploy -Dhostname=127.0.0.1 -Dport=9990 -Dusername=wildfly -Dpassword=password  -->
@@ -115,7 +115,7 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>1.1.0.Alpha11</version>
+                        <version>1.0.2.Final</version>
                         <executions>
                             <!-- Undeploy the application on clean -->
 		                    <execution>

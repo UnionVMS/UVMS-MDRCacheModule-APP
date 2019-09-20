@@ -43,6 +43,7 @@ public interface MdrStatusRepository {
 
     void updateSchedulableForAcronym(String acronym, boolean schedulable);
 
-
     List<MdrCodeListStatus> findAllMdrStatuses();
+
+    List<MdrCodeListStatus> findStatusAndVersionsForAcronym(String acronym);
 }

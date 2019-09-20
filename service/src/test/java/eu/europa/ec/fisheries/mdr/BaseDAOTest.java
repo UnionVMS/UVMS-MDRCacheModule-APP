@@ -2,7 +2,6 @@ package eu.europa.ec.fisheries.mdr;
 
 import com.ninja_squad.dbsetup.DbSetupTracker;
 import org.h2.jdbcx.JdbcConnectionPool;
-import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

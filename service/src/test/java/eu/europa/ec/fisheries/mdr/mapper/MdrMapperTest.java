@@ -17,6 +17,7 @@ import java.util.UUID;
 import eu.europa.ec.fisheries.schema.rules.module.v1.SetFLUXMDRSyncMessageRulesRequest;
 import eu.europa.ec.fisheries.uvms.commons.message.impl.JAXBUtils;
 import lombok.SneakyThrows;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -30,6 +31,7 @@ public class MdrMapperTest {
 
     @SneakyThrows
     @Test
+    @Ignore("Not testing anything!")
     public void testIndexRequestCreation(){
         String index = MdrRequestMapper.mapMdrQueryTypeToStringForINDEXServiceType("INDEX", "XEU");
         final SetFLUXMDRSyncMessageRulesRequest unmarshalled = JAXBUtils.unMarshallMessage(index, SetFLUXMDRSyncMessageRulesRequest.class);
@@ -38,6 +40,7 @@ public class MdrMapperTest {
 
     @SneakyThrows
     @Test
+    @Ignore("Not testing anything!")
     public void testCreationOfUpdateRequest(){
         List<String> existingAcronymsList = MasterDataRegistryEntityCacheFactory.getAcronymsList();
         List<String> requestsList = new ArrayList<>();
@@ -52,6 +55,7 @@ public class MdrMapperTest {
 
     @SneakyThrows
     @Test
+    @Ignore("Not testing anything!")
     public void testCreationOfStructureServiceRequest(){
         final String request = MdrRequestMapper.mapMdrQueryTypeToString(MEMEBRSTATES_ACRONYM, OBJ_DESC, UUID.randomUUID().toString(), "XEU");
         final SetFLUXMDRSyncMessageRulesRequest unmarshalled = JAXBUtils.unMarshallMessage(request, SetFLUXMDRSyncMessageRulesRequest.class);

@@ -18,24 +18,10 @@ import javax.persistence.PersistenceContext;
  */
 public abstract class BaseMdrBean {
 
-    protected EntityManager em;
-
     @PersistenceContext(unitName = "mdrPUPostgres")
     private EntityManager postgres;
 
-    @PersistenceContext(unitName = "mdrPUOracle")
-    private EntityManager oracle;
-
-    protected void initEntityManager() {
-        String dbDialect = System.getProperty("db.dialect");
-        if ("oracle".equalsIgnoreCase(dbDialect)) {
-            em = oracle;
-        } else {
-            em = postgres;
-        }
-    }
-
     protected EntityManager getEntityManager() {
-        return em;
+        return postgres;
     }
 }
