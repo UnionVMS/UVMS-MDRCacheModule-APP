@@ -131,6 +131,7 @@
                 <artifactId>mdr-model</artifactId>
                 <version>${mdr.model.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>eu.europa.ec.fisheries.uvms.rules</groupId>
                 <artifactId>rules-model</artifactId>
@@ -168,6 +169,11 @@
                         <artifactId>jaxb-impl</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.fisheries.uvms.commons</groupId>
+                <artifactId>uvms-commons-rest</artifactId>
+                <version>${uvms.commons.version}</version>
             </dependency>
 			<dependency>
 				<groupId>eu.europa.ec.fisheries.uvms</groupId>
@@ -217,6 +223,13 @@
             </dependency>
 
             <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jaxb-annotations</artifactId>
+                <version>${jackson.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${webtoken.version}</version>
@@ -248,13 +261,6 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
-                <version>${javaee.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -325,6 +331,13 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaee.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- LOGGING DEPENDENCIES -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -519,5 +532,6 @@
         <module>service</module>
         <module>message</module>
         <module>module</module>
+        <module>client</module>
     </modules>
 </project>
