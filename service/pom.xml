@@ -15,6 +15,10 @@
 	<properties>
 		<commons.lang.version>${commons-io.version}</commons.lang.version>
 		<guava.version>${google.guava.version}</guava.version>
+		
+		<docker.dev.start.phase>test-compile</docker.dev.start.phase>
+        <docker.liquibase.phase>test-compile</docker.liquibase.phase>
+<!-- 		<docker.dev.prestop.phase>validate</docker.dev.prestop.phase> -->
 	</properties>
 
 	<dependencies>

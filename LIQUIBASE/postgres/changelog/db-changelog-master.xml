@@ -4,9 +4,9 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
   <!-- Tables creation -->
-  <include file="postgres\changelog\v0.1\db-changelog-createTables_0.1.xml"/>
+  <include file="v0.1\db-changelog-createTables_0.1.xml" relativeToChangelogFile="true"/>
 
   <!-- Loading of init data -->
-  <include file="postgres\changelog\testdata\test-data-master.xml"/>
+  <include file="testdata\test-data-master.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

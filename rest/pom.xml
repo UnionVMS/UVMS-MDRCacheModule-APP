@@ -14,6 +14,9 @@
     <properties>
         <warSourceDirectory.path>src/main/webapp</warSourceDirectory.path>
         <webXml.path>src/main/webapp/WEB-INF/web.xml</webXml.path>
+        
+        <docker.dev.stop.phase>verify</docker.dev.stop.phase>
+        <docker.dev.prestop.phase>install</docker.dev.prestop.phase>
     </properties>
 
     <dependencies>
