@@ -25,7 +25,6 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Queue;
 
-
 @Stateless
 @Slf4j
 public class MdrConfigProducerBeanImpl extends AbstractProducer implements ConfigMessageProducer {
@@ -33,14 +32,17 @@ public class MdrConfigProducerBeanImpl extends AbstractProducer implements Confi
     /**
      * Once a message is sent to config, config needs to know where to send the response... This is MDRQueue in case of MDR modules..
      */
-    @Resource(mappedName =  "java:/" + MessageConstants.QUEUE_MDR)
+    @Resource(mappedName =  "java:/" + MessageConstants.QUEUE_CONFIG)
     private Queue destination;
+
+    @Resource(mappedName =  "java:/" + MessageConstants.QUEUE_MDR)
+    private Queue replyToQueue;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public String sendConfigMessage(String textMsg) {
         try {
-            return sendModuleMessage(textMsg, destination);
+            return sendModuleMessage(textMsg, replyToQueue);
         } catch (JMSException e) {
             log.error("[ERROR] Error while trying to send message to Config! Check MdrConfigProducerBeanImpl..");
         }
