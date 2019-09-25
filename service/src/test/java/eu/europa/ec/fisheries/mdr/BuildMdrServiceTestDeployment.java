@@ -28,6 +28,8 @@ public class BuildMdrServiceTestDeployment {
 
         testWar.addPackages(true, "eu.europa.ec.fisheries.mdr", "eu.europa.ec.fisheries.uvms.mdr.message");
 
+        testWar.addClass(ConfigServiceMock.class);
+
         testWar.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml");
         testWar.addAsResource("beans.xml", "META-INF/beans.xml");
 
