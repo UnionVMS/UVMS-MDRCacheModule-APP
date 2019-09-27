@@ -130,6 +130,9 @@
                             <directory>src/main/webapp</directory>
                             <filtering>true</filtering>
                         </resource>
+                        <resource>
+                            <directory>${project.build.directory}/generated-swagger-root</directory>
+                        </resource>
                     </webResources>
                 </configuration>
                 <executions>
@@ -192,7 +195,7 @@
                                         <artifactId>swagger-doclet</artifactId>
                                         <version>1.0.4.1</version>
                                     </docletArtifact>
-                                    <reportOutputDirectory>src/main/webapp</reportOutputDirectory>
+                                    <reportOutputDirectory>${project.build.directory}/generated-swagger-root</reportOutputDirectory>
                                     <useStandardDocletOptions>false</useStandardDocletOptions>
                                     <additionalparam>-apiVersion ${project.version}
                                         -docBasePath /${project.parent.artifactId}/apidocs
