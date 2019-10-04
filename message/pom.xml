@@ -25,11 +25,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
             <artifactId>mdr-model</artifactId>
             <scope>provided</scope>

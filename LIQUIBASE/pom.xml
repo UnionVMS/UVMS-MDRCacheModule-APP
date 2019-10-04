@@ -3,7 +3,7 @@
 
     <artifactId>liquibase</artifactId>
     <name>${project.artifactId}</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>eu.europa.ec.fisheries.uvms.mdrSwe</groupId>
