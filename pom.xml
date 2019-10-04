@@ -85,6 +85,8 @@
         <lombok.version>1.16.18</lombok.version>
         <google.guava.version>20.0</google.guava.version>
         <resteasy-jaxb-provider.version>3.0.11.Final</resteasy-jaxb-provider.version>
+
+        <installAtEnd>false</installAtEnd>
     </properties>
 
     <dependencyManagement>
