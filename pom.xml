@@ -23,7 +23,7 @@
     </developers>
 
     <properties>
-        <docker.dev.version>3.39.9.w17-SNAPSHOT</docker.dev.version>
+        <docker.dev.version>3.39.10.w17</docker.dev.version>
 		<docker.liquibase.changeLogFile>LIQUIBASE/postgres/changelog/db-changelog-master.xml</docker.liquibase.changeLogFile>
         <docker.liquibase.db.user>mdr</docker.liquibase.db.user>
         <docker.liquibase.db.passwd>mdr</docker.liquibase.db.passwd>
