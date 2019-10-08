@@ -44,7 +44,7 @@
         <mdr.model.version>1.0.5</mdr.model.version>
 
         <!-- Other modules dependencies -->
-        <rules.model>3.0.31</rules.model>
+        <rules.model>3.4-MARE-SNAPSHOT</rules.model>
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
@@ -57,9 +57,9 @@
         <junit.version>4.12</junit.version>
 
         <!-- UVMS Libraries -->
-        <uvms.config.version>4.1-W14J8</uvms.config.version>
-        <usm4uvms.version>4.0.14-W14-J8</usm4uvms.version>
-        <uvms.commons.version>3.3-W14J8</uvms.commons.version>
+        <uvms.config.version>4.2-SNAPSHOT</uvms.config.version>
+        <usm4uvms.version>4.0.15.1-SNAPSHOT</usm4uvms.version>
+        <uvms.commons.version>3.4-SNAPSHOT</uvms.commons.version>
 
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>

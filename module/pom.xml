@@ -107,42 +107,23 @@
     </dependencies>
 
     <!-- USE following command to run this profile: mvn clean install -P wildfly-deploy wildfly:deploy -Dhostname=127.0.0.1 -Dport=9990 -Dusername=wildfly -Dpassword=password  -->
-    <profiles>
+   <profiles>
         <profile>
-            <id>wildfly-deploy</id>
+            <id>wildfly-local</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>1.1.0.Alpha11</version>
-                        <executions>
-                            <!-- Undeploy the application on clean -->
-		                    <execution>
-		                        <id>undeploy</id>
-		                        <phase>clean</phase>
-		                        <goals>
-		                            <goal>undeploy</goal>
-		                        </goals>
-		                        <configuration>
-		                            <ignoreMissingDeployment>true</ignoreMissingDeployment>
-		                        </configuration>
-                    		</execution>
-                    		<execution>
-		                        <id>deploy</id>
-		                        <phase>install</phase>
-		                        <goals>
-		                            <goal>deploy</goal>
-		                        </goals>
-                    		</execution>
-                        </executions>
+                        <version>2.0.1.Final</version>
+                     
                         <configuration>
                             <filename>${project.build.finalName}.${project.packaging}</filename>
-                            <targetDir>${project.build.directory}</targetDir>
+                            <targetDir>${targetDir}</targetDir>
                             <hostname>${hostname}</hostname>
                             <port>${port}</port>
-                            <username>${username}</username>
-                            <password>${password}</password>
+                            <username>${wildfly-username}</username>
+                            <password>${wildfly-password}</password>
                             <force>true</force>
                         </configuration>
                     </plugin>
