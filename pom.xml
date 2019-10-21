@@ -2,25 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>fish.focus.uvms.maven</groupId>
-        <artifactId>uvms-pom</artifactId>
-        <version>1.21</version>
-        <relativePath />
-    </parent>
+  <parent>
+    <groupId>eu.europa.ec.fisheries.uvms</groupId>
+    <artifactId>mare-pom</artifactId>
+    <version>1.6.0-MARE</version>
+    <relativePath />
+  </parent>
 
     <groupId>eu.europa.ec.fisheries.uvms.mdr</groupId>
     <artifactId>mdr</artifactId>
-    <version>1.0.18-SNAPSHOT</version>
+    <version>${uvms.mdr.module.version}</version>
     <packaging>pom</packaging>
     <description>Maven project-archetype for UnionVms modules</description>
-
-    <developers>
-        <developer>
-            <name>Andi Kovi</name>
-            <email>andi.kovi@cegeka.be</email>
-        </developer>
-    </developers>
 
     <properties>
         <application.name>${project.parent.artifactId}</application.name>
@@ -41,25 +34,24 @@
 
         <!-- The MDR name is used as a common point to rename the application alias visible in USM-->
         <mdr.name>MDR Cache</mdr.name>
-        <mdr.model.version>1.0.5</mdr.model.version>
+        <mdr.model.version>${uvms.mdr.model.version}</mdr.model.version>
 
         <!-- Other modules dependencies -->
-        <rules.model>3.4-MARE-SNAPSHOT</rules.model>
+        <rules.model>${uvms.rules.module.version}</rules.model>
+        <uvms.test.version>0.0.8</uvms.test.version>
+
+        <!-- UVMS Libraries -->
+        <uvms.config.version>${uvms.config.library.version}</uvms.config.version>
+        <usm4uvms.version>${uvms.uvms4usm.version}</usm4uvms.version>
+        <uvms.commons.version>${uvms.commonsLibrary.version}</uvms.commons.version>
 
         <jackson.version>2.7.3</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
-
-        <uvms.test.version>0.0.8</uvms.test.version>
 
         <hibernate-search-orm.version>5.5.8.Final</hibernate-search-orm.version>
 
         <mockito.version>2.23.0</mockito.version>
         <junit.version>4.12</junit.version>
-
-        <!-- UVMS Libraries -->
-        <uvms.config.version>4.2-SNAPSHOT</uvms.config.version>
-        <usm4uvms.version>4.0.15.1-SNAPSHOT</usm4uvms.version>
-        <uvms.commons.version>3.4-SNAPSHOT</uvms.commons.version>
 
         <usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
         <release.branch.name>uvms-1.0.0</release.branch.name>
