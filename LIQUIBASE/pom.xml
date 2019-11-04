@@ -78,7 +78,7 @@
                 <db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
                 <db.user>mdr</db.user>
                 <db.passwd>mdr</db.passwd>
-                <db.changeLogFile>changelog/db-changelog-master.xml</db.changeLogFile>
+
                 <driver.groupId>com.oracle</driver.groupId>
                 <driver.artifactId>ojdbc7</driver.artifactId>
                 <driver.version>12.1.0.2.0</driver.version>
@@ -171,7 +171,7 @@
             </build>
             <properties>
                 <db.changeLogFile>postgres/changelog/db-changelog-master.xml</db.changeLogFile>
-                <db.docker.url>offline:postgresql?changeLogFile=target/databasechangelog.csv&amp;outputLiquibaseSql=true</db.docker.url>
+                <db.docker.url>offline:postgresql?changeLogFile=${project.build.directory}/databasechangelog.csv&amp;outputLiquibaseSql=true</db.docker.url>
             </properties>
         </profile>
     </profiles>
