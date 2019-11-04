@@ -5,3 +5,4 @@ scripts
 scripts/*
 logging.properties
 .DS_Store
+.flattened-pom.xml
