@@ -133,7 +133,6 @@
                         <artifactId>liquibase-maven-plugin</artifactId>
                         <configuration>
                             <url>${db.docker.url}</url>
-                            <migrationSqlOutputFile>${project.build.directory}/full-update.sql</migrationSqlOutputFile>
                             <outputFileEncoding>UTF-8</outputFileEncoding>
                         </configuration>
                         <executions>
@@ -143,6 +142,23 @@
                                 <goals>
                                     <goal>updateSQL</goal>
                                 </goals>
+                                <configuration>
+                                    <migrationSqlOutputFile>${project.build.directory}/full-update.sql</migrationSqlOutputFile>
+                                    <contexts>default</contexts>
+                                    <url>offline:postgresql?changeLogFile=${project.build.directory}/databasechangelog.csv&amp;outputLiquibaseSql=true</url>
+                                </configuration>
+							</execution>
+                            <execution>
+                                <id>update-schema-sql-test</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>updateSQL</goal>
+                                </goals>
+                                <configuration>
+                                    <migrationSqlOutputFile>${project.build.directory}/full-update-test.sql</migrationSqlOutputFile>
+                                    <contexts>default,test</contexts>
+                                <url>offline:postgresql?changeLogFile=${project.build.directory}/databasetestchangelog.csv&amp;outputLiquibaseSql=true</url>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -162,6 +178,10 @@
                                             <file>${project.build.directory}/full-update.sql</file>
                                             <type>sql</type>
                                         </artifact>
+										<artifact>
+											<file>${project.build.directory}/full-update-test.sql</file>
+											<type>test-sql</type>
+										</artifact>
                                     </artifacts>
                                 </configuration>
                             </execution>
@@ -182,7 +202,6 @@
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
-                    <version>3.5.2</version>
                     <configuration>
                         <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                         <changeLogFile>${db.changeLogFile}</changeLogFile>
