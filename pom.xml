@@ -225,12 +225,6 @@
                 <version>${jackson.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>${webtoken.version}</version>
-            </dependency>
-
             <!--HIBERNATE SEARCH-->
 
             <dependency>
