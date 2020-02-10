@@ -15,10 +15,10 @@ import eu.europa.ec.fisheries.mdr.exception.FieldNotMappedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.SortableField;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.bridge.builtin.DoubleBridge;
+import org.hibernate.search.bridge.builtin.LongBridge;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
 import un.unece.uncefact.data.standard.mdr.response.MDRElementDataNodeType;
 
@@ -63,12 +63,14 @@ public class Location extends MasterDataRegistry {
 
     @Column(name = "latitude")
     @Field(name = "latitude")
+    @FieldBridge(impl = CoreDoubleBridge.class)
     @Analyzer(definition = LOW_CASE_ANALYSER)
     //@SortableField
     private Double latitude;
 
     @Column(name = "longitude")
     @Field(name = "longitude")
+    @FieldBridge(impl = CoreDoubleBridge.class)
     @Analyzer(definition = LOW_CASE_ANALYSER)
     //@SortableField
     private Double longitude;
