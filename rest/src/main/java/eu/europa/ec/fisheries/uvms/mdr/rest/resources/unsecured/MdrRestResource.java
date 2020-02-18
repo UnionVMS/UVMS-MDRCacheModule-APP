@@ -1,6 +1,7 @@
 package eu.europa.ec.fisheries.uvms.mdr.rest.resources.unsecured;
 
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
+import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
 import eu.europa.ec.fisheries.mdr.repository.MdrLuceneSearchRepository;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
 import eu.europa.ec.fisheries.uvms.mdr.model.mapper.MdrGenericObjectMapper;
@@ -37,6 +38,12 @@ public class MdrRestResource {
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response getAcronym(MdrGetCodeListRequest request) {
         try {
+            if (!MasterDataRegistryEntityCacheFactory.getInstance().existsAcronym(request.getAcronym())) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Acronym " + request.getAcronym() + " not found")
+                        .build();
+            }
+
             List<String> columnsToFilter = request.getColumnsToFilters();
             String[] columnsToFilterArray;
             if (CollectionUtils.isNotEmpty(columnsToFilter)) {
