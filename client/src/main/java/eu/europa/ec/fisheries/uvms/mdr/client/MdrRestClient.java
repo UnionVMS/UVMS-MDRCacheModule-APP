@@ -59,6 +59,10 @@ public class MdrRestClient {
                 .request(MediaType.APPLICATION_JSON);
 
         Response response = builder.post(Entity.entity(mdrGetCodeListRequest, MediaType.APPLICATION_JSON_TYPE));
+        if (response.getStatus() != 200) {
+            return null;
+        }
+
         return response.readEntity(MdrGetCodeListResponse.class);
     }
 }
