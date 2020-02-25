@@ -34,6 +34,8 @@ public class GearType extends MasterDataRegistry {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String ACRONYM = "GEAR_TYPE";
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @SequenceGenerator(name = "GEAR_TYPE_SEQ_GEN", sequenceName = "mdr_gear_type_seq", allocationSize = 1)
@@ -84,9 +86,17 @@ public class GearType extends MasterDataRegistry {
 
     @Override
     public String getAcronym() {
-        return "GEAR_TYPE";
+        return ACRONYM;
     }
 
+    @Override
+    protected boolean setDescriptionFromField(String fieldName, String potentialDescription) {
+        if ((ACRONYM + EN_DESCRIPTION_STR).equals(fieldName)) {
+            setDescription(potentialDescription);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException {
