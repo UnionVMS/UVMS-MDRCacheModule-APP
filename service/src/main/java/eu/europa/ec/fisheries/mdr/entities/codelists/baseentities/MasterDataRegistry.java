@@ -87,8 +87,8 @@ public abstract class MasterDataRegistry implements Serializable {
 
     protected void populateCommonFields(MDRDataNodeType mdrDataType) {
 
-        populateDataNodeNames();
-
+        String acronym = getAcronym();
+        populateDataNodeNames(acronym);
         // Start date end date (validity)
         DelimitedPeriodType validityPeriod = mdrDataType.getEffectiveDelimitedPeriod();
         if (validityPeriod != null) {
@@ -106,7 +106,7 @@ public abstract class MasterDataRegistry implements Serializable {
             if (StringUtils.equalsIgnoreCase(fieldName, APP_CODE_STR)) {
                 setCode(fieldValue);
                 fieldsToRemove.add(field);
-            } else if (StringUtils.equalsIgnoreCase(fieldName, APP_DESCRIPTION_STR)
+            } else if ( (StringUtils.equalsIgnoreCase(fieldName, APP_DESCRIPTION_STR) && !"GEAR_TYPE".equals(acronym))
                     || StringUtils.equalsIgnoreCase(fieldName, APP_EN_DESCRIPTION_STR)) {
                 setDescription(fieldValue);
                 fieldsToRemove.add(field);
@@ -134,8 +134,7 @@ public abstract class MasterDataRegistry implements Serializable {
      * Populates the APP_CODE_STR ecc.
      * In the end they will have values like ACTION_TYPE.CODE, ACTION_TYPE.DESCRIPTION ecc..
      */
-    private void populateDataNodeNames() {
-        String acronym = getAcronym();
+    private void populateDataNodeNames(String acronym) {
         APP_CODE_STR = acronym + CODE_STR;
         APP_DESCRIPTION_STR = acronym + DESCRIPTION_STR;
         APP_EN_DESCRIPTION_STR = acronym + EN_DESCRIPTION_STR;
