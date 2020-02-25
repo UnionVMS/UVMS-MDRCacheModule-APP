@@ -43,10 +43,10 @@ public abstract class MasterDataRegistry implements Serializable {
 
     public static final String LOW_CASE_ANALYSER = "lowCaseAnalyser";
 
-    private static final String CODE_STR = ".CODE";
-    private static final String DESCRIPTION_STR = ".DESCRIPTION";
-    private static final String EN_DESCRIPTION_STR = ".ENDESCRIPTION";
-    private static final String VERSION_STR = ".VERSION";
+    protected static final String CODE_STR = ".CODE";
+    protected static final String DESCRIPTION_STR = ".DESCRIPTION";
+    protected static final String EN_DESCRIPTION_STR = ".ENDESCRIPTION";
+    protected static final String VERSION_STR = ".VERSION";
     private static final String COMMA = ",";
 
     @DateBridge(resolution = Resolution.SECOND)
@@ -75,20 +75,16 @@ public abstract class MasterDataRegistry implements Serializable {
     @Field(name = "description", analyzer = @Analyzer(definition = LOW_CASE_ANALYSER))
     private String description;
 
-    // Fields that will contain [ACRONYM].[FIELD_NAME] values after calling populateDataNodeNames();.
-    @Transient
-    private String APP_CODE_STR;
-    @Transient
-    private String APP_DESCRIPTION_STR;
-    @Transient
-    private String APP_EN_DESCRIPTION_STR;
-    @Transient
-    private String APP_VERSION_STR;
-
     protected void populateCommonFields(MDRDataNodeType mdrDataType) {
 
         String acronym = getAcronym();
-        populateDataNodeNames(acronym);
+
+        // Fields that will contain [ACRONYM].[FIELD_NAME] values after calling populateDataNodeNames();.
+        String appCodeStr = acronym + CODE_STR;
+        String appDescriptionStr = acronym + DESCRIPTION_STR;
+        String appEnDescriptionStr = acronym + EN_DESCRIPTION_STR;
+        String appVersionStr = acronym + VERSION_STR;
+
         // Start date end date (validity)
         DelimitedPeriodType validityPeriod = mdrDataType.getEffectiveDelimitedPeriod();
         if (validityPeriod != null) {
@@ -103,14 +99,15 @@ public abstract class MasterDataRegistry implements Serializable {
         for (MDRElementDataNodeType field : subordinateMDRElementDataNodes) {
             String fieldName = getValueFromTextType(field.getName());
             String fieldValue = getValueFromTextType(field.getValue());
-            if (StringUtils.equalsIgnoreCase(fieldName, APP_CODE_STR)) {
+            if (StringUtils.equalsIgnoreCase(fieldName, appCodeStr)) {
                 setCode(fieldValue);
                 fieldsToRemove.add(field);
-            } else if ( (StringUtils.equalsIgnoreCase(fieldName, APP_DESCRIPTION_STR) && !"GEAR_TYPE".equals(acronym))
-                    || StringUtils.equalsIgnoreCase(fieldName, APP_EN_DESCRIPTION_STR)) {
-                setDescription(fieldValue);
-                fieldsToRemove.add(field);
-            } else if (StringUtils.equalsIgnoreCase(fieldName, APP_VERSION_STR)) {
+            } else if (StringUtils.equalsIgnoreCase(fieldName, appDescriptionStr)
+                    || StringUtils.equalsIgnoreCase(fieldName, appEnDescriptionStr)) {
+                if (setDescriptionFromField(fieldName, fieldValue)) {
+                    fieldsToRemove.add(field);
+                }
+            } else if (StringUtils.equalsIgnoreCase(fieldName, appVersionStr)) {
                 versionsStrBuff.append(COMMA).append(fieldValue);
                 fieldsToRemove.add(field);
             }
@@ -130,27 +127,31 @@ public abstract class MasterDataRegistry implements Serializable {
         subordinateMDRElementDataNodes.removeAll(fieldsToRemove);
     }
 
-    /**
-     * Populates the APP_CODE_STR ecc.
-     * In the end they will have values like ACTION_TYPE.CODE, ACTION_TYPE.DESCRIPTION ecc..
-     */
-    private void populateDataNodeNames(String acronym) {
-        APP_CODE_STR = acronym + CODE_STR;
-        APP_DESCRIPTION_STR = acronym + DESCRIPTION_STR;
-        APP_EN_DESCRIPTION_STR = acronym + EN_DESCRIPTION_STR;
-        APP_VERSION_STR = acronym + VERSION_STR;
-    }
-
     protected void logError(String fieldName, String className) {
         log.error("The field '" + fieldName + "' for Codelist : [- " + className + " -] has not been mapped!");
     }
 
-
     public abstract void populate(MDRDataNodeType mdrDataType) throws FieldNotMappedException;
+
     public abstract String getAcronym();
+
+    /**
+     * Different MDR lists (e.g. {@code GEAR_TYPE}) may populate their description from different {@codeMDRElementDataNodeType} fields.
+     * The default implementation always sets the description.
+     *
+     * @param fieldName            The name of the field to potentially populate the description
+     * @param potentialDescription The potential new description value
+     * @return {@code true} if the description was set
+     */
+    protected boolean setDescriptionFromField(String fieldName, String potentialDescription) {
+        setDescription(potentialDescription);
+        return true;
+    }
+
     private String getValueFromTextType(TextType textType) {
         return textType != null ? textType.getValue() : null;
     }
+
     public String getVersion() {
         return version;
     }
