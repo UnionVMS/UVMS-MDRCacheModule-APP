@@ -1,0 +1,1074 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet id="UNIONVMS-4364-insert-data-for-mdr_gear_type" author="nomikosi" dbms="postgresql">
+        <delete tableName="mdr_gear_type" schemaName="mdr"/>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="DRB"/>
+            <column name="description" value="Towed dredges"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="DREDGES"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="04.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="DRH"/>
+            <column name="description" value="Hand dredges"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="DREDGES"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="04.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="DRM"/>
+            <column name="description" value="Mechanized dredges"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="DREDGES"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="04.3.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="DRX"/>
+            <column name="description" value="Dredges (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="DREDGES"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="04.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FAR"/>
+            <column name="description" value="Aerial traps"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAPS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="08.6.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FCN"/>
+            <column name="description" value="Cast nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="FALLING GEAR"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="06.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FCO"/>
+            <column name="description" value="Cover pots/Lantern nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="FALLING GEAR"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="06.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FG"/>
+            <column name="description" value="Falling gear (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="FALLING GEAR"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="06.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FIX"/>
+            <column name="description" value="Traps (not specified)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAPS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="TP"/>
+            <column name="iss_cfg_code" value="08.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FPN"/>
+            <column name="description" value="Stationary uncovered pound nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAPS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="TP"/>
+            <column name="iss_cfg_code" value="08.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FPO"/>
+            <column name="description" value="Pots"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAPS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="08.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FSN"/>
+            <column name="description" value="Stow nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAPS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="08.4.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FWR"/>
+            <column name="description" value="Barriers, fences, weirs, etc."/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAPS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="08.5.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="FYK"/>
+            <column name="description" value="Fyke nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAPS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="08.3.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GEN"/>
+            <column name="description" value="Gillnets and entangling nets (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GN"/>
+            <column name="description" value="Gillnets (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.9.1"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GNC"/>
+            <column name="description" value="Encircling gillnets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.3.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GND"/>
+            <column name="description" value="Drift gillnets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GNF"/>
+            <column name="description" value="Fixed gillnets (on stakes)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.4.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GNS"/>
+            <column name="description" value="Set gillnets (anchored)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GTN"/>
+            <column name="description" value="Combined gillnets-trammel nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.6.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="GTR"/>
+            <column name="description" value="Trammel nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="GILLNETS AND ENTANGLING NETS"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="GN"/>
+            <column name="iss_cfg_code" value="07.5.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="HAR"/>
+            <column name="description" value="Harpoons"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value="HP"/>
+            <column name="iss_cfg_code" value="10.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="HMX"/>
+            <column name="description" value="Harvesting machines (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="11.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LA"/>
+            <column name="description" value="Surrounding nets without purse lines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SURROUNDING NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="01.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LHM"/>
+            <column name="description" value="Mechanized lines and pole-and-lines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="HL"/>
+            <column name="iss_cfg_code" value="09.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LHP"/>
+            <column name="description" value="Handlines and hand-operated pole-and-lines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="BB"/>
+            <column name="iss_cfg_code" value="09.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LL"/>
+            <column name="description" value="Longlines (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="LL"/>
+            <column name="iss_cfg_code" value="09.5.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LLD"/>
+            <column name="description" value="Drifting longlines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="LL"/>
+            <column name="iss_cfg_code" value="09.4.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LLS"/>
+            <column name="description" value="Set longlines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="LL"/>
+            <column name="iss_cfg_code" value="09.3.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LN"/>
+            <column name="description" value="Lift nets (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="LIFT NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="05.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LNB"/>
+            <column name="description" value="Boat-operated lift nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="LIFT NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="05.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LNP"/>
+            <column name="description" value="Portable lift nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="LIFT NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="05.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LNS"/>
+            <column name="description" value="Shore-operated stationary lift nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="LIFT NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="05.3.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LTL"/>
+            <column name="description" value="Trolling lines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value="TR"/>
+            <column name="iss_cfg_code" value="09.6.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LVT"/>
+            <column name="description" value="Vertical lines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="LL"/>
+            <column name="iss_cfg_code" value="09.4.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="LX"/>
+            <column name="description" value="Hooks and lines (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="HOOKS AND LINES"/>
+            <column name="gear_activity_code" value="S"/>
+            <column name="gear_activity_description" value="Static"/>
+            <column name="iccat_code" value="TL"/>
+            <column name="iss_cfg_code" value="09.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MDR"/>
+            <column name="description" value="Drive-in nets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.7.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MDV"/>
+            <column name="description" value="Diving"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.8.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MEL"/>
+            <column name="description" value="Electric fishing"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.4.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MHI"/>
+            <column name="description" value="Hand implements (Wrenching gear, Clamps, Tongs, Rakes, Spears)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MIS"/>
+            <column name="description" value="Gear nei"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value=""/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MPM"/>
+            <column name="description" value="Pumps"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.3.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MPN"/>
+            <column name="description" value="Pushnets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.5.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="MSP"/>
+            <column name="description" value="Scoopnets"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="10.6.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="NK"/>
+            <column name="description" value="GEAR NOT KNOW"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value="UN"/>
+            <column name="iss_cfg_code" value="99.0.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value=""/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="NO"/>
+            <column name="description" value="No gear"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0"/>
+            <column name="group_name" value="Other"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value=""/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value=""/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="OT"/>
+            <column name="description" value="Otter trawls (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.4.9"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="OTB"/>
+            <column name="description" value="Single boat bottom otter trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.1.2"/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="OTM"/>
+            <column name="description" value="Single boat midwater otter trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.2.1"/>
+            <column name="sub_group_name" value="Midwater trawls"/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="OTP"/>
+            <column name="description" value="Multiple bottom otter trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="03.1.4"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="OTT"/>
+            <column name="description" value="Twin bottom otter trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.3.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PS"/>
+            <column name="description" value="Purse seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SURROUNDING NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value="PS"/>
+            <column name="iss_cfg_code" value="01.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PS1"/>
+            <column name="description" value="- one boat operated purse seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SURROUNDING NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value="PS"/>
+            <column name="iss_cfg_code" value="01.1.1"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PS2"/>
+            <column name="description" value="- two boats operated purse seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SURROUNDING NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value="PS"/>
+            <column name="iss_cfg_code" value="01.1.2"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PT"/>
+            <column name="description" value="Pair trawls (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.5.9"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PTB"/>
+            <column name="description" value="Bottom pair trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.1.3"/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PTM"/>
+            <column name="description" value="Midwater pair trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.2.2"/>
+            <column name="sub_group_name" value="Midwater trawls"/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PUK"/>
+            <column name="description" value="Bottom trawls - electric beam trawls (Pulse Beam)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value=""/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="PUL"/>
+            <column name="description" value="Bottom trawls - electric sumwing trawls (Pulse Wing)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value=""/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="RG"/>
+            <column name="description" value="RECREATIONAL FISHING GEAR"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="MISCELLANEOUS GEAR"/>
+            <column name="gear_activity_code" value=""/>
+            <column name="gear_activity_description" value=""/>
+            <column name="iccat_code" value="RR"/>
+            <column name="iss_cfg_code" value="25.0.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value=""/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="SB"/>
+            <column name="description" value="Beach seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SEINE NETS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="HS"/>
+            <column name="iss_cfg_code" value="02.1.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="SDN"/>
+            <column name="description" value="- Danish seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SEINE NETS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="02.2.1"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="SPR"/>
+            <column name="description" value="- pair seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SEINE NETS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="02.2.3"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="SSC"/>
+            <column name="description" value="- Scottish seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SEINE NETS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="02.2.2"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="SUX"/>
+            <column name="description" value="Surrounding nets (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="SURROUNDING NETS"/>
+            <column name="gear_activity_code" value="M"/>
+            <column name="gear_activity_description" value="Mobile"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="01.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="SV"/>
+            <column name="description" value="Boat seines"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SEINE NETS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value=""/>
+            <column name="iss_cfg_code" value="02.2.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="SX"/>
+            <column name="description" value="Seine nets (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="SEINE NETS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="HS"/>
+            <column name="iss_cfg_code" value="02.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TB"/>
+            <column name="description" value="Bottom trawls (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.1.9"/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TBB"/>
+            <column name="description" value="Beam trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.1.1"/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TBN"/>
+            <column name="description" value="Bottom trawls nephrops trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.1.4"/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TBS"/>
+            <column name="description" value="Bottom trawls shrimp trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.1.5"/>
+            <column name="sub_group_name" value="Bottom trawls"/>
+            <column name="target" value="Demersal"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TM"/>
+            <column name="description" value="Midwater trawls (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.2.9"/>
+            <column name="sub_group_name" value="Midwater trawls"/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TMS"/>
+            <column name="description" value="Midwater shrimp trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.2.3"/>
+            <column name="sub_group_name" value="Midwater trawls"/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TSP"/>
+            <column name="description" value="Semipelagic trawls"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="2019-01-01 00:00:00.000"/>
+            <column name="version" value="2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.3.0"/>
+            <column name="sub_group_name" value="Midwater trawls"/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+        <insert tableName="mdr_gear_type">
+            <column name="code" value="TX"/>
+            <column name="description" value="Trawls (nei)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,2.0"/>
+            <column name="group_name" value="TRAWLS"/>
+            <column name="gear_activity_code" value="T"/>
+            <column name="gear_activity_description" value="Towed"/>
+            <column name="iccat_code" value="TW"/>
+            <column name="iss_cfg_code" value="03.9.0"/>
+            <column name="sub_group_name" value=""/>
+            <column name="target" value="Demersal/Pelagic"/>
+        </insert>
+
+        <rollback>
+
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

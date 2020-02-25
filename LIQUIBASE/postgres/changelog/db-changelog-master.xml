@@ -9,4 +9,8 @@
   <!-- Loading of init data -->
   <include file="postgres\changelog\testdata\test-data-master.xml"/>
 
+  <!-- Insert data -->
+  <include file="postgres\changelog\v0.2\db-changelog-UNIONVMS-4364.xml"/>
+
+
 </databaseChangeLog>
