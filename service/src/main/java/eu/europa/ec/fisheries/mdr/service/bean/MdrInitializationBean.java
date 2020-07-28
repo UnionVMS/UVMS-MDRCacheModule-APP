@@ -104,6 +104,7 @@ public class MdrInitializationBean {
             mdrSearchRepository.massiveUpdateFullTextIndex();
         } catch (InterruptedException e) {
             log.error("[ERROR] Error while trying to Massive Update The Lucene Indexes!",e);
+            Thread.currentThread().interrupt();
         }
 
         log.info("[END] Finished Starting up MDR moduleModule Initialization.");
