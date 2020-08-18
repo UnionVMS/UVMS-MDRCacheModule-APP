@@ -5,19 +5,11 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
-    <persistence-unit name="mdrConfig" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>jdbc/uvms_config</jta-data-source>
-        <class>eu.europa.ec.fisheries.uvms.config.service.entity.Parameter</class>
-        <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
-        </properties>
-    </persistence-unit>
-
     <persistence-unit name="mdrPUPostgres" transaction-type="JTA">
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:jboss/datasources/uvms_mdr</jta-data-source>
+        <class>eu.europa.ec.fisheries.uvms.config.service.entity.Parameter</class>
 
         <properties>
             <property name="hibernate.dialect" value="${hibernate.spatial.dialect}"/>
