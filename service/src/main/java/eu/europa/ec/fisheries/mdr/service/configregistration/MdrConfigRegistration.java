@@ -29,7 +29,7 @@ public class MdrConfigRegistration implements ConfigHelper {
     @Inject
     private PropertiesBean propertiesBean;
 
-    @PersistenceContext(unitName = "mdrConfig")
+    @PersistenceContext(unitName = "mdrPUPostgres")
     private EntityManager em;
 
     @Override
