@@ -208,7 +208,7 @@ public class MdrEventServiceBean implements MdrEventService {
             try {
                 acronymsList = MasterDataRegistryEntityCacheFactory.getAcronymsList();
             } catch (MdrCacheInitException e) {
-                log.error("[ERROR] While trying to get the acronym list (MasterDataRegistryEntityCacheFactory.getAcronymsList())!!");
+                log.error("[ERROR] While trying to get the acronym list (MasterDataRegistryEntityCacheFactory.getAcronymsList())!!",e);
             }
             List<SingleCodeListRappresentation> allCoceLists = new ArrayList<>();
             for (String actAcronym : acronymsList) {
@@ -314,7 +314,7 @@ public class MdrEventServiceBean implements MdrEventService {
             SetFLUXMDRSyncMessageResponse mdrResp = JAXBUtils.unMarshallMessage(textMessage, SetFLUXMDRSyncMessageResponse.class);
             respType = JAXBUtils.unMarshallMessage(mdrResp.getRequest(), FLUXMDRReturnMessage.class);
         } catch (JAXBException e) {
-            log.error("[ERROR] Error while attempting to Unmarshall Flux Response Object (XML MDR Entity)! Maybe not a FLUXMDRReturnMessage!!");
+            log.error("[ERROR] Error while attempting to Unmarshall Flux Response Object (XML MDR Entity)! Maybe not a FLUXMDRReturnMessage!!",e);
         }
         log.debug("FluxMdrReturnMessage Unmarshalled successfully.. Going to save the data received! \n");
         return respType;

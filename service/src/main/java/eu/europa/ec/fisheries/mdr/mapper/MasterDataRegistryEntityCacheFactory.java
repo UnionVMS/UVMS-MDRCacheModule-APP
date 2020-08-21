@@ -62,7 +62,7 @@ public class MasterDataRegistryEntityCacheFactory {
 		try {
 			return acronymsCache.get(entityAcronym).getClass().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			throw new MdrCacheInitException(e);
+			throw new MdrCacheInitException(e.getMessage(),e);
 		}
 	}
 	
@@ -72,8 +72,7 @@ public class MasterDataRegistryEntityCacheFactory {
 			try {
 				entitiesList = ClassFinder.extractEntityInstancesFromPackage();
 			} catch(Exception ex){
-				log.error("Couldn't extract entities from package "+ENTITIES_PACKAGE+" \n The following exception was thrown : \n", ex);
-				throw new MdrCacheInitException(ex);
+				throw new MdrCacheInitException("Couldn't extract entities from package " + ENTITIES_PACKAGE + "  The following exception was thrown : ",ex);
 			}
 			acronymsCache = new HashMap<>();
 			acronymsList  = new ArrayList<>();

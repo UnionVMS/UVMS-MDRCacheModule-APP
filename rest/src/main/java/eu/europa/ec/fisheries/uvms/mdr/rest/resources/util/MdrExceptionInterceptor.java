@@ -35,16 +35,16 @@ public class MdrExceptionInterceptor extends UnionVMSResource {
         try {
             return ic.proceed();
         } catch (IllegalArgumentException e) {
-            log.error(EXCEPTION_THROWN_IN_MDR_MODULE,ic.getMethod(),e);
+            log.error(EXCEPTION_THROWN_IN_MDR_MODULE + ic.getMethod(),e);
             return createErrorResponse(ErrorCodes.INPUT_NOT_SUPPORTED);
         } catch(ServiceException e){
-            log.error(EXCEPTION_THROWN_IN_MDR_MODULE,ic.getMethod(),e);
+            log.error(EXCEPTION_THROWN_IN_MDR_MODULE + ic.getMethod(),e);
             return createErrorResponse(e.getMessage());
         } catch (RuntimeException e){
-            log.error(EXCEPTION_THROWN_IN_MDR_MODULE,ic.getMethod(),e);
+            log.error(EXCEPTION_THROWN_IN_MDR_MODULE + ic.getMethod(),e);
             return createErrorResponse(e.getCause().getMessage());
         } catch (Exception e) {
-            log.error(EXCEPTION_THROWN_IN_MDR_MODULE,ic.getMethod(),e);
+            log.error(EXCEPTION_THROWN_IN_MDR_MODULE + ic.getMethod(),e);
             return createErrorResponse(ErrorCodes.INTERNAL_SERVER_ERROR);
         }
     }

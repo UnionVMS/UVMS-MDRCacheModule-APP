@@ -150,8 +150,7 @@ public class LiquibaseUtil {
                 return StringUtils.EMPTY;
             }
         } catch(Exception ex){
-            System.out.println("The following script threw : " + content);
-            System.out.println(ex);
+            log.log(Level.WARNING,"The following script threw : " + content,ex);
         }
         return StringUtils.EMPTY;
     }
