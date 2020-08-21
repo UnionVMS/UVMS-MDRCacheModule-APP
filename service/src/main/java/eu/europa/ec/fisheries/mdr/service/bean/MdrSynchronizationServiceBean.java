@@ -177,7 +177,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
                     statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.RUNNING, DateUtils.nowUTC().toDate(), uuid);
                     log.info("Synchronization Request Sent for Entity : " + actualAcronym);
                 } catch (MdrMappingException e) {
-                    log.error(ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM, actualAcronym, e);
+                    log.error(ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM + actualAcronym, e);
                     errorContainer.addMessage("Error while trying to map MDRQueryType for acronym {} " + actualAcronym);
                     statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.FAILED, DateUtils.nowUTC().toDate(), uuid);
                 } catch (MessageException e) {
@@ -208,7 +208,7 @@ public class MdrSynchronizationServiceBean implements MdrSynchronizationService 
                 sendRequestForSingleMdrCodelistsStructure(actAcron);
             }
         } catch (MdrMappingException e) {
-            log.error(ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM, acronymsList, e);
+            log.error(ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM + acronymsList, e);
         } catch (MessageException e) {
             log.error("Error while trying to send OBJ_DESC message from MDR module to Rules module.", e);
         }

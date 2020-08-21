@@ -103,7 +103,7 @@ public class MdrMessageConsumerBean implements MessageListener {
                     // errorEvent.fire(new EventMessage(textMessage, "[ Request method " + request.getMethod().name() + "  is not implemented ]"));
             }
         } catch (JMSException | JAXBException | NullPointerException | ClassCastException e) {
-            log.error("[ERROR] Error when receiving message in MDR module:  {}", e);
+            log.error("[ERROR] Error when receiving message in MDR module:  ", e);
             // errorEvent.fire(new EventMessage(textMessage, "Error when receiving message in movement: " + e.getMessage()));
         }
     }

@@ -47,7 +47,7 @@ public class MdrConfigProducerBeanImpl extends AbstractProducer implements Confi
         try {
             return sendModuleMessage(textMsg, mdrINQueue);
         } catch (MessageException e) {
-            log.error("[ERROR] Error while trying to send message to Config! Check MdrConfigProducerBeanImpl..");
+            log.error("[ERROR] Error while trying to send message to Config! Check MdrConfigProducerBeanImpl..",e);
         }
         return StringUtils.EMPTY;
     }

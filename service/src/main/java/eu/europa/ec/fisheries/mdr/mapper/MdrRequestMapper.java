@@ -113,7 +113,7 @@ public class MdrRequestMapper {
             fluxRequestObject.setMethod(RulesModuleMethod.SET_FLUX_MDR_SYNC_REQUEST);
             fluxStrReq = JAXBUtils.marshallJaxBObjectToString(fluxRequestObject);
         } catch (DatatypeConfigurationException | JAXBException e) {
-            throw new MdrMappingException(e);
+            throw new MdrMappingException(e.getMessage(),e);
         }
         return fluxStrReq;
     }

@@ -72,7 +72,7 @@ public class MdrStatusDao extends AbstractDAO<MdrCodeListStatus> {
                 log.error("Couldn't find Status for acronym : {}",acronym);
             }
         } catch (ServiceException e) {
-            log.error("Error while trying to get Status for acronym : ", acronym, e);
+            log.error("Error while trying to get Status for acronym : " + acronym, e);
         }
         return entity;
     }
@@ -136,7 +136,7 @@ public class MdrStatusDao extends AbstractDAO<MdrCodeListStatus> {
         } catch (ServiceException e) {
             log.error(ERROR_WHILE_SAVING_STATUS,e);
         } catch (NullPointerException nullEx){
-            log.error("[ERROR] Couldn't find status for acronym : {}", dataSetType.getID().getValue());
+            log.error("[ERROR] Couldn't find status for acronym : " + dataSetType.getID().getValue(),nullEx);
         }
     }
 

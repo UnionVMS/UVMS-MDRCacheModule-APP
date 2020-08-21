@@ -57,6 +57,7 @@ public class MdrLuceneReindexingResource extends UnionVMSResource {
             try {
                 searchRepository.massiveUpdateFullTextIndex();
             } catch (InterruptedException e) {
+                log.warn("Error while trying to massive reindex Lucene indexes.",e);
                 error[0] = true;
             }
         }).start();

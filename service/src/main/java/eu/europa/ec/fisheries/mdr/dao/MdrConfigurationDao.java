@@ -55,7 +55,7 @@ public class MdrConfigurationDao extends AbstractDAO<MdrConfiguration> {
                 log.error("No configuration found in the db regarding {} ", configName);
             }
         } catch (ServiceException | NullPointerException e) {
-            log.error("Error while trying to get Configuration for configName : ", configName, e);
+            log.error("Error while trying to get Configuration for configName : " + configName, e);
         }
         return configEntry;
     }

@@ -156,7 +156,7 @@ public class Location extends MasterDataRegistry {
         try {
             doubleValue = Double.valueOf(fieldValue);
         } catch (NumberFormatException ex) {
-            log.error("The value [ " + fieldValue + " ] could not be converted to double!");
+            log.error("The value " + fieldValue + " could not be converted to double!",ex);
         }
         return doubleValue;
     }
