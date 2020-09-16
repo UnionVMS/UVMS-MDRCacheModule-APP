@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.0-wls122140-b190328.0053 svn-revision#unknown. -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://ec.europa.eu/mare/fisheries/services/mdr/v1" xmlns:ns1="http://ec.europa.eu/mare/fisheries/model/mdr/v1" targetNamespace="http://ec.europa.eu/mare/fisheries/services/mdr/v1">
+    <xsd:import schemaLocation="1.xsd" namespace="http://ec.europa.eu/mare/fisheries/model/mdr/v1" />
+    <xsd:complexType name="getFullMDRList">
+        <xsd:sequence>
+            <xsd:element name="listID" type="xsd:string" />
+            <xsd:element name="pageRequest" type="ns1:PageRequestType" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getFullMDRListResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="ns1:MDRDataSetType" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getLatestVersionOfMDRList">
+        <xsd:sequence>
+            <xsd:element name="listID" type="xsd:string" />
+            <xsd:element name="pageRequest" type="ns1:PageRequestType" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getLatestVersionOfMDRListResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="ns1:MDRDataSetType" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getMDRList">
+        <xsd:sequence>
+            <xsd:element name="listID" type="xsd:string" />
+            <xsd:element name="validityDate" type="xsd:dateTime" />
+            <xsd:element name="pageRequest" type="ns1:PageRequestType" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getMDRListResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="ns1:MDRDataSetType" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="getFullMDRList" type="ns0:getFullMDRList" />
+    <xsd:element name="getFullMDRListResponse" type="ns0:getFullMDRListResponse" />
+    <xsd:element name="getLatestVersionOfMDRList" type="ns0:getLatestVersionOfMDRList" />
+    <xsd:element name="getLatestVersionOfMDRListResponse" type="ns0:getLatestVersionOfMDRListResponse" />
+    <xsd:element name="getMDRList" type="ns0:getMDRList" />
+    <xsd:element name="getMDRListResponse" type="ns0:getMDRListResponse" />
+    <xsd:element name="ServiceExceptionFault" type="ns1:MDRServiceFault" nillable="true" />
+</xsd:schema>

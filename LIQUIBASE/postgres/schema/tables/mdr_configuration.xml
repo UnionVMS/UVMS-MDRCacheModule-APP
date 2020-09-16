@@ -29,6 +29,21 @@
 				columnName="id"
 				defaultValueSequenceNext="mdr_configuration_seq"
 				tableName="mdr_configuration"/>
-	</changeSet>	
+	</changeSet>
+
+	<changeSet author="gmanifavas" id="INSERT-WEBSERVICE-CONFIGURATION">
+		<insert tableName="mdr_configuration">
+			<column  name="config_name"  value="WEBSERVICE_WSDL_LOCATION"/>
+			<column  name="config_value"  value="http://localhost:8080/MDR-Service-Mock-1.0.1/v1/MDRService?wsdl"/>
+		</insert>
+		<insert tableName="mdr_configuration">
+			<column  name="config_name"  value="WEBSERVICE_NAME"/>
+			<column  name="config_value"  value="MDREndPointService"/>
+		</insert>
+		<insert tableName="mdr_configuration">
+			<column  name="config_name"  value="WEBSERVICE_NAMESPACE"/>
+			<column  name="config_value"  value="http://services.fisheries.mare.ec.europa.eu/"/>
+		</insert>
+	</changeSet>
 	
 </databaseChangeLog>

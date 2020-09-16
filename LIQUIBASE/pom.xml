@@ -15,6 +15,15 @@
         <project.scm.id>github</project.scm.id>
         <repository.id>${project.distributionManagement.snapshotRepository.id}</repository.id>
         <repository.url>${project.distributionManagement.snapshotRepository.url}</repository.url>
+        <db.driver>org.postgresql.Driver</db.driver>
+        <db.url>jdbc:postgresql://localhost:5432/db71u</db.url>
+        <db.user>mdr</db.user>
+        <db.passwd>mdr</db.passwd>
+        <db.defaultSchema>mdr</db.defaultSchema>
+        <db.changeLogFile>${project.basedir}/postgres/changelog/db-changelog-master.xml</db.changeLogFile>
+        <driver.groupId>org.postgresql</driver.groupId>
+        <driver.artifactId>postgresql</driver.artifactId>
+        <driver.version>9.4-1201-jdbc41</driver.version>
     </properties>
 
     <distributionManagement>
@@ -195,7 +204,7 @@
             </properties>
         </profile>
     </profiles>
-
+    
     <build>
         <pluginManagement>
             <plugins>
@@ -210,8 +219,6 @@
                         <username>${db.user}</username>
                         <password>${db.passwd}</password>
                         <defaultSchemaName>${db.defaultSchema}</defaultSchemaName>
-                        <outputChangeLogFile>${db.outputFile}</outputChangeLogFile>
-                        <diffTypes>${db.diffTypes}</diffTypes>
                     </configuration>
                 </plugin>
             </plugins>

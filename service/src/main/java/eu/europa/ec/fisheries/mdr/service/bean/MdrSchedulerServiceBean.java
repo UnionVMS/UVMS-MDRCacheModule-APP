@@ -11,6 +11,7 @@ package eu.europa.ec.fisheries.mdr.service.bean;
 
 import javax.annotation.Resource;
 import javax.ejb.*;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import eu.europa.ec.fisheries.mdr.entities.MdrConfiguration;
@@ -38,7 +39,7 @@ public class MdrSchedulerServiceBean implements MdrSchedulerService {
     @EJB
     private MdrRepository mdrRepository;
 
-    @EJB
+    @Inject
     private MdrSynchronizationService synchBean;
 
     @Resource

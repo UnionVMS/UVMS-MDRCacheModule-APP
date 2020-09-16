@@ -21,7 +21,7 @@ import eu.europa.ec.fisheries.mdr.service.MdrSynchronizationService;
 import eu.europa.ec.fisheries.mdr.service.bean.BaseMdrBean;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrInitializationBean;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrSchedulerServiceBean;
-import eu.europa.ec.fisheries.mdr.service.bean.MdrSynchronizationServiceBean;
+import eu.europa.ec.fisheries.mdr.service.bean.synchronization.MdrSynchronizationServiceBean;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
 import lombok.SneakyThrows;
 import org.junit.Before;

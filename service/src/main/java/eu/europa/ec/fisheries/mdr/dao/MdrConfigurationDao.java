@@ -30,6 +30,9 @@ public class MdrConfigurationDao extends AbstractDAO<MdrConfiguration> {
 
     private static final String SELECT_FROM_MDRCONFIG_WHERE_NAME_EQ = "from MdrConfiguration where configName = ";
     private static final String SCHEDULER_CONFIG_NAME = "MDR_SCHED_CONFIG_NAME";
+    public static final String WEBSERVICE_WSDL_LOCATION = "WEBSERVICE_WSDL_LOCATION";
+    public static final String WEBSERVICE_NAME = "WEBSERVICE_NAME";
+    public static final String WEBSERVICE_NAMESPACE = "WEBSERVICE_NAMESPACE";
 
     public MdrConfigurationDao(EntityManager em) {
         this.em = em;
@@ -78,10 +81,26 @@ public class MdrConfigurationDao extends AbstractDAO<MdrConfiguration> {
             saveOrUpdateEntity(new MdrConfiguration(SCHEDULER_CONFIG_NAME, newCronExpression));
         }
     }
-
+    
+    public void changeMdrConfiguration(String configurationName, String configurationValue) throws ServiceException {
+        if (StringUtils.isEmpty(configurationValue)) {
+            throw new ServiceException("configurationValue cannot be empty!");
+        }
+        List<MdrConfiguration> newConfigList = findEntityByHqlQuery(MdrConfiguration.class, SELECT_FROM_MDRCONFIG_WHERE_NAME_EQ + "'" + configurationName + "'");
+        if (CollectionUtils.isNotEmpty(newConfigList)) {
+            newConfigList.get(0).setConfigValue(configurationValue);
+        } else {
+            saveOrUpdateEntity(new MdrConfiguration(configurationName, configurationValue));
+        }
+    }
 
     public MdrConfiguration getMdrSchedulerConfiguration() {
         return findConfiguration(SCHEDULER_CONFIG_NAME);
+    }
+    
+    public String getMDRConfigurationValue(String configurationName) {
+        MdrConfiguration configuration = findConfiguration(configurationName);
+        return configuration != null ? configuration.getConfigValue() : "";
     }
 
 
