@@ -173,13 +173,13 @@ public abstract class MasterDataRegistry implements Serializable {
     public Date getStartDate() {
         return startDate;
     }
-    private void setStartDate(Date startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
     public Date getEndDate() {
         return endDate;
     }
-    private void setEndDate(Date endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 }
