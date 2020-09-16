@@ -10,11 +10,9 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.uvms.mdr.rest.resources;
 
-import java.util.Collection;
-import java.util.List;
-
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -26,9 +24,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
+import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-
+import eu.europa.ec.fisheries.mdr.dto.WebserviceConfigurationDto;
 import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrStatusRepository;
@@ -38,17 +37,18 @@ import eu.europa.ec.fisheries.mdr.util.GenericOperationOutcome;
 import eu.europa.ec.fisheries.uvms.commons.rest.resource.UnionVMSResource;
 import eu.europa.ec.fisheries.uvms.mdr.rest.resources.util.IUserRoleInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import un.unece.uncefact.data.standard.mdr.communication.MdrFeaturesEnum;
 
 @Path("/service")
 @Slf4j
-@Stateless
+@ApplicationScoped
 public class MdrSynchronizationResource extends UnionVMSResource {
 
     private static final String ERROR_GETTING_AVAIL_MDR = "An error occured while trying to get MDR available Acronyms List. The List is actually Empty! Have to reinitialize MDR module Module!";
     private static final String ERROR_MANUAL_MDR_SYNC = "An error occured while trying to manually update the MDR List.";
 
-    @EJB
+    @Inject
     private MdrSynchronizationService syncBean;
 
     @EJB
@@ -59,7 +59,7 @@ public class MdrSynchronizationResource extends UnionVMSResource {
 
     @EJB
     private MdrRepository mdrRepository;
-
+    
     /**
      * Requests synchronization of all "updatable" code lists.
      * Only those acronyms that are "schedulable" will be affected;
@@ -235,6 +235,30 @@ public class MdrSynchronizationResource extends UnionVMSResource {
         log.info("Changing schedulable for acronym : ", acronym);
         mdrStatusBean.updateSchedulableForAcronym(acronym, schedulable);
         return createSuccessResponse();
+    }
+    
+    @GET
+    @Path("/webservice/config/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @IUserRoleInterceptor(requiredUserRole = {MdrFeaturesEnum.CONFIGURE_MDR_SCHEDULER})
+    public Response getWebserviceConfiguration(@Context HttpServletRequest request) {
+        return createSuccessResponse(mdrRepository.getWebserviceConfiguration());
+    }
+    
+    
+    @PUT
+    @Path("/webservice/config/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @IUserRoleInterceptor(requiredUserRole = {MdrFeaturesEnum.CONFIGURE_MDR_SCHEDULER})
+    public Response saveWebserviceConfiguration(@Context HttpServletRequest request, WebserviceConfigurationDto webserviceConfiguration) {
+        try {
+            mdrRepository.updateWebserviceConfiguration(webserviceConfiguration);
+            return createSuccessResponse();
+        } catch (Exception ex) {
+            log.debug("Error during webservice configuration: ", ex);
+            return createErrorResponse("Error during webservice configuration: " + ex.getMessage());
+        }
     }
 
 }

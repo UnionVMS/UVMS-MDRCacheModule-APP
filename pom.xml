@@ -158,6 +158,11 @@
                 <artifactId>message</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>webservice-sync</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
 
             <!-- Common libraries dependencies -->
 
@@ -528,5 +533,6 @@
         <module>service</module>
         <module>message</module>
         <module>module</module>
+        <module>webservice-sync</module>
     </modules>
 </project>
