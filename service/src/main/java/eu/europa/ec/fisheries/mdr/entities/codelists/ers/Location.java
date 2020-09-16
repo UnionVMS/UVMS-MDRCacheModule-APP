@@ -148,7 +148,7 @@ public class Location extends MasterDataRegistry {
         }
     }
 
-    private Double getDoubleFromString(String fieldValue) {
+    public Double getDoubleFromString(String fieldValue) {
         if (StringUtils.isEmpty(fieldValue)) {
             return null;
         }

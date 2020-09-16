@@ -10,14 +10,15 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.repository;
 
+import javax.ejb.Local;
+import java.util.List;
+import java.util.Map;
+
+import eu.europa.ec.fisheries.mdr.dto.WebserviceConfigurationDto;
 import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.mdr.entities.MdrConfiguration;
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
-
-import java.util.List;
-import java.util.Map;
-import javax.ejb.Local;
 import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
 import un.unece.uncefact.data.standard.mdr.response.MDRDataSetType;
 
@@ -30,6 +31,8 @@ public interface MdrRepository {
 			int maxResultLimit) throws ServiceException;
 
     void updateMdrEntity(FLUXMDRReturnMessage response);
+   
+    void updateMdrEntities(List<MasterDataRegistry> results, String acronym);
 
     void insertNewDataWithoutPurging(List<? extends MasterDataRegistry> mdrEntityRows) throws ServiceException;
 
@@ -52,4 +55,8 @@ public interface MdrRepository {
 	MdrConfiguration getMdrSchedulerConfiguration();
 
     void saveAcronymStructureMessage(String messageStr, String acronym);
+    
+    WebserviceConfigurationDto getWebserviceConfiguration();
+    
+    void updateWebserviceConfiguration(WebserviceConfigurationDto configuration) throws ServiceException;
 }

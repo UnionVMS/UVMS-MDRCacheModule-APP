@@ -25,7 +25,7 @@ import un.unece.uncefact.data.standard.mdr.response.MDRDataSetType;
  * Mapper class that can be used to map entities from MDR
  **/
 @Slf4j
-public class MdrEntityMapper {
+public class  MdrEntityMapper {
 	
 	private static MasterDataRegistryEntityCacheFactory mdrEntityFactory = MasterDataRegistryEntityCacheFactory.getInstance();
 	

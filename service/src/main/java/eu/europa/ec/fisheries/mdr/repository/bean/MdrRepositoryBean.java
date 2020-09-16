@@ -10,29 +10,33 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.repository.bean;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.StreamSupport;
+
+import com.google.common.collect.Iterables;
 import eu.europa.ec.fisheries.mdr.dao.CodeListStructureDao;
 import eu.europa.ec.fisheries.mdr.dao.MasterDataRegistryDao;
 import eu.europa.ec.fisheries.mdr.dao.MdrBulkOperationsDao;
 import eu.europa.ec.fisheries.mdr.dao.MdrConfigurationDao;
 import eu.europa.ec.fisheries.mdr.dao.MdrStatusDao;
+import eu.europa.ec.fisheries.mdr.dto.WebserviceConfigurationDto;
 import eu.europa.ec.fisheries.mdr.entities.CodeListStructure;
 import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.mdr.entities.MdrConfiguration;
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.entities.constants.AcronymListState;
+import eu.europa.ec.fisheries.mdr.exception.AcronymNotFoundException;
 import eu.europa.ec.fisheries.mdr.mapper.MdrEntityMapper;
 import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.service.bean.BaseMdrBean;
 import eu.europa.ec.fisheries.uvms.commons.date.DateUtils;
 import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -106,6 +110,16 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
         }
     }
 
+    @Override
+    @Transactional(Transactional.TxType.REQUIRED)
+    public void updateMdrEntities(List<MasterDataRegistry> results, String acronym) {
+        if(results.size() > 3000) {
+            saveBigList(results, acronym);
+        } else {
+            saveSmallList(results, acronym);
+        }
+    }
+
     private void saveBigList(FLUXMDRReturnMessage response) {
         log.info("\n\n[START] Received BIG List. Going to chunk it ::::::::::::::::::::::::::::::");
         List<List<MasterDataRegistry>> chuncksList = getDataNodesAsChunks(response.getMDRDataSet().getContainedMDRDataNodes(), response.getMDRDataSet().getID().getValue(), 500);
@@ -120,14 +134,32 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
                 log.info("Inserting chunk : " + counter++);
                 insertNewDataWithoutPurging(chunkOfMdrEntityRows);
             }
-            statusDao.updateStatusSuccessForAcronym(response.getMDRDataSet(), AcronymListState.SUCCESS, DateUtils.nowUTC().toDate());
         } catch (ServiceException e) {
             statusDao.updateStatusForAcronym(chuncksList.get(0).get(0).getAcronym(), AcronymListState.FAILED);
             log.error("Transaction rolled back! Couldn't persist mdr Entity : ", e);
         }
-
-
     }
+    
+    private void saveBigList(List<MasterDataRegistry> results, String acronym) {
+        try {
+            deleteDataAndPurgeIndexes(results);
+            StreamSupport.stream(Iterables.partition(results, 500).spliterator(), false).forEach(this::saveBigListChunk);
+            statusDao.updateStatusSuccessForAcronym(acronym, AcronymListState.SUCCESS, DateUtils.nowUTC().toDate());
+        } catch (AcronymNotFoundException | ServiceException e) {
+            statusDao.updateStatusForAcronym(acronym, AcronymListState.FAILED);
+            log.error("Transaction rolled back! Couldn't persist mdr Entity : ", e);
+        }
+    }
+
+    private void saveBigListChunk(List<MasterDataRegistry> chunk) {
+        try {
+            insertNewDataWithoutPurging(chunk);
+        } catch (ServiceException e) {
+            statusDao.updateStatusForAcronym(chunk.get(0).getAcronym(), AcronymListState.FAILED);
+            log.error("Transaction rolled back! Couldn't persist mdr Entity : ", e);
+        }
+    }
+
 
     private void saveSmallList(FLUXMDRReturnMessage response, FLUXResponseDocumentType fluxResponseDocument) {
         List<MasterDataRegistry> mdrEntityRows = MdrEntityMapper.mapJAXBObjectToMasterDataType(response);
@@ -144,6 +176,21 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
         } else { // List is empty
             log.error("[[ ERROR ]] Got Message from Flux related to MDR but, the list is empty! So, nothing is going to be persisted!");
             statusFailedOrEmptyForAcronym(fluxResponseDocument, AcronymListState.EMPTY);
+        }
+    }
+    
+    private void saveSmallList(List<MasterDataRegistry> results, String acronym) {
+        if(!results.isEmpty()) {
+            try {
+                insertNewData(results);
+                statusDao.updateStatusSuccessForAcronym(acronym, AcronymListState.SUCCESS, DateUtils.nowUTC().toDate());
+            } catch (AcronymNotFoundException | ServiceException e) {
+                statusDao.updateStatusForAcronym(acronym, AcronymListState.FAILED);
+                e.printStackTrace();
+            }
+        } else { // List is empty
+            log.error("[[ ERROR ]] Got Message from Flux related to MDR but, the list for " + acronym + " is empty! So, nothing is going to be persisted!");
+            statusDao.updateStatusForAcronym(acronym, AcronymListState.FAILED);
         }
     }
 
@@ -300,4 +347,18 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
         bulkOperationsDao.deleteFromDbAndPurgeAllFromIndex(mdrEntityName, mdrClass);
     }
 
+    @Override
+    public WebserviceConfigurationDto getWebserviceConfiguration() {
+        String wsdlLocation = mdrConfigDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_WSDL_LOCATION);
+        String webserviceName = mdrConfigDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_NAME);
+        String webserviceNamespace = mdrConfigDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_NAMESPACE);
+        return new WebserviceConfigurationDto(wsdlLocation, webserviceName, webserviceNamespace);
+    }
+
+    @Override
+    public void updateWebserviceConfiguration(WebserviceConfigurationDto configuration) throws ServiceException {
+        mdrConfigDao.changeMdrConfiguration(MdrConfigurationDao.WEBSERVICE_WSDL_LOCATION, configuration.getWsdlLocation());
+        mdrConfigDao.changeMdrConfiguration(MdrConfigurationDao.WEBSERVICE_NAME, configuration.getWebserviceName());
+        mdrConfigDao.changeMdrConfiguration(MdrConfigurationDao.WEBSERVICE_NAMESPACE, configuration.getWebserviceNamespace());
+    }
 }
