@@ -65,7 +65,7 @@
                             <configuration>
                                 <wsdlOptions>
                                     <wsdlOption>
-                                        <wsdl>http://localhost:8080/MDR-Service-Mock-1.0.1/v1/MDRService?wsdl</wsdl>
+                                        <wsdl>${basedir}/src/main/resources/contract/mdr/webservice/locally_generated.wsdl</wsdl>
                                         <extraargs>
                                             <extraarg>-client</extraarg>
                                             <extraarg>-xjc-Xcommons-lang</extraarg>
