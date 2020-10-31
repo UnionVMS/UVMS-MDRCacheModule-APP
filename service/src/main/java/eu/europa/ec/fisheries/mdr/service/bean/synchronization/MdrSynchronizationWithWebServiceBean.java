@@ -47,6 +47,10 @@ import org.apache.commons.collections.CollectionUtils;
 @ApplicationScoped
 @MDRSync(MDRSync.MDRSyncImpl.WEBSERVICE)
 public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationService {
+
+    private static final String ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM = "Error while trying to map MDRQueryType for acronym {}";
+    private static final String OBJ_DESC = "OBJ_DESC";
+    private static final String INDEX = "INDEX";
     private static final String MDR_EXCLUSION_LIST = "mdr.exclusion.list";
 
     private MdrStatusRepository statusRepository;
@@ -164,7 +168,7 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
         return errorContainer;
     }
     
-    public List<MasterDataRegistry> sendRequestForAcronym(String acronym) {
+    private List<MasterDataRegistry> sendRequestForAcronym(String acronym) {
         List<MDRDataNodeType> results = mdrWebServiceClient.getMDRList(acronym);
         try {
             return results.stream().map(node -> mapResultToEntity(node, acronym)).collect(Collectors.toList());
@@ -172,8 +176,8 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
             throw new RuntimeException("Could not find mapper for acronym: " + acronym,  e);
         }
     }
-    
-    public MasterDataRegistry mapResultToEntity(MDRDataNodeType node, String acronym) {
+
+    private MasterDataRegistry mapResultToEntity(MDRDataNodeType node, String acronym) {
         return mappers.select(new MDRMapper.MDRMapperImpl(acronym)).get().mapMDRDataNodeTypeToEntity(node);
     }
 
@@ -195,10 +199,6 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
         }
         return acronymsList;
     }
-
-    private static final String ERROR_WHILE_TRYING_TO_MAP_MDRQUERY_TYPE_FOR_ACRONYM = "Error while trying to map MDRQueryType for acronym {}";
-    private static final String OBJ_DESC     = "OBJ_DESC";
-    private static final String INDEX        = "INDEX";
 
     @Override
     public void sendRequestForMdrCodelistsStructures(Collection<String> acronymsList) {
