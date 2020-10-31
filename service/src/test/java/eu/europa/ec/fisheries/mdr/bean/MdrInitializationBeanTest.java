@@ -66,7 +66,6 @@ public class MdrInitializationBeanTest extends BaseMdrDaoTest {
     @SneakyThrows
     public void prepare() {
         // SyncBean internal state
-        Whitebox.setInternalState(synchBean, "mdrRepository", mdrRepository);
         Whitebox.setInternalState(synchBean, "statusRepository", statusRepository);
         Whitebox.setInternalState(synchBean, "producer", producer);
 

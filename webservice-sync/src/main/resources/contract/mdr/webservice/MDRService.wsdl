@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+				  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+				  xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+				  xmlns:ns1="http://ec.europa.eu/mare/fisheries/services/mdr/v1" name="MDRService"
+				  targetNamespace="http://ec.europa.eu/mare/fisheries/services/mdr/v1">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				   xmlns:tns="http://ec.europa.eu/mare/fisheries/services/mdr/v1"
+				   targetNamespace="http://ec.europa.eu/mare/fisheries/services/mdr/v1" version="1.0">
+
+			<xs:element name="MDRDataSetType" type="tns:MDRDataSetType"/>
+
+			<xs:element name="MDRServiceFault" type="tns:MDRServiceFault"/>
+
+			<xs:element name="getLatestVersionOfMDRList" type="tns:getLatestVersionOfMDRList"/>
+
+			<xs:element name="getLatestVersionOfMDRListResponse" type="tns:getLatestVersionOfMDRListResponse"/>
+
+			<xs:element name="getMDRList" type="tns:getMDRList"/>
+
+			<xs:element name="getMDRListResponse" type="tns:getMDRListResponse"/>
+
+			<xs:complexType name="getLatestVersionOfMDRList">
+				<xs:sequence>
+					<xs:element name="listID" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="getLatestVersionOfMDRListResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:MDRDataSetType"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="MDRDataSetType">
+				<xs:sequence>
+					<xs:element name="ID" type="tns:IDType"/>
+					<xs:element minOccurs="0" name="Description" type="xs:string"/>
+					<xs:element minOccurs="0" name="Origin" type="xs:string"/>
+					<xs:element name="Name" type="xs:string"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="SpecifiedDataSetVersion"
+								type="tns:DataSetVersionType"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ContainedMDRDataNode"
+								type="tns:MDRDataNodeType"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="IDType">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute name="schemeID" type="xs:token"/>
+						<xs:attribute name="schemeName" type="xs:string"/>
+						<xs:attribute name="schemeVersionID" type="xs:token"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+
+			<xs:complexType name="DataSetVersionType">
+				<xs:sequence>
+					<xs:element name="ID" type="tns:IDType"/>
+					<xs:element minOccurs="0" name="Name" type="xs:string"/>
+					<xs:element name="ValidityStartDateTime" type="tns:DateTimeType"/>
+					<xs:element name="ValidityEndDateTime" type="tns:DateTimeType"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="DateTimeType">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="DateTimeString">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:string">
+									<xs:attribute name="format" type="xs:string"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="DateTime" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="MDRDataNodeType">
+				<xs:sequence>
+					<xs:element name="ID" type="tns:IDType"/>
+					<xs:element minOccurs="0" name="ParentID" type="tns:IDType"/>
+					<xs:element minOccurs="0" name="HierarchicalLevelNumeric" type="tns:NumericType"/>
+					<xs:element minOccurs="0" name="EffectiveDelimitedPeriod" type="tns:DelimitedPeriodType"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="SubordinateMDRElementDataNode"
+								type="tns:MDRElementDataNodeType"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="NumericType">
+				<xs:simpleContent>
+					<xs:extension base="xs:decimal">
+						<xs:attribute name="format" type="xs:string"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+
+			<xs:complexType name="DelimitedPeriodType">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="StartDateTime" type="tns:DateTimeType"/>
+					<xs:element minOccurs="0" name="EndDateTime" type="tns:DateTimeType"/>
+					<xs:element minOccurs="0" name="DurationMeasure" type="tns:MeasureType"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="MeasureType">
+				<xs:simpleContent>
+					<xs:extension base="xs:decimal">
+						<xs:attribute name="unitCode" type="xs:token"/>
+						<xs:attribute name="unitCodeListVersionID" type="xs:token"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+
+			<xs:complexType name="MDRElementDataNodeType">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string"/>
+					<xs:element minOccurs="0" name="Value" type="xs:string"/>
+					<xs:element minOccurs="0" name="TypeCode" type="tns:CodeType"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="CodeType">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute name="name" type="xs:string"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+
+			<xs:complexType name="MDRServiceFault">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="message" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="getMDRList">
+				<xs:sequence>
+					<xs:element name="listID" type="xs:string"/>
+					<xs:element minOccurs="0" name="validityDate" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="getMDRListResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:MDRDataSetType"/>
+				</xs:sequence>
+			</xs:complexType>
+
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getMDRList">
+		<wsdl:part element="ns1:getMDRList" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getLatestVersionOfMDRList">
+		<wsdl:part element="ns1:getLatestVersionOfMDRList" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="MDRServiceFault_Exception">
+		<wsdl:part element="ns1:MDRServiceFault" name="MDRServiceFault_Exception">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getMDRListResponse">
+		<wsdl:part element="ns1:getMDRListResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getLatestVersionOfMDRListResponse">
+		<wsdl:part element="ns1:getLatestVersionOfMDRListResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="MDRService">
+		<wsdl:operation name="getLatestVersionOfMDRList">
+			<wsdl:input message="ns1:getLatestVersionOfMDRList" name="getLatestVersionOfMDRList"
+						wsam:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getLatestVersionOfMDRListRequest"
+						wsaw:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getLatestVersionOfMDRListRequest">
+			</wsdl:input>
+			<wsdl:output message="ns1:getLatestVersionOfMDRListResponse" name="getLatestVersionOfMDRListResponse"
+						 wsam:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getLatestVersionOfMDRListResponse"
+						 wsaw:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getLatestVersionOfMDRListResponse">
+			</wsdl:output>
+			<wsdl:fault message="ns1:MDRServiceFault_Exception" name="MDRServiceFault_Exception"
+						wsam:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getLatestVersionOfMDRList/Fault/MDRServiceFault"
+						wsaw:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getLatestVersionOfMDRList/Fault/MDRServiceFault">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getMDRList">
+			<wsdl:input message="ns1:getMDRList" name="getMDRList"
+						wsam:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getMDRListRequest"
+						wsaw:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getMDRListRequest">
+			</wsdl:input>
+			<wsdl:output message="ns1:getMDRListResponse" name="getMDRListResponse"
+						 wsam:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getMDRListResponse"
+						 wsaw:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getMDRListResponse">
+			</wsdl:output>
+			<wsdl:fault message="ns1:MDRServiceFault_Exception" name="MDRServiceFault_Exception"
+						wsam:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getMDRList/Fault/MDRServiceFault"
+						wsaw:Action="http://ec.europa.eu/mare/fisheries/services/mdr/v1/MDRService/getMDRList/Fault/MDRServiceFault">
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:portType>
+</wsdl:definitions>
