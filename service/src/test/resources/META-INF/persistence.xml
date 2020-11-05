@@ -31,7 +31,6 @@
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.FluxDf</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.FaGearProblem</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.TargetSpeciesGroup</class>
-        <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.IcesStatisticalRectangles</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.FaReasonArrival</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.Rfmo</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.FishPackaging</class>
@@ -73,7 +72,6 @@
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.StatRectangle</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.FaReasonDeparture</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.GearType</class>
-        <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.GfcmStatisticalRectangles</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.sales.SaleBrDef</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.Location</class>
         <class>eu.europa.ec.fisheries.mdr.entities.codelists.ers.FluxGpValidationType</class>
