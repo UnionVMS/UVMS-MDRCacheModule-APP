@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="UNIONVMS-4522-remove-unused-tables" author="cpapatheodorou" dbms="postgresql">
+
+        <dropSequence sequenceName="mdr_gfcm_statistical_rectangles_seq" schemaName="mdr"/>
+        <delete tableName="mdr_gfcm_statistical_rectangles" schemaName="mdr"/>
+        <dropTable tableName="mdr_gfcm_statistical_rectangles" schemaName="mdr"/>
+
+        <delete tableName="mdr_codelist_status" schemaName="mdr">
+            <where>object_acronym = 'GFCM_STAT_RECTANGLE'</where>
+        </delete>
+
+
+        <dropSequence sequenceName="mdr_ices_statistical_rectangles_seq" schemaName="mdr"/>
+        <delete tableName="mdr_ices_statistical_rectangles" schemaName="mdr"/>
+        <dropTable tableName="mdr_ices_statistical_rectangles" schemaName="mdr"/>
+
+        <delete tableName="mdr_codelist_status" schemaName="mdr">
+            <where>object_acronym = 'ICES_STAT_RECTANGLE'</where>
+        </delete>
+
+        <rollback>
+            <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807" minValue="1"
+                            sequenceName="mdr_gfcm_statistical_rectangles_seq" startValue="2000" schemaName="mdr"/>
+
+            <createTable tableName="mdr_gfcm_statistical_rectangles">
+                <column name="id" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="code" type="VARCHAR(255)"/>
+                <column name="description" type="VARCHAR(255)"/>
+                <column name="end_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+                <column name="start_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+                <column name="version" type="VARCHAR(255)"/>
+                <column name="east" type="VARCHAR(255)"/>
+                <column name="north" type="VARCHAR(255)"/>
+                <column name="south" type="VARCHAR(255)"/>
+                <column name="west" type="VARCHAR(255)"/>
+            </createTable>
+
+            <addPrimaryKey columnNames="id" constraintName="mdr_gfcm_statistical_rectangles_pkey"
+                           tableName="mdr_gfcm_statistical_rectangles"/>
+
+            <addDefaultValue
+                    columnDataType="BIGINT"
+                    columnName="id"
+                    defaultValueSequenceNext="mdr_gfcm_statistical_rectangles_seq"
+                    tableName="mdr_gfcm_statistical_rectangles"/>
+
+            <insert tableName="mdr_codelist_status">
+                <column name="last_attempt" value="2010-07-10 03:20:00.412"/>
+                <column name="last_success" value="NULL"/>
+                <column name="last_status" value="RUNNING"/>
+                <column name="object_acronym" value="GFCM_STAT_RECTANGLE"/>
+                <column name="object_description" value="NULL"/>
+                <column name="object_name" value=""/>
+                <column name="object_source" value="NULL"/>
+                <column name="reference_uuid" value="0a5f2c9b-dc3e-440e-b622-0572e0d81c09"/>
+                <column name="schedulable" value="Y"/>
+                <column name="start_date" value="NULL"/>
+                <column name="end_date" value="NULL"/>
+            </insert>
+
+            <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807" minValue="1"
+                            sequenceName="mdr_ices_statistical_rectangles_seq" startValue="2000" schemaName="mdr"/>
+
+            <createTable tableName="mdr_ices_statistical_rectangles">
+                <column name="id" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="code" type="VARCHAR(255)"/>
+                <column name="description" type="VARCHAR(255)"/>
+                <column name="end_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+                <column name="start_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+                <column name="version" type="VARCHAR(255)"/>
+                <column name="east" type="VARCHAR(255)"/>
+                <column name="north" type="VARCHAR(255)"/>
+                <column name="south" type="VARCHAR(255)"/>
+                <column name="west" type="VARCHAR(255)"/>
+            </createTable>
+
+            <addPrimaryKey columnNames="id" constraintName="mdr_ices_statistical_rectangles_pkey"
+                           tableName="mdr_ices_statistical_rectangles"/>
+
+            <addDefaultValue
+                    columnDataType="BIGINT"
+                    columnName="id"
+                    defaultValueSequenceNext="mdr_ices_statistical_rectangles_seq"
+                    tableName="mdr_ices_statistical_rectangles"/>
+
+            <insert tableName="mdr_codelist_status">
+                <column name="last_attempt" value="2010-07-10 03:20:00.412"/>
+                <column name="last_success" value="NULL"/>
+                <column name="last_status" value="RUNNING"/>
+                <column name="object_acronym" value="ICES_STAT_RECTANGLE"/>
+                <column name="object_description" value="List of ICES rectangles"/>
+                <column name="object_name" value="ICES Statistical Rectangle"/>
+                <column name="object_source" value="MARE"/>
+                <column name="reference_uuid" value="88e3b5aa-3d49-41e1-bb8a-ac5172916501"/>
+                <column name="schedulable" value="Y"/>
+                <column name="start_date" value="NULL"/>
+                <column name="end_date" value="NULL"/>
+            </insert>
+
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -12,5 +12,7 @@
   <!-- Insert data -->
   <include file="postgres\changelog\v0.2\db-changelog-UNIONVMS-4364.xml"/>
 
+  <!-- Drop unused tables and sequences -->
+  <include file="postgres\changelog\v0.3\db-changelog-UNIONVMS-4522.xml"/>
 
 </databaseChangeLog>
