@@ -25,14 +25,20 @@ import eu.europa.ec.fisheries.uvms.mdr.message.event.*;
 import eu.europa.ec.fisheries.uvms.mdr.message.event.carrier.EventMessage;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.commonproducers.MdrQueueProducer;
 import eu.europa.ec.fisheries.uvms.mdr.model.exception.MdrModelMarshallException;
+import eu.europa.ec.fisheries.uvms.mdr.model.mapper.JAXBMarshaller;
 import eu.europa.ec.fisheries.uvms.mdr.model.mapper.MdrModuleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
+import un.unece.uncefact.data.standard.mdr.communication.MdrGetAllCodeListsResponse;
 import un.unece.uncefact.data.standard.mdr.communication.MdrGetCodeListRequest;
+import un.unece.uncefact.data.standard.mdr.communication.MdrGetCodeListResponse;
+import un.unece.uncefact.data.standard.mdr.communication.MdrGetLastRefreshDateResponse;
+import un.unece.uncefact.data.standard.mdr.communication.MdrModuleMethod;
 import un.unece.uncefact.data.standard.mdr.communication.SetFLUXMDRSyncMessageResponse;
 import un.unece.uncefact.data.standard.mdr.communication.SingleCodeListRappresentation;
+import un.unece.uncefact.data.standard.mdr.communication.ValidationResult;
 import un.unece.uncefact.data.standard.mdr.communication.ValidationResultType;
 import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
 import un.unece.uncefact.data.standard.mdr.response.FLUXResponseDocumentType;
@@ -45,10 +51,13 @@ import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -166,7 +175,7 @@ public class MdrEventServiceBean implements MdrEventService {
                 validationStr = "Codelist was found but, the search criteria returned 0 results. (Maybe the Table is empty!)";
                 validation = ValidationResultType.WOK;
             }
-            String mdrGetCodeListResponse = MdrModuleMapper.createFluxMdrGetCodeListResponse(mdrList, requestObj.getAcronym(), validation, validationStr);
+            String mdrGetCodeListResponse = JAXBMarshaller.marshallJaxBObjectToString(MdrModuleMapper.createFluxMdrGetCodeListResponse(mdrList, requestObj.getAcronym(), validation, validationStr));
             mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetCodeListResponse, ONE_MINUTE, NON_PERSISTENT);
             log.info("Response sent on queue [{}].", message.getJmsMessage().getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
@@ -186,7 +195,7 @@ public class MdrEventServiceBean implements MdrEventService {
                 validationStr = "Codelist was found but, the search criteria returned 0 results. (Maybe the Table is empty!)";
                 validation = ValidationResultType.WOK;
             }
-            String mdrGetCodeListResponse = MdrModuleMapper.createFluxMdrGetCodeListResponse(codelistStatus, validation, validationStr);
+            String mdrGetCodeListResponse = JAXBMarshaller.marshallJaxBObjectToString(MdrModuleMapper.createFluxMdrGetCodeListResponse(codelistStatus, validation, validationStr));
             mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetCodeListResponse, ONE_MINUTE, NON_PERSISTENT);
             log.info("Response sent on queue [{}].", message.getJmsMessage().getJMSReplyTo());
         } catch (MdrModelMarshallException e) {
@@ -218,7 +227,7 @@ public class MdrEventServiceBean implements MdrEventService {
             }
             watch.stop();
             printOutJavHepSize();
-            String response = MdrModuleMapper.mapToMdrGetAllCodeListsResponse(allCoceLists);
+            String response = mapToMdrGetAllCodeListsResponse(allCoceLists);
             log.info("Retrived and marshalled [{}] codelists in [{}] seconds. Size of message to be sent is [{}] Mb. Now sending..", allCoceLists.size(), watch.getTime(TimeUnit.SECONDS), getSizeInMb(response));
             mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, response, TWO_MINUTES, NON_PERSISTENT);
             log.info("Response sent on queue [{}].", jmsMessage.getJMSReplyTo());
@@ -227,6 +236,12 @@ public class MdrEventServiceBean implements MdrEventService {
         } catch (ServiceException | MessageException | IllegalStateException | JMSException e) {
             sendErrorMessageToMdrQueue(ERROR_GET_LIST_FOR_THE_REQUESTED_CODE + e, jmsMessage);
         }
+    }
+
+    private String mapToMdrGetAllCodeListsResponse(List<SingleCodeListRappresentation> rappr) throws MdrModelMarshallException {
+        MdrGetAllCodeListsResponse resp = new MdrGetAllCodeListsResponse();
+        resp.setCodeLists(rappr);
+        return JAXBMarshaller.marshallJaxBObjectToString(resp);
     }
 
     private Object getSizeInMb(String response) {
@@ -255,11 +270,19 @@ public class MdrEventServiceBean implements MdrEventService {
     @Override
     public void receivedGetLastRefreshDateFromStatuses(@Observes @GetLastRefreshDate EventMessage message) {
         try {
-            String mdrGetLastRefreshDateResponse = MdrModuleMapper.createMdrGetLastRefreshDateResponse(statusBean.getLastRefreshDate());
+            String mdrGetLastRefreshDateResponse = createMdrGetLastRefreshDateResponse(statusBean.getLastRefreshDate());
             mdrResponseQueueProducer.sendResponseMessageToSender(message.getJmsMessage(), mdrGetLastRefreshDateResponse, ONE_MINUTE, DeliveryMode.NON_PERSISTENT);
         } catch (MdrModelMarshallException | MessageException | DatatypeConfigurationException e) {
             sendErrorMessageToMdrQueue(MDR_MODEL_MARSHALL_EXCEPTION + e, message.getJmsMessage());
         }
+    }
+
+    private String createMdrGetLastRefreshDateResponse(Date date) throws MdrModelMarshallException, DatatypeConfigurationException {
+        MdrGetLastRefreshDateResponse resp = new MdrGetLastRefreshDateResponse();
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(date);
+        resp.setLastRefreshDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
+        return JAXBMarshaller.marshallJaxBObjectToString(resp);
     }
 
     /**
@@ -292,10 +315,19 @@ public class MdrEventServiceBean implements MdrEventService {
     private void sendErrorMessageToMdrQueue(String textMessage, TextMessage jmsMessage) {
         try {
             log.error(textMessage);
-            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, MdrModuleMapper.createFluxMdrGetCodeListErrorResponse(textMessage), ONE_MINUTE, NON_PERSISTENT);
+            mdrResponseQueueProducer.sendResponseMessageToSender(jmsMessage, createFluxMdrGetCodeListErrorResponse(textMessage), ONE_MINUTE, NON_PERSISTENT);
         } catch (MdrModelMarshallException | MessageException e) {
             log.error("[ERROR] Something went wrong during sending of error message back to MdrQueue out! Couldn't recover anymore from this! Response will not be posted!", e);
         }
+    }
+
+    private String createFluxMdrGetCodeListErrorResponse(String errorMessage) throws MdrModelMarshallException {
+        MdrGetCodeListResponse response = new MdrGetCodeListResponse();
+        response.setAcronym(null);
+        response.setValidation(new ValidationResult(ValidationResultType.NOK, errorMessage));
+        response.setDataSets(null);
+        response.setMethod(MdrModuleMethod.MDR_CODE_LIST_RESP);
+        return JAXBMarshaller.marshallJaxBObjectToString(response);
     }
 
     private boolean isAcnowledgeMessage(String jmsMessage) {
