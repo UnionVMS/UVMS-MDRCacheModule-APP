@@ -11,11 +11,10 @@ copy of the GNU General Public License along with the IFDM Suite. If not, see <h
  */
 package eu.europa.ec.fisheries.mdr.service.configregistration;
 
-import eu.europa.ec.fisheries.mdr.service.bean.BaseMdrBean;
 import eu.europa.ec.fisheries.uvms.config.constants.ConfigHelper;
-
-import javax.annotation.PostConstruct;
+import eu.europa.ec.fisheries.mdr.service.bean.PropertiesBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
@@ -24,6 +23,11 @@ import java.util.List;
 
 @Stateless
 public class MdrConfigRegistration implements ConfigHelper {
+
+    public static final String MODULE_VERSION_PROPERTIES_KEY = "uvms.module.version";
+
+    @Inject
+    private PropertiesBean propertiesBean;
 
     @PersistenceContext(unitName = "mdrConfig")
     private EntityManager em;
@@ -36,6 +40,11 @@ public class MdrConfigRegistration implements ConfigHelper {
     @Override
     public String getModuleName() {
         return "mdr";
+    }
+
+    @Override
+    public String getModuleVersion() {
+        return propertiesBean.getProperty(MODULE_VERSION_PROPERTIES_KEY);
     }
 
     @Override
