@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet id="UNIONVMS-4460-insert-rules-for-mdr_fa_br" author="nomikosi" dbms="postgresql">
+        <insert tableName="mdr_fa_br">
+            <column name="code" value="MO-R01-00-0001"/>
+            <column name="description" value="Check presence. Must be present."/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,1.1"/>
+            <column name="activation_indicator" value="Y"/>
+            <column name="br_sublevel" value="00"/>
+            <column name="context" value="EU"/>
+            <column name="field" value="FLUXFAReportMessage/FLUXReportDocument/CreationDateTime"/>
+            <column name="flux_gp_validation_en_descr" value="Error"/>
+            <column name="flux_gp_validation_level_code" value="L00"/>
+            <column name="flux_gp_validation_level_en_descr" value="Integrity Control"/>
+            <column name="flux_gp_validation_type_code" value="ERR"/>
+            <column name="message_if_failing" value="Message creation date/time missing."/>
+            <column name="sequence_order" value="1"/>
+        </insert>
+        <insert tableName="mdr_fa_br">
+            <column name="code" value="MO-R01-00-0002"/>
+            <column name="description" value="Check Format. Must be date/time expressed in UTC in line with ISO8601 and format YYYY-MM-DDThh:mm:ss[.000000]Z (optional milliseconds)"/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,1.1"/>
+            <column name="activation_indicator" value="Y"/>
+            <column name="br_sublevel" value="00"/>
+            <column name="context" value="EU"/>
+            <column name="field" value="FLUXFAReportMessage/FLUXReportDocument/CreationDateTime"/>
+            <column name="flux_gp_validation_en_descr" value="Error"/>
+            <column name="flux_gp_validation_level_code" value="L01"/>
+            <column name="flux_gp_validation_level_en_descr" value="Data field validation"/>
+            <column name="flux_gp_validation_type_code" value="ERR"/>
+            <column name="message_if_failing" value="Message creation date/time must be a valid UTC date/time in the correct format."/>
+            <column name="sequence_order" value="2"/>
+        </insert>
+        <insert tableName="mdr_fa_br">
+            <column name="code" value="MO-R01-00-0003"/>
+            <column name="description" value="Date must be in the past."/>
+            <column name="end_date" valueDate="2100-12-31 00:00:00.000"/>
+            <column name="start_date" valueDate="1989-01-01 00:00:00.000"/>
+            <column name="version" value="1.0,1.1"/>
+            <column name="activation_indicator" value="Y"/>
+            <column name="br_sublevel" value="00"/>
+            <column name="context" value="EU"/>
+            <column name="field" value="FLUXFAReportMessage/FLUXReportDocument/CreationDateTime"/>
+            <column name="flux_gp_validation_en_descr" value="Warning"/>
+            <column name="flux_gp_validation_level_code" value="L02"/>
+            <column name="flux_gp_validation_level_en_descr" value="Content validation"/>
+            <column name="flux_gp_validation_type_code" value="WAR"/>
+            <column name="message_if_failing" value="Message creation date/time not in the past."/>
+            <column name="sequence_order" value="3"/>
+        </insert>
+
+
+        <rollback>
+
+            <delete tableName="mdr_fa_br">
+                <where>
+                    code in ("MO-R01-00-0001","MO-R01-00-0001","MO-R01-00-0001")
+                </where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

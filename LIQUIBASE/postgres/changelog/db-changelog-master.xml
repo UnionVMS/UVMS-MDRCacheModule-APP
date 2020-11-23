@@ -12,5 +12,6 @@
   <!-- Insert data -->
   <include file="postgres\changelog\v0.2\db-changelog-UNIONVMS-4364.xml"/>
 
+  <include file="postgres\changelog\v0.2\db-changelog-UNIONVMS-4460.xml"/>
 
 </databaseChangeLog>
