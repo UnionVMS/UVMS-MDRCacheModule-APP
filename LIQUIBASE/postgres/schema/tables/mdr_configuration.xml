@@ -57,4 +57,17 @@
 			</delete>
 		</rollback>
 	</changeSet>
+
+	<changeSet author="nikospara" id="UNIONVMS-4810-configuration-for-ws-port">
+		<insert tableName="mdr_configuration">
+			<column  name="config_name"  value="PORT_NAME"/>
+			<column  name="config_value"  value="MDREndPointPort"/>
+		</insert>
+
+		<rollback>
+			<delete tableName="mdr_configuration">
+				<where>config_name='PORT_NAME'</where>
+			</delete>
+		</rollback>
+	</changeSet>
 </databaseChangeLog>
