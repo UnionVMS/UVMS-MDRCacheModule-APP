@@ -12,5 +12,6 @@ public class WebserviceConfigurationDto {
     String wsdlLocation;
     String webserviceName;
     String webserviceNamespace;
+    String portName;
     
 }
