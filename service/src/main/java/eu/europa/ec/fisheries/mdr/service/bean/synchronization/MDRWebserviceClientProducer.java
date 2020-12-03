@@ -27,6 +27,8 @@ public class MDRWebserviceClientProducer extends BaseMdrBean {
                 String webServiceNameSpace = mdrConfigurationDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_NAMESPACE);
                 String webServiceName = mdrConfigurationDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_NAME);
                 mdrWebServiceClient.setServiceName(new QName(webServiceNameSpace, webServiceName));
+                String portName = mdrConfigurationDao.getMDRConfigurationValue(MdrConfigurationDao.PORT_NAME);
+                mdrWebServiceClient.setPortName(new QName(webServiceNameSpace, portName));
             } catch (MalformedURLException e) {
                 throw new RuntimeException("Tried to create URL for WSDL located at " + wsdlLocation + " but failed: ", e);
             }
@@ -44,4 +46,3 @@ public class MDRWebserviceClientProducer extends BaseMdrBean {
         return mdrWebServiceClient;
     }
 }
-

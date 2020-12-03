@@ -352,7 +352,8 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
         String wsdlLocation = mdrConfigDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_WSDL_LOCATION);
         String webserviceName = mdrConfigDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_NAME);
         String webserviceNamespace = mdrConfigDao.getMDRConfigurationValue(MdrConfigurationDao.WEBSERVICE_NAMESPACE);
-        return new WebserviceConfigurationDto(wsdlLocation, webserviceName, webserviceNamespace);
+        String portName = mdrConfigDao.getMDRConfigurationValue(MdrConfigurationDao.PORT_NAME);
+        return new WebserviceConfigurationDto(wsdlLocation, webserviceName, webserviceNamespace, portName);
     }
 
     @Override
@@ -360,5 +361,6 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
         mdrConfigDao.changeMdrConfiguration(MdrConfigurationDao.WEBSERVICE_WSDL_LOCATION, configuration.getWsdlLocation());
         mdrConfigDao.changeMdrConfiguration(MdrConfigurationDao.WEBSERVICE_NAME, configuration.getWebserviceName());
         mdrConfigDao.changeMdrConfiguration(MdrConfigurationDao.WEBSERVICE_NAMESPACE, configuration.getWebserviceNamespace());
+        mdrConfigDao.changeMdrConfiguration(MdrConfigurationDao.PORT_NAME, configuration.getPortName());
     }
 }
