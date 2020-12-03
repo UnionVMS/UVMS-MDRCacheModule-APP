@@ -32,6 +32,7 @@ public class MdrConfigurationDao extends AbstractDAO<MdrConfiguration> {
     private static final String SCHEDULER_CONFIG_NAME = "MDR_SCHED_CONFIG_NAME";
     public static final String WEBSERVICE_WSDL_LOCATION = "WEBSERVICE_WSDL_LOCATION";
     public static final String WEBSERVICE_NAME = "WEBSERVICE_NAME";
+    public static final String PORT_NAME = "PORT_NAME";
     public static final String WEBSERVICE_NAMESPACE = "WEBSERVICE_NAMESPACE";
 
     public MdrConfigurationDao(EntityManager em) {
