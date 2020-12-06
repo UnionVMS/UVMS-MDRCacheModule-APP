@@ -216,7 +216,7 @@ public class MdrRestClientImpl implements MdrClient {
 
 
     private void handleNotOKStatusCode(Response response) throws MdrRestClientException {
-        if (response.getStatus() != 200) {
+        if (response.getStatus() < 200 && response.getStatus() >= 300) {
             log.debug("Mdr Service responded with error code {} - {}", response.getStatus(), response.getEntity());
             throw new MdrRestClientException("Mdr service response: " + response.getStatusInfo().getReasonPhrase());
         }
