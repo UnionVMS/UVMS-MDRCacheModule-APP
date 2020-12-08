@@ -40,7 +40,7 @@ public class MdrWebServiceClient {
         try {
             results = mdrServicePort.getLatestVersionOfMDRList(acronym).getContainedMDRDataNode();
         } catch (Exception e) {
-            log.error("Failed to communicate with MDR webservice: " + e.getMessage());
+            throw new RuntimeException("Failed to communicate with MDR webservice", e);
         }
         return results;
     }
