@@ -73,13 +73,16 @@ public class MdrSynchronizationResource extends UnionVMSResource {
     public Response synchronizeAllAcronyms(@Context HttpServletRequest request) {
         log.info("Starting MDR Synchronization...");
         GenericOperationOutcome outcome = syncBean.manualStartMdrSynchronization();
-        log.info("Finished MDR Synchronization with error flag : " + outcome.getStatus().toString());
-        if (!outcome.isOK()) {
-            return createErrorResponse(ERROR_MANUAL_MDR_SYNC);
+        if(outcome == null) {
+            return createSuccessResponse();
+        } else {
+            log.info("Finished MDR Synchronization with error flag : " + outcome.getStatus().toString());
+            if (!outcome.isOK()) {
+                return createErrorResponse(ERROR_MANUAL_MDR_SYNC);
+            }
+            outcome.setIncludedObject(mdrStatusBean.getAllAcronymsStatuses());
+            return createSuccessResponse(outcome);
         }
-        outcome.setIncludedObject(mdrStatusBean.getAllAcronymsStatuses());
-        return createSuccessResponse(outcome);
-
     }
 
     /**
@@ -98,11 +101,15 @@ public class MdrSynchronizationResource extends UnionVMSResource {
     public Response synchronizeListOfAcronyms(@Context HttpServletRequest request, Collection<String> acronymsToSynch) {
         log.info("Starting MDR Synchronization...");
         GenericOperationOutcome outcome = syncBean.updateMdrEntities((List<String>) acronymsToSynch);
-        log.info("Finished MDR Synchronization with error flag : " + outcome.getStatus().toString());
-        if (!outcome.isOK()) {
-            return createErrorResponse(ERROR_MANUAL_MDR_SYNC);
+        if(outcome == null) {
+            return createSuccessResponse();
+        } else {
+            log.info("Finished MDR Synchronization with error flag : " + outcome.getStatus().toString());
+            if (!outcome.isOK()) {
+                return createErrorResponse(ERROR_MANUAL_MDR_SYNC);
+            }
+            return createSuccessResponse(outcome);
         }
-        return createSuccessResponse(outcome);
     }
 
 

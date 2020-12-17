@@ -1,13 +1,11 @@
 package eu.europa.ec.fisheries.mdr.service.bean.synchronization;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
+import javax.annotation.Resource;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,29 +15,21 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-import eu.europa.ec.fisheries.mdr.client.MdrWebServiceClient;
 import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
-import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
-import eu.europa.ec.fisheries.mdr.entities.constants.AcronymListState;
 import eu.europa.ec.fisheries.mdr.exception.MdrCacheInitException;
 import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
 import eu.europa.ec.fisheries.mdr.mapper.MasterDataRegistryEntityCacheFactory;
 import eu.europa.ec.fisheries.mdr.mapper.MdrRequestMapper;
-import eu.europa.ec.fisheries.mdr.mapper.webservice.MasterDataRegistryMapper;
-import eu.europa.ec.fisheries.mdr.qualifiers.MDRMapper;
 import eu.europa.ec.fisheries.mdr.qualifiers.MDRSync;
-import eu.europa.ec.fisheries.mdr.repository.MdrRepository;
 import eu.europa.ec.fisheries.mdr.repository.MdrStatusRepository;
 import eu.europa.ec.fisheries.mdr.service.MdrSynchronizationService;
 import eu.europa.ec.fisheries.mdr.service.bean.MdrConfigurationCache;
 import eu.europa.ec.fisheries.mdr.util.GenericOperationOutcome;
-import eu.europa.ec.fisheries.mdr.util.OperationOutcome;
-import eu.europa.ec.fisheries.uvms.commons.date.DateUtils;
 import eu.europa.ec.fisheries.uvms.commons.message.api.MessageException;
 import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
-import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRDataNodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -55,34 +45,30 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
 
     private MdrStatusRepository statusRepository;
     
-    private MdrWebServiceClient mdrWebServiceClient;
-    
-    private Instance<MasterDataRegistryMapper> mappers;
-    
-    private MdrRepository mdrRepository;
-    
     private MdrProducerBean producer;
     
     private MdrConfigurationCache mdrConfigurationCache;
 
+    private MdrSyncHelper mdrSyncHelper;
+
     private List<String> exclusionList;
+
+    private AtomicBoolean isUpdating = new AtomicBoolean(false);
+
+    @Resource
+    private ManagedExecutorService managedExecutorService;
 
     /**
      * Construction for injection
-     *
-     * @param mdrWebServiceClient
      * @param statusRepository
-     * @param mappers
+     * @param mdrSyncHelper
      */
     @Inject
-    public MdrSynchronizationWithWebServiceBean(MdrStatusRepository statusRepository, MdrWebServiceClient mdrWebServiceClient, @Any Instance<MasterDataRegistryMapper> mappers,
-                                                MdrRepository mdrRepository, MdrProducerBean producer, MdrConfigurationCache mdrConfigurationCache) {
+    public MdrSynchronizationWithWebServiceBean(MdrStatusRepository statusRepository, MdrProducerBean producer, MdrConfigurationCache mdrConfigurationCache, MdrSyncHelper mdrSyncHelper) {
         this.statusRepository = statusRepository;
-        this.mdrWebServiceClient = mdrWebServiceClient;
-        this.mappers = mappers;
-        this.mdrRepository = mdrRepository;
         this.producer = producer;
         this.mdrConfigurationCache = mdrConfigurationCache;
+        this.mdrSyncHelper = mdrSyncHelper;
     }
 
     /**
@@ -109,7 +95,32 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public GenericOperationOutcome manualStartMdrSynchronization() {
-        return extractAcronymsAndUpdateMdr();
+        managedExecutorService.execute(this::syncAllAcronyms);
+        return null;
+    }
+
+    private void syncAllAcronyms() {
+        if (isUpdating.compareAndSet(false, true)) {
+            try {
+                List<String> statusListFromDb = statusRepository.getAllUpdatableAcronymsStatuses().stream().map(MdrCodeListStatus::getObjectAcronym).collect(Collectors.toList());
+                List<String> updatableAcronyms = getAvailableMdrAcronyms().stream().filter(acronym -> statusListFromDb.contains(acronym) && !exclusionList.contains(acronym)).collect(Collectors.toList());
+                updatableAcronyms.forEach(mdrSyncHelper::updateMdrEntity);
+            } finally {
+                isUpdating.compareAndSet(true, false);
+            }
+        }
+    }
+    
+    private void syncAcronyms(List<String> acronyms) {
+        if (isUpdating.compareAndSet(false, true)) {
+            try {
+                List<String> statusListFromDb = statusRepository.getAllUpdatableAcronymsStatuses().stream().map(MdrCodeListStatus::getObjectAcronym).collect(Collectors.toList());
+                List<String> updatableAcronyms = acronyms.stream().filter(acronym -> statusListFromDb.contains(acronym) && !exclusionList.contains(acronym)).collect(Collectors.toList());
+                updatableAcronyms.forEach(mdrSyncHelper::updateMdrEntity);
+            } finally {
+                isUpdating.compareAndSet(true, false);
+            }
+        }
     }
 
     @Override
@@ -143,46 +154,8 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
     
     @Override
     public GenericOperationOutcome updateMdrEntities(List<String> acronymsList) {
-        // For each Acronym send a request object towards Exchange module.
-        GenericOperationOutcome errorContainer = new GenericOperationOutcome();
-        List<String> existingAcronymsList;
-        try {
-            existingAcronymsList = MasterDataRegistryEntityCacheFactory.getAcronymsList();
-        } catch (MdrCacheInitException e) {
-            log.error("Error while trying to get acronymsList from cache", e);
-            return new GenericOperationOutcome(OperationOutcome.NOK, "Error while trying to get acronymsList from cache");
-        }
-        for (String actualAcronym : acronymsList) {
-            if (existingAcronymsList.contains(actualAcronym) && !acronymIsInExclusionList(actualAcronym)) {// Acronym exists
-                statusRepository.updateStatusAttemptForAcronym(actualAcronym, AcronymListState.RUNNING, DateUtils.nowUTC().toDate(), java.util.UUID.randomUUID().toString());
-                log.info("Synchronization Request Sent for Entity : " + actualAcronym);
-                List<MasterDataRegistry> results = sendRequestForAcronym(actualAcronym);
-                mdrRepository.updateMdrEntities(results, actualAcronym);
-                errorContainer.setIncludedObject(statusRepository.getAllAcronymsStatuses());
-            } else {// Acronym does not exist
-                log.debug("Couldn't find the acronym \" " + actualAcronym + " \" (or the acronym is in Exclusion List) in the cachedAcronymsList! Request for said acronym won't be sent to flux!");
-                errorContainer.addMessage("The following acronym doesn't exist (or is excluded) in the cacheFactory : " + actualAcronym);
-            }
-        }
-
-        return errorContainer;
-    }
-    
-    private List<MasterDataRegistry> sendRequestForAcronym(String acronym) {
-        List<MDRDataNodeType> results = mdrWebServiceClient.getMDRList(acronym);
-        try {
-            return results.stream().map(node -> mapResultToEntity(node, acronym)).collect(Collectors.toList());
-        } catch (UnsatisfiedResolutionException e) {
-            throw new RuntimeException("Could not find mapper for acronym: " + acronym,  e);
-        }
-    }
-
-    private MasterDataRegistry mapResultToEntity(MDRDataNodeType node, String acronym) {
-        return mappers.select(new MDRMapper.MDRMapperImpl(acronym)).get().mapMDRDataNodeTypeToEntity(node);
-    }
-
-    private boolean acronymIsInExclusionList(String acronym) {
-        return exclusionList.contains(acronym);
+        managedExecutorService.execute(() -> syncAcronyms(acronymsList));
+        return null;
     }
 
     @Override
