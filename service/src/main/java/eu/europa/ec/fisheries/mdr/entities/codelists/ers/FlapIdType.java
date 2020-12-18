@@ -60,9 +60,9 @@ public class FlapIdType extends MasterDataRegistry {
 		for (MDRElementDataNodeType field : mdrDataType.getSubordinateMDRElementDataNodes()) {
 			String fieldName = field.getName().getValue();
 			String fieldValue = field.getValue().getValue();
-			if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_MSG_ID.FORMATDESC")) {
+			if (StringUtils.equalsIgnoreCase(fieldName, "FLAP_ID_TYPE.FORMATDESC")) {
 				this.setFormatExpressionDesc(fieldValue);
-			} else if (StringUtils.equalsIgnoreCase(fieldName, "FLUX_GP_MSG_ID.FORMATEXPRESSION")) {
+			} else if (StringUtils.equalsIgnoreCase(fieldName, "FLAP_ID_TYPE.FORMATEXPRESSION")) {
 				this.setFormatExpression(fieldValue);
 			} else {
 				logError(fieldName, this.getClass().getSimpleName());
