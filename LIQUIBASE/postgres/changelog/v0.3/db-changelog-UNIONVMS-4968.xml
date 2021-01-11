@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="UNIONVMS-4968-remove-unused-acronyms" author="gmanifavas" dbms="postgresql">
+        <delete  schemaName="mdr"
+                 tableName="mdr_codelist_status">
+            <where>object_acronym='GFCM_STAT_RECTANGLE'</where>
+        </delete>
+        <delete  schemaName="mdr"
+                 tableName="mdr_codelist_status">
+            <where>object_acronym='ICES_STAT_RECTANGLE'</where>'
+        </delete>
+        
+        <rollback>
+            <sql>
+                INSERT INTO mdr.mdr_codelist_status (last_attempt,last_status,last_success,object_acronym,object_description,object_name,object_source,reference_uuid,schedulable,end_date,start_date) VALUES
+                ('2021-01-12 14:35:02.848','FAILED',NULL,'ICES_STAT_RECTANGLE',NULL,'',NULL,'aa96ddb8-a58d-4c81-a29c-bd11d9eb039f','Y',NULL,NULL),
+                ('2021-01-12 14:35:03.071','FAILED',NULL,'GFCM_STAT_RECTANGLE',NULL,'',NULL,'95f1be1f-b2ba-4f4f-83fe-51663259e5f4','Y',NULL,NULL);
+            </sql>
+        </rollback>
+    </changeSet>
+      
+    
+</databaseChangeLog>
+
+      

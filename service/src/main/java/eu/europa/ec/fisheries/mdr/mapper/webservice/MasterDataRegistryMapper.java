@@ -32,4 +32,8 @@ public abstract class MasterDataRegistryMapper {
             }
         }
     }
+
+    Double parseStringToDouble(String value) {
+        return value == null || value.isEmpty() ? null : Double.parseDouble(value);
+    }
 }

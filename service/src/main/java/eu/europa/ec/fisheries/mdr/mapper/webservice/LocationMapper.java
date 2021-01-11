@@ -31,8 +31,8 @@ public class LocationMapper extends MasterDataRegistryMapper {
         entity.setPlacesCode(getProperty(mdrDataNodeType, CODE));
         entity.setCode2(getProperty(mdrDataNodeType, CODE2));
         entity.setEnName(getProperty(mdrDataNodeType, NAME));
-        entity.setLatitude(Double.parseDouble(getProperty(mdrDataNodeType, LATITUDE)));
-        entity.setLongitude(Double.parseDouble(getProperty(mdrDataNodeType, LONGITUDE)));
+        entity.setLatitude(parseStringToDouble(getProperty(mdrDataNodeType, LATITUDE)));
+        entity.setLongitude(parseStringToDouble(getProperty(mdrDataNodeType, LONGITUDE)));
         entity.setFishingPortInd(Boolean.valueOf(getProperty(mdrDataNodeType, FISHINGPORTIND)));
         entity.setLandingPlaceInd(Boolean.valueOf(getProperty(mdrDataNodeType, LANDPLACEIND)));
         entity.setCommercialPortInd(Boolean.valueOf(getProperty(mdrDataNodeType, COMMERCIALPORTIND)));
