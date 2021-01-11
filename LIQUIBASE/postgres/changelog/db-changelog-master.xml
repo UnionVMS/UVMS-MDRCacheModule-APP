@@ -15,6 +15,7 @@
   <!-- Drop unused tables and sequences -->
   <include file="postgres\changelog\v0.3\db-changelog-UNIONVMS-4522.xml"/>
   <include file="postgres\changelog\v0.3\db-changelog-UNIONVMS-4753.xml"/>
+  <include file="postgres\changelog\v0.3\db-changelog-UNIONVMS-4968.xml"/>
 
 
 </databaseChangeLog>
