@@ -62,11 +62,6 @@ public abstract class MasterDataRegistry implements Serializable {
     @Field(name = "endDate", analyzer = @Analyzer(definition = LOW_CASE_ANALYSER))
     private Date endDate;
 
-
-    @Column(name = "version")
-    @Field(name = "version", analyzer = @Analyzer(definition = LOW_CASE_ANALYSER))
-    private String version;
-
     @Column(name = "code")
     @Field(name = "code", analyzer = @Analyzer(definition = LOW_CASE_ANALYSER))
     private String code;
@@ -83,7 +78,6 @@ public abstract class MasterDataRegistry implements Serializable {
         String appCodeStr = acronym + CODE_STR;
         String appDescriptionStr = acronym + DESCRIPTION_STR;
         String appEnDescriptionStr = acronym + EN_DESCRIPTION_STR;
-        String appVersionStr = acronym + VERSION_STR;
 
         // Start date end date (validity)
         DelimitedPeriodType validityPeriod = mdrDataType.getEffectiveDelimitedPeriod();
@@ -107,17 +101,7 @@ public abstract class MasterDataRegistry implements Serializable {
                 if (setDescriptionFromField(fieldName, fieldValue)) {
                     fieldsToRemove.add(field);
                 }
-            } else if (StringUtils.equalsIgnoreCase(fieldName, appVersionStr)) {
-                versionsStrBuff.append(COMMA).append(fieldValue);
-                fieldsToRemove.add(field);
             }
-        }
-
-        if (versionsStrBuff.length() != 0) {
-            versionsStrBuff.delete(0, 1);
-            setVersion(versionsStrBuff.toString());
-        } else {
-            log.warn("[[WARNING]] No Version has been provided for this record of the entity.");
         }
 
         // If we are inside here it means that code and description have to be both set, otherwise we have attributes missing.
@@ -152,12 +136,6 @@ public abstract class MasterDataRegistry implements Serializable {
         return textType != null ? textType.getValue() : null;
     }
 
-    public String getVersion() {
-        return version;
-    }
-    public void setVersion(String version) {
-        this.version = version;
-    }
     public String getCode() {
         return code;
     }
