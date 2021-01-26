@@ -13,6 +13,7 @@
 	</parent>
 	
 	<properties>
+		<application.logfile.message.pattern>%replace(%rEx){'[\r\n]+', '~~'}%nopex %n</application.logfile.message.pattern>
 		<commons.lang.version>${commons-io.version}</commons.lang.version>
 		<guava.version>${google.guava.version}</guava.version>
 	</properties>
@@ -257,6 +258,12 @@
 			<id>dev</id>
 			<properties>
 				<usm_deployment_descriptor_force_update>true</usm_deployment_descriptor_force_update>
+			</properties>
+		</profile>
+		<profile>
+			<id>multilineLog</id>
+			<properties>
+				<application.logfile.message.pattern>%n</application.logfile.message.pattern>
 			</properties>
 		</profile>
 	</profiles>
