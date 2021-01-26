@@ -1,22 +1,22 @@
 package eu.europa.ec.fisheries.mdr.mapper.webservice;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.entities.codelists.ers.FaCharacteristic;
 import eu.europa.ec.fisheries.mdr.qualifiers.MDRMapper;
-import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRDataNodeType;
+import eu.europa.ec.mare.fisheries.model.mdr.v1.MDRDataNodeType;
+
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 @MDRMapper("FA_CHARACTERISTIC")
 public class FaCharacteristicMapper extends MasterDataRegistryMapper {
-    
+
     static final String FC_CODE = "FC_CODE";
     static final String FC_ENDESCRIPTION = "FC_ENDESCRIPTION";
     static final String CODE = "CODE";
     static final String DESCRIPTION = "DESCRIPTION";
 
-    
+
     @Override
     public MasterDataRegistry mapMDRDataNodeTypeToEntity(MDRDataNodeType mdrDataNodeType) {
         FaCharacteristic entity = new FaCharacteristic();

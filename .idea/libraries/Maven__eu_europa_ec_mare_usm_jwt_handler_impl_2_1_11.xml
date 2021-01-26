@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: eu.europa.ec.mare.usm:jwt-handler-impl:2.1.11">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/eu/europa/ec/mare/usm/jwt-handler-impl/2.1.11/jwt-handler-impl-2.1.11.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/eu/europa/ec/mare/usm/jwt-handler-impl/2.1.11/jwt-handler-impl-2.1.11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/eu/europa/ec/mare/usm/jwt-handler-impl/2.1.11/jwt-handler-impl-2.1.11-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

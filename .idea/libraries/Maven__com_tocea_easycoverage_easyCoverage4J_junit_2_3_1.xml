@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.tocea.easycoverage:easyCoverage4J-junit:2.3.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tocea/easycoverage/easyCoverage4J-junit/2.3.1/easyCoverage4J-junit-2.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tocea/easycoverage/easyCoverage4J-junit/2.3.1/easyCoverage4J-junit-2.3.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tocea/easycoverage/easyCoverage4J-junit/2.3.1/easyCoverage4J-junit-2.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

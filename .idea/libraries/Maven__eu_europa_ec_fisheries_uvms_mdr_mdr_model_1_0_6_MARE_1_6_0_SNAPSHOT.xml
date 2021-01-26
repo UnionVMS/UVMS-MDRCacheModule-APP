@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: eu.europa.ec.fisheries.uvms.mdr:mdr-model:1.0.6-MARE-1.6.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/eu/europa/ec/fisheries/uvms/mdr/mdr-model/1.0.6-MARE-1.6.0-SNAPSHOT/mdr-model-1.0.6-MARE-1.6.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/eu/europa/ec/fisheries/uvms/mdr/mdr-model/1.0.6-MARE-1.6.0-SNAPSHOT/mdr-model-1.0.6-MARE-1.6.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/eu/europa/ec/fisheries/uvms/mdr/mdr-model/1.0.6-MARE-1.6.0-SNAPSHOT/mdr-model-1.0.6-MARE-1.6.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

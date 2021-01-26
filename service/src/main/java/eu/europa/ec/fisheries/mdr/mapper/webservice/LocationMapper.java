@@ -1,11 +1,11 @@
 package eu.europa.ec.fisheries.mdr.mapper.webservice;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import eu.europa.ec.fisheries.mdr.entities.codelists.baseentities.MasterDataRegistry;
 import eu.europa.ec.fisheries.mdr.entities.codelists.ers.Location;
 import eu.europa.ec.fisheries.mdr.qualifiers.MDRMapper;
-import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRDataNodeType;
+import eu.europa.ec.mare.fisheries.model.mdr.v1.MDRDataNodeType;
+
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 @MDRMapper("LOCATION")
@@ -23,7 +23,7 @@ public class LocationMapper extends MasterDataRegistryMapper {
     static final String LOCODE = "LOCODE";
     static final String COORDINATES = "COORDINATES";
     static final String UNFCTCODE = "UNFCTCODE";
-    
+
     @Override
     public MasterDataRegistry mapMDRDataNodeTypeToEntity(MDRDataNodeType mdrDataNodeType) {
         Location entity = new Location();
@@ -47,5 +47,10 @@ public class LocationMapper extends MasterDataRegistryMapper {
         entity.setCode(getProperty(mdrDataNodeType, AL_CODE));
         entity.setDescription(getProperty(mdrDataNodeType, DESCRIPTION));
         populateDateProperties(mdrDataNodeType.getEffectiveDelimitedPeriod(), entity);
+    }
+
+    @Override
+    Double parseStringToDouble(String value) {
+        return (value == null || value.length() == 0) ? null : Double.parseDouble(value.replace(',', '.'));
     }
 }

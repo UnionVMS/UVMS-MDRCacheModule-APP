@@ -25,6 +25,10 @@ import un.unece.uncefact.data.standard.mdr.response.MDRDataSetType;
 @Local
 public interface MdrRepository {
 
+	interface MdrDataProvider {
+		List<? extends MasterDataRegistry> fetch();
+	}
+
 	<T extends MasterDataRegistry> List<T> findAllForEntity(Class<T> mdr) throws ServiceException;
 	
 	<T extends MasterDataRegistry> List<T> findEntityByHqlQuery(Class<T> type, String hqlQuery, Map<Integer, String> parameters,
@@ -33,6 +37,8 @@ public interface MdrRepository {
     void updateMdrEntity(FLUXMDRReturnMessage response);
    
     void updateMdrEntities(List<MasterDataRegistry> results, String acronym);
+
+    void update(String acronym, MdrDataProvider mdrDataProvider) throws ServiceException;
 
     void insertNewDataWithoutPurging(List<? extends MasterDataRegistry> mdrEntityRows) throws ServiceException;
 
@@ -59,4 +65,5 @@ public interface MdrRepository {
     WebserviceConfigurationDto getWebserviceConfiguration();
     
     void updateWebserviceConfiguration(WebserviceConfigurationDto configuration) throws ServiceException;
+
 }

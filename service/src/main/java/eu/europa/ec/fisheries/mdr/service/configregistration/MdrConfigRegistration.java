@@ -11,8 +11,9 @@ copy of the GNU General Public License along with the IFDM Suite. If not, see <h
  */
 package eu.europa.ec.fisheries.mdr.service.configregistration;
 
-import eu.europa.ec.fisheries.uvms.config.constants.ConfigHelper;
 import eu.europa.ec.fisheries.mdr.service.bean.PropertiesBean;
+import eu.europa.ec.fisheries.uvms.config.constants.ConfigHelper;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -34,7 +35,9 @@ public class MdrConfigRegistration implements ConfigHelper {
 
     @Override
     public List<String> getAllParameterKeys() {
-        return new ArrayList<String>(){{add("mdr.parameter.key");}};
+        return new ArrayList<String>() {{
+            add("mdr.parameter.key");
+        }};
     }
 
     @Override
@@ -42,7 +45,6 @@ public class MdrConfigRegistration implements ConfigHelper {
         return "mdr";
     }
 
-    @Override
     public String getModuleVersion() {
         return propertiesBean.getProperty(MODULE_VERSION_PROPERTIES_KEY);
     }

@@ -1,110 +1,110 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.0-wls122140-b190328.0053 svn-revision#unknown. -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://ec.europa.eu/mare/fisheries/model/mdr/v1" targetNamespace="http://ec.europa.eu/mare/fisheries/model/mdr/v1">
-    <xsd:complexType name="MDRServiceFault">
-        <xsd:sequence>
-            <xsd:element name="message" type="xsd:string" minOccurs="0" />
-            <xsd:element name="ApplicationException.Type" type="xsd:string" minOccurs="0" />
-            <xsd:element name="errors" type="ns0:ServiceError" minOccurs="0" maxOccurs="unbounded" nillable="true" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="ServiceError">
-        <xsd:sequence>
-            <xsd:element name="errorString" type="xsd:string" minOccurs="0" />
-            <xsd:element name="ServiceError.Type" type="xsd:string" minOccurs="0" />
-            <xsd:element name="reason" type="xsd:string" minOccurs="0" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="PageRequestType">
-        <xsd:sequence>
-            <xsd:element name="offset" type="xsd:long" default="1" />
-            <xsd:element name="limit" type="xsd:long" default="0" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="MDRDataSetType">
-        <xsd:sequence>
-            <xsd:element name="ID" type="ns0:IDType" />
-            <xsd:element name="Description" type="xsd:string" minOccurs="0" />
-            <xsd:element name="Origin" type="xsd:string" minOccurs="0" />
-            <xsd:element name="Name" type="xsd:string" />
-            <xsd:element name="SpecifiedDataSetVersion" type="ns0:DataSetVersionType" minOccurs="0" maxOccurs="unbounded" />
-            <xsd:element name="ContainedMDRDataNode" type="ns0:MDRDataNodeType" minOccurs="0" maxOccurs="unbounded" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="IDType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:string">
-                <xsd:attribute name="schemeID" type="xsd:token" />
-                <xsd:attribute name="schemeName" type="xsd:string" />
-                <xsd:attribute name="schemeVersionID" type="xsd:token" />
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-    <xsd:complexType name="DataSetVersionType">
-        <xsd:sequence>
-            <xsd:element name="ID" type="ns0:IDType" />
-            <xsd:element name="Name" type="xsd:string" minOccurs="0" />
-            <xsd:element name="ValidityStartDateTime" type="ns0:DateTimeType" />
-            <xsd:element name="ValidityEndDateTime" type="ns0:DateTimeType" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="DateTimeType">
-        <xsd:sequence>
-            <xsd:element name="DateTimeString" minOccurs="0">
-                <xsd:complexType>
-                    <xsd:simpleContent>
-                        <xsd:extension base="xsd:string">
-                            <xsd:attribute name="format" type="xsd:string" />
-                        </xsd:extension>
-                    </xsd:simpleContent>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="DateTime" type="xsd:dateTime" minOccurs="0" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="MDRDataNodeType">
-        <xsd:sequence>
-            <xsd:element name="ID" type="ns0:IDType" />
-            <xsd:element name="ParentID" type="ns0:IDType" minOccurs="0" />
-            <xsd:element name="HierarchicalLevelNumeric" type="ns0:NumericType" minOccurs="0" />
-            <xsd:element name="EffectiveDelimitedPeriod" type="ns0:DelimitedPeriodType" minOccurs="0" />
-            <xsd:element name="SubordinateMDRElementDataNode" type="ns0:MDRElementDataNodeType" minOccurs="0" maxOccurs="unbounded" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="NumericType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:decimal">
-                <xsd:attribute name="format" type="xsd:string" />
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-    <xsd:complexType name="DelimitedPeriodType">
-        <xsd:sequence>
-            <xsd:element name="StartDateTime" type="ns0:DateTimeType" minOccurs="0" />
-            <xsd:element name="EndDateTime" type="ns0:DateTimeType" minOccurs="0" />
-            <xsd:element name="DurationMeasure" type="ns0:MeasureType" minOccurs="0" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="MeasureType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:decimal">
-                <xsd:attribute name="unitCode" type="xsd:token" />
-                <xsd:attribute name="unitCodeListVersionID" type="xsd:token" />
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-    <xsd:complexType name="MDRElementDataNodeType">
-        <xsd:sequence>
-            <xsd:element name="Name" type="xsd:string" />
-            <xsd:element name="Value" type="xsd:string" minOccurs="0" />
-            <xsd:element name="TypeCode" type="ns0:CodeType" minOccurs="0" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="CodeType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:string">
-                <xsd:attribute name="name" type="xsd:string" />
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
+<xsd:schema xmlns:ns0="http://ec.europa.eu/mare/fisheries/model/mdr/v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ec.europa.eu/mare/fisheries/model/mdr/v1">
+	<xsd:complexType name="MDRServiceFault">
+		<xsd:sequence>
+			<xsd:element name="message" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ApplicationException.Type" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="errors" type="ns0:ServiceError" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ServiceError">
+		<xsd:sequence>
+			<xsd:element name="errorString" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ServiceError.Type" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="reason" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PageRequestType">
+		<xsd:sequence>
+			<xsd:element name="offset" type="xsd:long" default="1"/>
+			<xsd:element name="limit" type="xsd:long" default="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MDRDataSetType">
+		<xsd:sequence>
+			<xsd:element name="ID" type="ns0:IDType"/>
+			<xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Origin" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string"/>
+			<xsd:element name="SpecifiedDataSetVersion" type="ns0:DataSetVersionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ContainedMDRDataNode" type="ns0:MDRDataNodeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IDType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="schemeID" type="xsd:token"/>
+				<xsd:attribute name="schemeName" type="xsd:string"/>
+				<xsd:attribute name="schemeVersionID" type="xsd:token"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="DataSetVersionType">
+		<xsd:sequence>
+			<xsd:element name="ID" type="ns0:IDType"/>
+			<xsd:element name="Name" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ValidityStartDateTime" type="ns0:DateTimeType"/>
+			<xsd:element name="ValidityEndDateTime" type="ns0:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DateTimeType">
+		<xsd:sequence>
+			<xsd:element name="DateTimeString" minOccurs="0">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:string">
+							<xsd:attribute name="format" type="xsd:string"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DateTime" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MDRDataNodeType">
+		<xsd:sequence>
+			<xsd:element name="ID" type="ns0:IDType"/>
+			<xsd:element name="ParentID" type="ns0:IDType" minOccurs="0"/>
+			<xsd:element name="HierarchicalLevelNumeric" type="ns0:NumericType" minOccurs="0"/>
+			<xsd:element name="EffectiveDelimitedPeriod" type="ns0:DelimitedPeriodType" minOccurs="0"/>
+			<xsd:element name="SubordinateMDRElementDataNode" type="ns0:MDRElementDataNodeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NumericType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:decimal">
+				<xsd:attribute name="format" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="DelimitedPeriodType">
+		<xsd:sequence>
+			<xsd:element name="StartDateTime" type="ns0:DateTimeType" minOccurs="0"/>
+			<xsd:element name="EndDateTime" type="ns0:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DurationMeasure" type="ns0:MeasureType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeasureType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:decimal">
+				<xsd:attribute name="unitCode" type="xsd:token"/>
+				<xsd:attribute name="unitCodeListVersionID" type="xsd:token"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="MDRElementDataNodeType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string"/>
+			<xsd:element name="Value" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TypeCode" type="ns0:CodeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CodeType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="name" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
 </xsd:schema>
