@@ -1,23 +1,5 @@
 package eu.europa.ec.fisheries.mdr.service.bean.synchronization;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
-
 import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
 import eu.europa.ec.fisheries.mdr.exception.MdrCacheInitException;
 import eu.europa.ec.fisheries.mdr.exception.MdrMappingException;
@@ -33,6 +15,21 @@ import eu.europa.ec.fisheries.uvms.mdr.message.producer.MdrProducerBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.enterprise.concurrent.ManagedExecutorService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
+
 @Slf4j
 @ApplicationScoped
 @MDRSync(MDRSync.MDRSyncImpl.WEBSERVICE)
@@ -44,22 +41,23 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
     private static final String MDR_EXCLUSION_LIST = "mdr.exclusion.list";
 
     private MdrStatusRepository statusRepository;
-    
+
     private MdrProducerBean producer;
-    
+
     private MdrConfigurationCache mdrConfigurationCache;
 
     private MdrSyncHelper mdrSyncHelper;
 
     private List<String> exclusionList;
 
-    private AtomicBoolean isUpdating = new AtomicBoolean(false);
+    private final ConcurrentMap<String, Lock> locks = new ConcurrentHashMap<>(128);
 
     @Resource
     private ManagedExecutorService managedExecutorService;
 
     /**
      * Construction for injection
+     *
      * @param statusRepository
      * @param mdrSyncHelper
      */
@@ -91,71 +89,44 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
         List<String> propertyStr = Collections.singletonList((props.getProperty(MDR_EXCLUSION_LIST)));
         exclusionList = CollectionUtils.isNotEmpty(propertyStr) ? Arrays.asList(propertyStr.get(0).split(",")) : new ArrayList<>();
     }
-    
+
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public GenericOperationOutcome manualStartMdrSynchronization() {
-        managedExecutorService.execute(this::syncAllAcronyms);
+        filterUpdatableAcronyms(getAvailableMdrAcronyms()).forEach(this::scheduleAcronymSync);
         return null;
     }
 
-    private void syncAllAcronyms() {
-        if (isUpdating.compareAndSet(false, true)) {
-            try {
-                List<String> statusListFromDb = statusRepository.getAllUpdatableAcronymsStatuses().stream().map(MdrCodeListStatus::getObjectAcronym).collect(Collectors.toList());
-                List<String> updatableAcronyms = getAvailableMdrAcronyms().stream().filter(acronym -> statusListFromDb.contains(acronym) && !exclusionList.contains(acronym)).collect(Collectors.toList());
-                updatableAcronyms.forEach(mdrSyncHelper::updateMdrEntity);
-            } finally {
-                isUpdating.compareAndSet(true, false);
-            }
-        }
-    }
-    
-    private void syncAcronyms(List<String> acronyms) {
-        if (isUpdating.compareAndSet(false, true)) {
-            try {
-                List<String> statusListFromDb = statusRepository.getAllUpdatableAcronymsStatuses().stream().map(MdrCodeListStatus::getObjectAcronym).collect(Collectors.toList());
-                List<String> updatableAcronyms = acronyms.stream().filter(acronym -> statusListFromDb.contains(acronym) && !exclusionList.contains(acronym)).collect(Collectors.toList());
-                updatableAcronyms.forEach(mdrSyncHelper::updateMdrEntity);
-            } finally {
-                isUpdating.compareAndSet(true, false);
-            }
-        }
+    private List<String> filterUpdatableAcronyms(List<String> acronyms) {
+        List<String> knownAcronyms = statusRepository
+                .getAllUpdatableAcronymsStatuses()
+                .stream()
+                .map(MdrCodeListStatus::getObjectAcronym)
+                .collect(Collectors.toList());
+
+        return acronyms
+                .stream()
+                .filter(acronym -> knownAcronyms.contains(acronym) && !exclusionList.contains(acronym))
+                .collect(Collectors.toList());
     }
 
     @Override
     public GenericOperationOutcome extractAcronymsAndUpdateMdr() {
-        log.info("\n\t\t[START] Starting sending code-lists synchronization requests.\n");
-        List<String> updatableAcronyms = extractUpdatableAcronyms(getAvailableMdrAcronyms());
-        GenericOperationOutcome errorContainer = updateMdrEntities(updatableAcronyms);
-        log.info("\n\n\t\t[END] Sending of synchronization requests finished! (Sent : [ "+updatableAcronyms.size()+" ] code-lists synch requests in total!) \n\n");
-        return errorContainer;
+        filterUpdatableAcronyms(getAvailableMdrAcronyms()).forEach(this::scheduleAcronymSync);
+        return null;
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    private List<String> extractUpdatableAcronyms(List<String> availableAcronyms) {
-        List<String> statusListFromDb = extractAcronymsListFromAcronymStatusList(statusRepository.getAllUpdatableAcronymsStatuses());
-        List<String> matchList = new ArrayList<>();
-        for (String actualCacheAcronym : availableAcronyms) {
-            if (statusListFromDb.contains(actualCacheAcronym)) {
-                matchList.add(actualCacheAcronym);
-            }
-        }
-        return matchList;
-    }
-    
-    private List<String> extractAcronymsListFromAcronymStatusList(List<MdrCodeListStatus> allUpdatableAcronymsStatuses) {
-        List<String> acronymsStrList = new ArrayList<>();
-        for (MdrCodeListStatus actStatus : allUpdatableAcronymsStatuses) {
-            acronymsStrList.add(actStatus.getObjectAcronym());
-        }
-        return acronymsStrList;
-    }
-    
     @Override
-    public GenericOperationOutcome updateMdrEntities(List<String> acronymsList) {
-        managedExecutorService.execute(() -> syncAcronyms(acronymsList));
+    public GenericOperationOutcome updateMdrEntities(List<String> acronyms) {
+        filterUpdatableAcronyms(acronyms).forEach(this::scheduleAcronymSync);
         return null;
+    }
+
+    private void scheduleAcronymSync(String acronym) {
+        try {
+            managedExecutorService.execute(new SyncAcronymTask(acronym));
+        } catch (RejectedExecutionException e) {
+            log.error("Sync execution rejected for acronym: {}", acronym);
+        }
     }
 
     @Override
@@ -176,7 +147,7 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
     @Override
     public void sendRequestForMdrCodelistsStructures(Collection<String> acronymsList) {
         try {
-            for(String actAcron : acronymsList){
+            for (String actAcron : acronymsList) {
                 sendRequestForSingleMdrCodelistsStructure(actAcron);
             }
         } catch (MdrMappingException e) {
@@ -204,4 +175,26 @@ public class MdrSynchronizationWithWebServiceBean implements MdrSynchronizationS
             log.error("Error while trying to send message from MDR module to Rules module.", e);
         }
     }
+
+    private class SyncAcronymTask implements Runnable {
+
+        private final String acronym;
+
+        SyncAcronymTask(String acronym) {
+            this.acronym = acronym;
+        }
+
+        @Override
+        public void run() {
+            Lock lock = locks.computeIfAbsent(this.acronym, key -> new ReentrantLock());
+            if (lock.tryLock()) {
+                try {
+                    mdrSyncHelper.updateMdrEntity(this.acronym);
+                } finally {
+                    lock.unlock();
+                }
+            }
+        }
+    }
+
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="focus-releases" />
+      <option name="name" value="UnionVms Repository" />
+      <option name="url" value="http://nexus.focus.fish/nexus/content/repositories/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Hibernate Spatial Repo" />
+      <option name="name" value="Hibernate Spatial Repo" />
+      <option name="url" value="http://nexus.e-is.pro/nexus/content/repositories/hibernatespatial/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="gis-releases" />
+      <option name="name" value="GIS Repository" />
+      <option name="url" value="https://www.aht-group.com/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="JBOSS" />
+      <option name="name" value="JBOSS" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="digit-releases" />
+      <option name="name" value="UnionVms Repository" />
+      <option name="url" value="https://webgate.ec.europa.eu/CITnet/nexus/content/repositories/digit" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="OSGEO GeoTools repo" />
+      <option name="name" value="OSGEO GeoTools repo" />
+      <option name="url" value="http://download.osgeo.org/webdav/geotools" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="focus-repo" />
+      <option name="name" value="Focus nexus repository" />
+      <option name="url" value="http://nexus.focus.fish/nexus/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="focus-snapshots" />
+      <option name="name" value="UnionVms Repository" />
+      <option name="url" value="http://nexus.focus.fish/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+  </component>
+</project>

@@ -1,47 +1,39 @@
 package eu.europa.ec.fisheries.mdr.client;
 
+import eu.europa.ec.mare.fisheries.model.mdr.v1.MDRDataNodeType;
+import eu.europa.ec.mare.fisheries.model.mdr.v1.PageRequestType;
+import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRService;
+import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRServiceException;
+import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRService_Service;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.xml.namespace.QName;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-
-import eu.europa.ec.mare.fisheries.services.MDREndPointService;
-import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRDataNodeType;
-import eu.europa.ec.mare.fisheries.services.mdr.v1.MDRService;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MdrWebServiceClient {
 
     private URL wsdlLocation;
 
-    private QName serviceName = new QName("http://services.fisheries.mare.ec.europa.eu/", "MDREndPointService");
-
-    private QName portName = new QName("http://services.fisheries.mare.ec.europa.eu/", "MDREndPointPort");
+    private QName serviceName = MDRService_Service.SERVICE;
 
     public void setWsdlLocation(URL wsdlLocation) {
         this.wsdlLocation = wsdlLocation;
     }
-    
+
     public void setServiceName(QName serviceName) {
         this.serviceName = serviceName;
     }
 
-    public void setPortName(QName portName) {
-        this.portName = portName;
-    }
+    public List<MDRDataNodeType> getMDRList(String acronym, long offset, long limit) throws MDRServiceException {
+        MDRService_Service ss = new MDRService_Service(this.wsdlLocation, this.serviceName);
+        MDRService port = ss.getMDRServicePort();
 
-    public List<MDRDataNodeType> getMDRList(String acronym) {
-        List<MDRDataNodeType> results = new ArrayList<>();
-                
-        URL wsdlURL = wsdlLocation;
-        MDREndPointService ss = new MDREndPointService(wsdlURL, serviceName);
-        MDRService mdrServicePort = ss.getPort(portName, MDRService.class);
-        try {
-            results = mdrServicePort.getLatestVersionOfMDRList(acronym).getContainedMDRDataNode();
-        } catch (Exception e) {
-            log.error("Exception thrown while trying to communicate with MDR webservice: " + e.getMessage());
-        }
-        return results;
+        PageRequestType page = new PageRequestType();
+        page.setOffset(offset);
+        page.setLimit(limit);
+
+        return port.getLatestVersionOfMDRList(acronym, page).getContainedMDRDataNode();
     }
 }

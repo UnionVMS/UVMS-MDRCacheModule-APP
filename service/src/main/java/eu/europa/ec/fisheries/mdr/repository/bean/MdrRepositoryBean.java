@@ -10,21 +10,8 @@ details. You should have received a copy of the GNU General Public License along
  */
 package eu.europa.ec.fisheries.mdr.repository.bean;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.StreamSupport;
-
 import com.google.common.collect.Iterables;
-import eu.europa.ec.fisheries.mdr.dao.CodeListStructureDao;
-import eu.europa.ec.fisheries.mdr.dao.MasterDataRegistryDao;
-import eu.europa.ec.fisheries.mdr.dao.MdrBulkOperationsDao;
-import eu.europa.ec.fisheries.mdr.dao.MdrConfigurationDao;
-import eu.europa.ec.fisheries.mdr.dao.MdrStatusDao;
+import eu.europa.ec.fisheries.mdr.dao.*;
 import eu.europa.ec.fisheries.mdr.dto.WebserviceConfigurationDto;
 import eu.europa.ec.fisheries.mdr.entities.CodeListStructure;
 import eu.europa.ec.fisheries.mdr.entities.MdrCodeListStatus;
@@ -40,11 +27,16 @@ import eu.europa.ec.fisheries.uvms.commons.service.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import un.unece.uncefact.data.standard.mdr.response.FLUXMDRReturnMessage;
-import un.unece.uncefact.data.standard.mdr.response.FLUXResponseDocumentType;
-import un.unece.uncefact.data.standard.mdr.response.IDType;
-import un.unece.uncefact.data.standard.mdr.response.MDRDataNodeType;
-import un.unece.uncefact.data.standard.mdr.response.MDRDataSetType;
+import un.unece.uncefact.data.standard.mdr.response.*;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.StreamSupport;
 
 @Stateless
 @Slf4j
@@ -111,13 +103,28 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void updateMdrEntities(List<MasterDataRegistry> results, String acronym) {
-        if(results.size() > 3000) {
+        if (results.size() > 3000) {
             saveBigList(results, acronym);
         } else {
             saveSmallList(results, acronym);
         }
+    }
+
+    @Override
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void update(String acronym, MdrDataProvider mdrDataProvider) throws ServiceException {
+        List<? extends MasterDataRegistry> elements = mdrDataProvider.fetch();
+        if (elements == null || elements.isEmpty()) {
+            log.warn("Empty list for acronym: {}. Sync skipped.", acronym);
+            return;
+        }
+        deleteDataAndPurgeIndexes(elements);
+        do {
+            insertNewDataWithoutPurging(elements);
+            elements = mdrDataProvider.fetch();
+        } while (elements != null && !elements.isEmpty());
     }
 
     private void saveBigList(FLUXMDRReturnMessage response) {
@@ -139,7 +146,7 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
             log.error("Transaction rolled back! Couldn't persist mdr Entity : ", e);
         }
     }
-    
+
     private void saveBigList(List<MasterDataRegistry> results, String acronym) {
         try {
             deleteDataAndPurgeIndexes(results);
@@ -178,9 +185,9 @@ public class MdrRepositoryBean extends BaseMdrBean implements MdrRepository {
             statusFailedOrEmptyForAcronym(fluxResponseDocument, AcronymListState.EMPTY);
         }
     }
-    
+
     private void saveSmallList(List<MasterDataRegistry> results, String acronym) {
-        if(!results.isEmpty()) {
+        if (!results.isEmpty()) {
             try {
                 insertNewData(results);
                 statusDao.updateStatusSuccessForAcronym(acronym, AcronymListState.SUCCESS, DateUtils.nowUTC().toDate());

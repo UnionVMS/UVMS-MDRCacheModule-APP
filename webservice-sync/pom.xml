@@ -65,7 +65,7 @@
                             <configuration>
                                 <wsdlOptions>
                                     <wsdlOption>
-                                        <wsdl>${basedir}/src/main/resources/contract/mdr/webservice/locally_generated.wsdl</wsdl>
+                                        <wsdl>src/main/resources/contract/mdr/webservice/MDRService.wsdl</wsdl>
                                         <extraargs>
                                             <extraarg>-client</extraarg>
                                             <extraarg>-xjc-Xcommons-lang</extraarg>

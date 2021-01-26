@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="rest" />
+        <module name="mdr-liquibase" />
+        <module name="mdr-module" />
+        <module name="service" />
+        <module name="mdr-rest-client" />
+        <module name="webservice-sync" />
+        <module name="message" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mdr" target="1.8" />
+      <module name="mdr (1)" target="1.8" />
+      <module name="mdr (2)" target="1.8" />
+      <module name="mdr-liquibase" target="1.8" />
+      <module name="mdr-module" target="1.8" />
+      <module name="mdr-rest-client" target="1.8" />
+      <module name="message" target="1.8" />
+      <module name="rest" target="1.8" />
+      <module name="service" target="1.8" />
+      <module name="webservice-sync" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
