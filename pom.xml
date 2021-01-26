@@ -18,18 +18,14 @@
     <properties>
         <application.name>${project.parent.artifactId}</application.name>
         <application.version>${project.parent.version}</application.version>
-        <application.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}.log
+        <application.logfile>${project.parent.artifactId}/${project.parent.artifactId}.log
         </application.logfile>
-        <application.error.logfile>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}-error.log
-        </application.error.logfile>
         <application.logfile.boot>/app/logs/${project.parent.artifactId}/${project.parent.artifactId}-boot.log
         </application.logfile.boot>
 
         <!-- Core versions -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <sl4j.version>1.7.25</sl4j.version>
-        <logback.version>1.2.3</logback.version>
         <javaee.version>8.0</javaee.version>
 
         <!-- The MDR name is used as a common point to rename the application alias visible in USM-->
@@ -46,7 +42,6 @@
         <uvms.commons.version>${uvms.commonsLibrary.version}</uvms.commons.version>
 
         <jackson.version>2.7.3</jackson.version>
-        <logback.core.version>1.2.3</logback.core.version>
 
         <hibernate-search-orm.version>5.5.8.Final</hibernate-search-orm.version>
 
@@ -108,6 +103,12 @@
             <dependency>
                 <groupId>fish.focus.uvms.maven</groupId>
                 <artifactId>uvms-pom-test-deps</artifactId>
+                <version>${uvms.poms.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>fish.focus.uvms.maven</groupId>
+                <artifactId>uvms-pom-logging-deps</artifactId>
                 <version>${uvms.poms.version}</version>
                 <type>pom</type>
             </dependency>
@@ -345,25 +346,6 @@
         </dependencies>
 
     </dependencyManagement>
-
-    <dependencies>
-        <!-- LOGGING DEPENDENCIES -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${sl4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.core.version}</version>
-        </dependency>
-    </dependencies>
 
     <distributionManagement>
         <repository>
