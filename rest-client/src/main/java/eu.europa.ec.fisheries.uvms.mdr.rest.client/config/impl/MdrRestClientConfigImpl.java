@@ -14,6 +14,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 
+import eu.europa.ec.fisheries.uvms.config.constants.ConfigHelper;
 import eu.europa.ec.fisheries.uvms.config.exception.ConfigServiceException;
 import eu.europa.ec.fisheries.uvms.config.service.ParameterService;
 import eu.europa.ec.fisheries.uvms.mdr.rest.client.config.MdrRestClientConfig;
@@ -28,9 +29,12 @@ public class MdrRestClientConfigImpl implements MdrRestClientConfig {
 
     private ParameterService parameterService;
 
+    private ConfigHelper configHelper;
+
     @Inject
-    public MdrRestClientConfigImpl(ParameterService parameterService) {
+    public MdrRestClientConfigImpl(ParameterService parameterService, ConfigHelper configHelper) {
         this.parameterService = parameterService;
+        this.configHelper = configHelper;
     }
 
 
@@ -38,7 +42,7 @@ public class MdrRestClientConfigImpl implements MdrRestClientConfig {
     @Override
     public String getMdrGatewayEndpoint() {
         try {
-            return parameterService.getParamValueById(MDR_GATEWAY_ENDPOINT_PARAMETER_KEY);
+            return parameterService.getParamValueById(configHelper.getModuleName().toLowerCase() + "." + MDR_GATEWAY_ENDPOINT_PARAMETER_KEY);
         } catch (ConfigServiceException e) {
             log.error("Could not retrieve configuration parameter for key {}", MDR_GATEWAY_ENDPOINT_PARAMETER_KEY);
             throw new ConfigServiceException("Could not retrieve configuration parameter for key " + MDR_GATEWAY_ENDPOINT_PARAMETER_KEY, e);
@@ -51,7 +55,7 @@ public class MdrRestClientConfigImpl implements MdrRestClientConfig {
         if (endpointSettingKey == null) {
             return false;
         }
-        return endpointSettingKey.equalsIgnoreCase(MDR_GATEWAY_ENDPOINT_PARAMETER_KEY);
+        return endpointSettingKey.equalsIgnoreCase(configHelper.getModuleName().toLowerCase() + "." + MDR_GATEWAY_ENDPOINT_PARAMETER_KEY);
     }
 
 }
