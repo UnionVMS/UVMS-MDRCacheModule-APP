@@ -33,11 +33,6 @@
             <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>rt</artifactId>
-            <version>2.2.10</version>
-        </dependency>
-        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
@@ -66,6 +61,7 @@
                                 <wsdlOptions>
                                     <wsdlOption>
                                         <wsdl>src/main/resources/contract/mdr/webservice/MDRService.wsdl</wsdl>
+                                        <wsdlLocation>classpath:contract/mdr/webservice/MDRService.wsdl</wsdlLocation>
                                         <extraargs>
                                             <extraarg>-client</extraarg>
                                             <extraarg>-xjc-Xcommons-lang</extraarg>
