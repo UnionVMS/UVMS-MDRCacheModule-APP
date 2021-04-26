@@ -74,7 +74,7 @@
         <geojson.version>0.7.0</geojson.version>
         <scm.connection>scm:git:https://github.com/UnionVMS/UVMS-MDRCacheModule-APP.git</scm.connection>
         <commons-collections.version>3.2.2</commons-collections.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.8.0</commons-io.version>
         <lombok.version>1.16.18</lombok.version>
         <google.guava.version>20.0</google.guava.version>
         <resteasy-jaxb-provider.version>3.0.11.Final</resteasy-jaxb-provider.version>
