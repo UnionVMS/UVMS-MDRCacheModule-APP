@@ -17,6 +17,7 @@
         <dependency>
             <groupId>eu.europa.ec.fisheries.uvms</groupId>
             <artifactId>uvms-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -27,11 +28,13 @@
         <dependency>
             <groupId>eu.europa.ec.fisheries.uvms.commons</groupId>
             <artifactId>uvms-commons-message</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

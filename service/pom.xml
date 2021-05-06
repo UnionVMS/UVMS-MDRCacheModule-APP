@@ -111,11 +111,13 @@
 		<dependency>
 			<groupId>eu.europa.ec.fisheries.uvms</groupId>
 			<artifactId>usm4uvms</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
             <groupId>eu.europa.ec.fisheries.uvms.commons</groupId>
             <artifactId>uvms-commons-message</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
             <groupId>eu.europa.ec.fisheries.uvms.commons</groupId>
