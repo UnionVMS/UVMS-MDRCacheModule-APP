@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet author="nomikosi" id="4660-mdr_vp_br">
+
+        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807" minValue="1"
+                        sequenceName="mdr_vp_br_seq" startValue="2000"/>
+
+        <createTable tableName="mdr_vp_br">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="end_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="start_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="version" type="VARCHAR(255)"/>
+            <column name="activation_indicator" type="VARCHAR(255)"/>
+            <column name="br_level_fk_x_key" type="VARCHAR(255)"/>
+            <column name="br_sublevel" type="VARCHAR(255)"/>
+            <column name="context" type="VARCHAR(255)"/>
+            <column name="error_message" type="VARCHAR(255)"/>
+            <column name="field" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_en_descr" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_level_code" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_level_en_descr" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_type_code" type="VARCHAR(255)"/>
+            <column name="message_if_failing" type="VARCHAR(255)"/>
+            <column name="sequence_order" type="VARCHAR(255)"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="id" constraintName="mdr_vp_br_pkey" tableName="mdr_vp_br"/>
+
+        <addDefaultValue
+                columnDataType="BIGINT"
+                columnName="id"
+                defaultValueSequenceNext="mdr_vp_br_seq"
+                tableName="mdr_vp_br"/>
+
+        <rollback>
+            <dropTable tableName="mdr_vp_br"/>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet author="nomikosi" id="4660-mdr_vp_br_def">
+
+        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807" minValue="1"
+                        sequenceName="mdr_vp_br_def_seq" startValue="2000"/>
+
+        <createTable tableName="mdr_vp_br_def">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="end_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="start_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="version" type="VARCHAR(255)"/>
+            <column name="br_sublevel" type="VARCHAR(255)"/>
+            <column name="field" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_en_descr" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_level_code" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_level_en_descr" type="VARCHAR(255)"/>
+            <column name="flux_gp_validation_type_code" type="VARCHAR(255)"/>
+            <column name="message_if_failing" type="VARCHAR(255)"/>
+            <column name="sequence_order" type="VARCHAR(255)"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="id" constraintName="mdr_vp_def_pkey" tableName="mdr_vp_br_def"/>
+
+        <addDefaultValue
+                columnDataType="BIGINT"
+                columnName="id"
+                defaultValueSequenceNext="mdr_vp_br_def_seq"
+                tableName="mdr_vp_br_def"/>
+
+        <rollback>
+            <dropTable tableName="mdr_vp_br_def"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
