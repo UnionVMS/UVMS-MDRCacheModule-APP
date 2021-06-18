@@ -23,6 +23,9 @@ public class ConversionFactorMapper extends MasterDataRegistryMapper {
     public static final String FACTOR = "FACTOR";
     public static final String COMMENTS = "COMMENTS";
     public static final String NAME = "NAME";
+    public static final String CODE_2 = "CODE2";
+    public static final String COLLECTIVE = "COLLECTIVE";
+    public static final String LEGALSOURCE = "LEGALSOURCE";
 
     @Override
     public MasterDataRegistry mapMDRDataNodeTypeToEntity(MDRDataNodeType mdrDataNodeType) {
@@ -41,6 +44,9 @@ public class ConversionFactorMapper extends MasterDataRegistryMapper {
         entity.setFactor(getProperty(mdrDataNodeType, FACTOR));
         entity.setDescription(getProperty(mdrDataNodeType, COMMENTS));
         entity.setComment(getProperty(mdrDataNodeType, COMMENTS));
+        entity.setPlacesCode2(getProperty(mdrDataNodeType, CODE_2));
+        entity.setCollective(getProperty(mdrDataNodeType, COLLECTIVE));
+        entity.setLegalSource(getProperty(mdrDataNodeType, LEGALSOURCE));
         return entity;
     }
 }
