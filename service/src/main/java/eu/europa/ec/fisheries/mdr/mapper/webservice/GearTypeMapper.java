@@ -11,7 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 @MDRMapper("GEAR_TYPE")
 public class GearTypeMapper extends MasterDataRegistryMapper {
     
-    static final String DESCRIPTION = "GEAR_DESCR";
+    static final String DESCRIPTION = "DESCRIPTION";
     static final String CATEGORY = "CATEGORY";
     static final String SUBCATEGORY = "SUBCATEGORY";
     static final String GA_CODE = "GA_CODE";
