@@ -121,9 +121,9 @@
                             <directory>src/main/webapp</directory>
                             <filtering>true</filtering>
                         </resource>
-                        <resource>
-                            <directory>${project.build.directory}/generated-swagger-root</directory>
-                        </resource>
+<!--                        <resource>-->
+<!--                            <directory>${project.build.directory}/generated-swagger-root</directory>-->
+<!--                        </resource>-->
                     </webResources>
                 </configuration>
                 <executions>
