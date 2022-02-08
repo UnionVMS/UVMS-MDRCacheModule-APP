@@ -34,6 +34,6 @@ public class MdrWebServiceClient {
         page.setOffset(offset);
         page.setLimit(limit);
 
-        return port.getLatestVersionOfMDRList(acronym, page).getContainedMDRDataNode();
+        return port.getFullMDRList(acronym, page).getContainedMDRDataNode();
     }
 }
