@@ -47,7 +47,7 @@
         <!-- Other modules dependencies -->
         <rules.model>3.0.31</rules.model>
 
-        <jackson.version>2.7.3</jackson.version>
+        <jackson.version>2.13.4.1</jackson.version>
         <logback.core.version>1.2.3</logback.core.version>
         <uvms.commons.version>3.0.29</uvms.commons.version>
         <uvms.test.version>0.0.8</uvms.test.version>
